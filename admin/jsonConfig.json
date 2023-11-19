@@ -59,11 +59,11 @@
                 },
                 "selectVal5": {
                     "type": "pattern",
-                    "pattern": "stored value is ${(data.select==2)}"
+                    "pattern": "stored value is ${!data.checkbox2b}"
                 },
                 "selectVal6": {
                     "type": "pattern",
-                    "pattern": "stored value is ${(data.select==3)}"
+                    "pattern": "stored value is ${data.checkbox2b}"
                 },
 
                 "checkbox2a": {
