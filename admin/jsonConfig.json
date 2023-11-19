@@ -51,7 +51,7 @@
                 },
                 "selectVal3": {
                     "type": "pattern",
-                    "pattern": data.select
+                    "pattern": "${data.select}"
                 },
                 "selectVal4": {
                     "type": "pattern",
