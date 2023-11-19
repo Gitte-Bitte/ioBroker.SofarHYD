@@ -110,11 +110,11 @@ For later updates, the above procedure is not necessary. Just do the following:
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-
 ### 0.0.1 (2023-04-28)
 * (Gitte-Bitte) initial release
-
+- dies
+- das
+- jenes
 
 ## License
 MIT License
