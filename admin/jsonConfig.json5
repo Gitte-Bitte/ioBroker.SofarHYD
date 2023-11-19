@@ -1,0 +1,44 @@
+{ // lets start"i18n": true,
+    "type": "tabs",
+    "items": {
+        "tab_1": {
+            "type": "panel",
+            "label": "Protokoll",
+            "items": {
+                "lintToJson": {
+                    "type": "staticLink",
+                    "text": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+                    "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
+                    "icon": "info",
+                sm: 12
+                }
+            }
+        },
+        "tab_2": {
+            "type": "panel",
+            "label": "List:Polling",
+            "items": {
+                "lintToJson": {
+                    "type": "staticLink",
+                    "text": "sssssssssssssssssssssssssssssssssssssssssss",
+                    "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
+                    "icon": "info",
+                sm: 12
+                }
+            }
+        },
+        "tab_3": {
+            "type": "panel",
+            "label": "List:CronJob",
+            "items": {
+                "lintToJson": {
+                    "type": "staticLink",
+                    "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
+                    "icon": "info",
+                sm: 12
+                }
+            }
+        }
+    }
+}
