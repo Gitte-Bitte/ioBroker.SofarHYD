@@ -1,0 +1,123 @@
+{
+    "common": {
+        "name": "sofarhyd",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "uk": "Початкова версія",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "SofarHyd",
+        "titleLang": {
+            "en": "SofarHyd",
+            "de": "SofarHyd",
+            "ru": "СофарГид",
+            "pt": "SofarHyd",
+            "nl": "SofarHyd",
+            "fr": "CanapérHyd",
+            "it": "SofarHyd",
+            "es": "SofárHyd",
+            "pl": "SofarHyd",
+            "uk": "SofarHyd",
+            "zh-cn": "索法海德"
+        },
+        "desc": {
+            "en": "Sofar Solar Inverter",
+            "de": "Sofar Solar-Wechselrichter",
+            "ru": "Софар Солнечный Инвертор",
+            "pt": "Inversor Solar Sofar",
+            "nl": "Sofar-zonne-omvormer",
+            "fr": "Onduleur solaire Sofar",
+            "it": "Finora inverter solare",
+            "es": "Inversor Solar Sofar",
+            "pl": "Falownik solarny Sofar",
+            "uk": "Сонячний інвертор Sofar",
+            "zh-cn": "首航太阳能逆变器"
+        },
+        "authors": ["Gitte-Bitte <lutz.duennbier@web.de>"],
+        "keywords": ["Sofar", "Solar", "inverter"],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "sofarhyd.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/Gitte-Bitte/ioBroker.sofarhyd/main/admin/sofarhyd.png",
+        "readme": "https://github.com/Gitte-Bitte/ioBroker.sofarhyd/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "energy",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "json",
+            "tab": "materialize"
+        },
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "SofarHyd",
+                "de": "SofarHyd",
+                "ru": "СофарГид",
+                "pt": "SofarHyd",
+                "nl": "SofarHyd",
+                "fr": "CanapérHyd",
+                "it": "SofarHyd",
+                "es": "SofárHyd",
+                "pl": "SofarHyd",
+                "uk": "SofarHyd",
+                "zh-cn": "索法海德"
+            },
+            "link": "",
+            "fa-icon": "info"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=3.3.22"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.1.13"
+            }
+        ]
+    },
+    "native": {
+        "option1": true,
+        "option2": "42"
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}
