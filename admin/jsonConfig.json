@@ -41,7 +41,19 @@
                     "xs": 3,
                     "newLine": true
                 },
-                "selectVal": {
+                "selectVal1": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${(data.select==1)}"
+                },
+                "selectVal2": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${(data.select>1)}"
+                },
+                "selectVal3": {
+                    "type": "pattern",
+                    "pattern": data.select
+                },
+                "selectVal4": {
                     "type": "pattern",
                     "pattern": "stored value is ${data.select}"
                 },
@@ -49,14 +61,14 @@
                     "type": "checkbox",
                     "label": "Checkbox #1",
                     "tooltip": "enables third checkbox",
-                    "hidden": "${data.select!=1}",
+                    "hidden": "${data.select==1}",
                     "newLine": true
                 },
                 "checkbox2b": {
                     "type": "checkbox",
                     "label": "Checkbox #2",
                     "tooltip": " hides third checkbox",
-                    "hidden": "${data.select!=2}"
+                    "hidden": "${data.select==2}"
                 },
                 "checkbox2c": {
                     "type": "checkbox",
