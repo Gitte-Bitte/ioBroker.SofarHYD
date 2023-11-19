@@ -111,8 +111,10 @@ For later updates, the above procedure is not necessary. Just do the following:
     ### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+
+### 0.0.1 (2023-04-28)
 * (Gitte-Bitte) initial release
+
 
 ## License
 MIT License
