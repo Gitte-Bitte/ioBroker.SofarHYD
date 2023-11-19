@@ -11,6 +11,58 @@
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info",
                 sm: 12
+                },
+                "dividerHdr": {
+                    "newLine": true,
+                    "type": "header",
+                    "text": "DIVIDER",
+                    "size": 2
+                },
+                "select": {
+                    "type": "select",
+                    "label": "Please select",
+                    "options": [
+                        {
+                            "label": "TCP",
+                            "value": 1
+                        },
+                        {
+                            "label": "Seriell",
+                            "value": 2
+                        },
+                        {
+                            "label": "WasWeisIch",
+                            "value": 3
+                        }
+                    ],
+                    "sm": 3,
+                    "md": 3,
+                    "lg": 3,
+                    "xs": 3,
+                    "newLine": true
+                },
+                "selectVal": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.select}"
+                },
+                "checkbox2a": {
+                    "type": "checkbox",
+                    "label": "Checkbox #1",
+                    "tooltip": "enables third checkbox",
+                    "hidden": "${data.select!=1}",
+                    "newLine": true
+                },
+                "checkbox2b": {
+                    "type": "checkbox",
+                    "label": "Checkbox #2",
+                    "tooltip": " hides third checkbox",
+                    "hidden": "${data.select!=2}"
+                },
+                "checkbox2c": {
+                    "type": "checkbox",
+                    "label": "Checkbox #2",
+                    "tooltip": " hides third checkbox",
+                    "hidden": "${data.select!=3}"
                 }
             }
         },
