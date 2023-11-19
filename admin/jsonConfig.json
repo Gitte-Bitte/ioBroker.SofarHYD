@@ -57,18 +57,23 @@
                     "type": "pattern",
                     "pattern": "stored value is ${data.select}"
                 },
+                "selectVal5": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.checkbox2b}"
+                },
+
                 "checkbox2a": {
                     "type": "checkbox",
                     "label": "Checkbox #1",
                     "tooltip": "enables third checkbox",
-                    "hidden": "${data.select==1}",
+                    "hidden": "!data.checkbox2b",
                     "newLine": true
                 },
                 "checkbox2b": {
                     "type": "checkbox",
                     "label": "Checkbox #2",
                     "tooltip": " hides third checkbox",
-                    "hidden": "${data.select==2}"
+                    "hidden": "${(data.select==2)}"
                 },
                 "checkbox2c": {
                     "type": "checkbox",
