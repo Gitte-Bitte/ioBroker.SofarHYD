@@ -24,7 +24,7 @@
                 },
                 "select": {
                     "type": "select",
-                    "label": "Please select",
+                    "label": "Bitte Protokoll wählen",
                     "newLine": true,
                     "options": [
                         {
@@ -56,10 +56,32 @@
                             "pattern": "Hier steht was zu TCP",
                             "newLine": true
                         },
-                        "checkbox2a": {
-                            "type": "checkbox",
-                            "label": "TCP Checkbox ",
-                            "tooltip": "enables third checkbox",
+                        "ipTxt": {
+                            "type": "staticText",
+                            "text": "Verfügbare IP-Adressen",
+                            "newLine": true
+                        },
+                        "ip": {
+                            "type": "ip",
+                            "label": "IP-Address",
+                            "sm": 4,
+                            "md": 4,
+                            "lg": 4,
+                            "xs": 4,
+                            "newLine": true
+                        },
+                        "portTxt": {
+                            "type": "staticText",
+                            "text": "PORT-Auswahl",
+                            "newLine": true
+                        },
+                        "port": {
+                            "type": "port",
+                            "label": "Port auswählen",
+                            "sm":3,
+                            "md":3,
+                            "lg":3,
+                            "xs":3,
                             "newLine": true
                         }
                     }
@@ -101,6 +123,18 @@
                             "newLine": true
                         }
                     }
+                },
+                "number2Txt": {
+                    "type": "staticText",
+                    "text": "Geräte-ID ",
+                    "newLine": true
+                },
+                "number2": {
+                    "type": "number",
+                    "label": "ID",
+                    "min":1,
+                    "max":128,
+                    "newLine": true
                 }
             }
         },
