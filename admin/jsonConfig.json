@@ -10,7 +10,7 @@
                     "text": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info",
-                sm: 12
+                    "sm": 3
                 },
                 "dividerHdr": {
                     "newLine": true,
@@ -51,44 +51,21 @@
                     "hidden": "!(data.select==1)",
                     "newLine": true,
                     "items": {
-                        "selectVal1": {
-                            "type": "pattern",
-                            "pattern": "Hier steht was zu TCP",
-                            "newLine": true
-                        },
-                        "ipTxt": {
-                            "type": "staticText",
-                            "text": "Verfügbare IP-Adressen",
-                            "newLine": true
-                        },
                         "ip": {
                             "type": "ip",
                             "label": "IP-Address",
-                            "sm": 4,
-                            "md": 4,
-                            "lg": 4,
-                            "xs": 4,
-                            "newLine": true
-                        },
-                        "portTxt": {
-                            "type": "staticText",
-                            "text": "PORT-Auswahl",
                             "newLine": true
                         },
                         "port": {
                             "type": "port",
                             "label": "Port auswählen",
-                            "sm":3,
-                            "md":3,
-                            "lg":3,
-                            "xs":3,
                             "newLine": true
                         }
                     }
                 },
                 "panel_2": {
                     "type": "panel",
-                    "label": "TCP",
+                    "label": "Seriel",
                     "hidden": "!(data.select==2)",
                     "newLine": true,
                     "items": {
@@ -97,11 +74,12 @@
                             "pattern": "Seriell",
                             "newLine": true
                         },
-                        "checkbox2a": {
-                            "type": "checkbox",
-                            "label": "Seriell Checkbox",
-                            "tooltip": "enables third checkbox",
-                            "newLine": true
+                        "schnittst": {
+                            "type": "selectSendTo",
+                            "tooltip": "kjhg kjg hkjg ",
+                            "command": "command",
+                            "noTranslation": true,
+                            "label": "text2command instance"
                         }
                     }
                 },
@@ -132,8 +110,8 @@
                 "number2": {
                     "type": "number",
                     "label": "ID",
-                    "min":1,
-                    "max":128,
+                    "min": 1,
+                    "max": 128,
                     "newLine": true
                 }
             }
@@ -147,7 +125,7 @@
                     "text": "sssssssssssssssssssssssssssssssssssssssssss",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info",
-                sm: 12
+                    "sm": 12
                 }
             }
         },
@@ -160,7 +138,7 @@
                     "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info",
-                sm: 12
+                    "sm": 12
                 }
             }
         }

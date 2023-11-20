@@ -23,9 +23,68 @@ class Sofarhyd extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
         // this.on('objectChange', this.onObjectChange.bind(this));
-        // this.on('message', this.onMessage.bind(this));
+        this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
     }
+
+
+
+    // If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
+    // /**
+    //  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+    //  * Using this method requires "common.messagebox" property to be set to true in io-package.json
+    //  * @param {ioBroker.Message} obj
+    //  */
+    onMessage(obj) {
+        if (typeof obj === 'object' && obj.message) {
+            if (obj.command === 'send') {
+                //             // e.g. send email or pushover or whatever
+                this.log.info('send command');
+
+
+                if (obj.command === 'command') {
+                    if (obj.callback) {
+                        try {
+                            const { SerialPort } = require('serialport');
+                            if (SerialPort) {
+                                // read all found serial ports
+                                SerialPort.list()
+                                    .then(ports => {
+                                        this.log.info(`List of port: ${JSON.stringify(ports)}`);
+                                        this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
+                                    })
+                                    .catch(e => {
+                                        this.sendTo(obj.from, obj.command, [], obj.callback);
+                                        this.log.error(e);
+                                    });
+                            } else {
+                                this.log.warn('Module serialport is not available');
+                                this.sendTo(obj.from, obj.command, [{ label: 'Not available', value: '' }], obj.callback);
+                            }
+                        } catch (e) {
+                            this.sendTo(obj.from, obj.command, [{ label: 'Not available', value: '' }], obj.callback);
+                        }
+                    }
+
+                }
+
+
+
+
+
+                //             // Send response in callback if required
+                if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
 
     /**
      * Is called when databases are connected and adapter received configuration.
@@ -42,10 +101,10 @@ class Sofarhyd extends utils.Adapter {
         this.log.info('config option2: ' + this.config.option2);
 
         /*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
+        For every state in the system there has to be also an object of type state
+        Here a simple template for a boolean variable named "testVariable"
+        Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
+        */
         await this.setObjectNotExistsAsync('testVariable', {
             type: 'state',
             common: {
@@ -66,9 +125,9 @@ class Sofarhyd extends utils.Adapter {
         // this.subscribeStates('*');
 
         /*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
+            setState examples
+            you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
+        */
         // the variable testVariable is set to true as command (ack=false)
         await this.setStateAsync('testVariable', true);
 
@@ -137,23 +196,7 @@ class Sofarhyd extends utils.Adapter {
         }
     }
 
-    // If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-    // /**
-    //  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-    //  * Using this method requires "common.messagebox" property to be set to true in io-package.json
-    //  * @param {ioBroker.Message} obj
-    //  */
-    // onMessage(obj) {
-    //     if (typeof obj === 'object' && obj.message) {
-    //         if (obj.command === 'send') {
-    //             // e.g. send email or pushover or whatever
-    //             this.log.info('send command');
 
-    //             // Send response in callback if required
-    //             if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-    //         }
-    //     }
-    // }
 }
 
 if (require.main !== module) {
