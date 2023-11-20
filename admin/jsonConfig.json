@@ -15,7 +15,7 @@
                 "dividerHdr": {
                     "newLine": true,
                     "type": "header",
-                    "text": "DIVIDER",
+                    "text": "Anschlusseinstellungen",
                     "size": 2
                 },
                 "select": {
@@ -41,41 +41,59 @@
                     "xs": 3,
                     "newLine": true
                 },
-                "selectVal1": {
-                    "type": "pattern",
-                    "pattern": "stored value is ${(data.select==1)}",
-                    "newLine": true
-
+                "panel_1": {
+                    "type": "panel",
+                    "label": "TCP",
+                    "hidden": "!(data.select==1)",
+                    "items": {
+                        "selectVal1": {
+                            "type": "pattern",
+                            "pattern": "Hier steht was zu TCP",
+                            "newLine": true
+                        },
+                        "checkbox2a": {
+                            "type": "checkbox",
+                            "label": "Checkbox #1",
+                            "tooltip": "enables third checkbox",
+                            "newLine": true
+                        }
+                    }
                 },
-                "selectVal2": {
-                    "type": "pattern",
-                    "pattern": "stored value is ${(data.select>1)}",
-                    "newLine": true
-
+                "panel_2": {
+                    "type": "panel",
+                    "label": "TCP",
+                    "hidden": "!(data.select==2)",
+                    "items": {
+                        "selectVal1": {
+                            "type": "pattern",
+                            "pattern": "Seriell",
+                            "newLine": true
+                        },
+                        "checkbox2a": {
+                            "type": "checkbox",
+                            "label": "Checkbox #1",
+                            "tooltip": "enables third checkbox",
+                            "newLine": true
+                        }
+                    }
                 },
-                "selectVal3": {
-                    "type": "pattern",
-                    "pattern": "${data.select}",
-                    "newLine": true
-
-                },
-                "checkbox2a": {
-                    "type": "checkbox",
-                    "label": "Checkbox #1",
-                    "tooltip": "enables third checkbox",
-                    "newLine": true
-                },
-                "checkbox2b": {
-                    "type": "checkbox",
-                    "label": "Checkbox #2",
-                    "tooltip": " hides third checkbox",
-                    "hidden": "(data.select==1)"
-                },
-                "checkbox2c": {
-                    "type": "checkbox",
-                    "label": "Checkbox #3",
-                    "tooltip": " hides third checkbox",
-                    "hidden": "!(data.select>1)"
+                "panel_3": {
+                    "type": "panel",
+                    "label": "TCP",
+                    "hidden": "!(data.select==3)",
+                    "items": {
+                        "selectVal1": {
+                            "type": "pattern",
+                            "pattern": "Hier steht was weiss ich",
+                            "newLine": true
+                        },
+                        "checkbox2a": {
+                            "type": "checkbox",
+                            "label": "Checkbox #1",
+                            "tooltip": "enables third checkbox",
+                            "newLine": true
+                        }
+                    }
                 }
             }
         },
