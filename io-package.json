@@ -44,8 +44,14 @@
             "uk": "Сонячний інвертор Sofar",
             "zh-cn": "首航太阳能逆变器"
         },
-        "authors": ["Gitte-Bitte <lutz.duennbier@web.de>"],
-        "keywords": ["Sofar", "Solar", "inverter"],
+        "authors": [
+            "Gitte-Bitte <lutz.duennbier@web.de>"
+        ],
+        "keywords": [
+            "Sofar",
+            "Solar",
+            "inverter"
+        ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "main.js",
@@ -59,6 +65,7 @@
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
+        "messagebox": true,
         "adminUI": {
             "config": "json",
             "tab": "materialize"
@@ -94,7 +101,9 @@
     },
     "native": {
         "option1": true,
-        "option2": "42"
+        "option2": "42",
+        "number2": 1,
+        "port": 8081
     },
     "objects": [],
     "instanceObjects": [
