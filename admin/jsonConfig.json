@@ -65,18 +65,44 @@
                 },
                 "panel_2": {
                     "type": "panel",
-                    "label": "Seriel",
                     "hidden": "!(data.select==2)",
                     "newLine": true,
                     "items": {
-                        "selectVal1": {
-                            "type": "pattern",
-                            "pattern": "Seriell",
-                            "newLine": true
-                        },
                         "schnittstellen": {
+                            "label": "Schnittstelle",
                             "type": "selectSendTo",
                             "command": "nu"
+                        },
+                        "select": {
+                            "type": "select",
+                            "label": "Baudrate",
+                            "newLine": true,
+                            "options": [
+                                {
+                                    "label": "9600",
+                                    "value": 9600
+                                },
+                                {
+                                    "label": "11000",
+                                    "value": 11000
+                                },
+                                {
+                                    "label": "23000",
+                                    "value": 23000
+                                }
+                            ]
+                        },
+                        "stopb": {
+                            "type": "number",
+                            "label": "stopp-bits",
+                            "min": 5,
+                            "max": 8,
+                            "newLine": true
+                        },
+                        "paritätsbit": {
+                            "type": "checkbox",
+                            "label": "Paritätsbit",
+                            "newLine": true
                         }
                     }
                 },
@@ -99,14 +125,9 @@
                         }
                     }
                 },
-                "number2Txt": {
-                    "type": "staticText",
-                    "text": "Geräte-ID ",
-                    "newLine": true
-                },
                 "number2": {
                     "type": "number",
-                    "label": "ID",
+                    "label": "Geräte-ID",
                     "min": 1,
                     "max": 128,
                     "newLine": true
