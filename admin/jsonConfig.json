@@ -43,15 +43,21 @@
                 },
                 "selectVal1": {
                     "type": "pattern",
-                    "pattern": "stored value is ${(data.select==1)}"
+                    "pattern": "stored value is ${(data.select==1)}",
+                    "newLine": true
+
                 },
                 "selectVal2": {
                     "type": "pattern",
-                    "pattern": "stored value is ${(data.select>1)}"
+                    "pattern": "stored value is ${(data.select>1)}",
+                    "newLine": true
+
                 },
                 "selectVal3": {
                     "type": "pattern",
-                    "pattern": "${data.select}"
+                    "pattern": "${data.select}",
+                    "newLine": true
+
                 },
                 "checkbox2a": {
                     "type": "checkbox",
