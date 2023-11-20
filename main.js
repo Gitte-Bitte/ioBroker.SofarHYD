@@ -39,6 +39,8 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('################ bin da ###########################');
         this.log.error(`empfangenes Objekt: ${JSON.stringify(obj)}`);
         this.log.error('!!!!!!!!!!!!!');
+        this.log.error('??????????????????');
+
         if (typeof obj === 'object' && obj.message) {
             //             // e.g. send email or pushover or whatever
 
