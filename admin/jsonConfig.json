@@ -53,21 +53,13 @@
                         "selectVal1": {
                             "type": "pattern",
                             "pattern": "Hier steht was zu TCP",
-                            "newLine": true,
-                            "sm": 3,
-                            "md": 3,
-                            "lg": 3,
-                            "xs": 3
+                            "newLine": true
                         },
                         "checkbox2a": {
                             "type": "checkbox",
                             "label": "TCP Checkbox ",
                             "tooltip": "enables third checkbox",
-                            "newLine": true,
-                            "sm": 3,
-                            "md": 3,
-                            "lg": 3,
-                            "xs": 3
+                            "newLine": true
                         }
                     }
                 },
