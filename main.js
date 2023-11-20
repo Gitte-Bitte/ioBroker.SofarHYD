@@ -36,31 +36,21 @@ class Sofarhyd extends utils.Adapter {
     //  * @param {ioBroker.Message} obj
     //  */
     onMessage(obj) {
-        this.log.error('################ bin da ###########################');
-        this.log.error(`empfangenes Objekt: ${JSON.stringify(obj)}`);
-        this.log.error('!!!!!!!!!!!!!');
-        this.log.error('??????????????????');
-
+        this.log.debug('onMessage erreicht, empfangenes Objekt: ${JSON.stringify(obj)}');
         //if (typeof obj === 'object' && obj.message) {
         if (typeof obj === 'object') {
             //             // e.g. send email or pushover or whatever
-
-            this.log.error(`hat ojekt==object und objectmessage`);
-
             if (obj.command === 'nu') {
-                this.log.error(`hat command nu`);
-
                 if (obj.callback) {
-                    this.log.error(`hat callback`);
                     try {
                         const { SerialPort } = require('serialport');
                         if (SerialPort) {
-                            this.log.error(`hat serialport`);
+                            this.log.debug(`serialport vorhanden`);
 
                             // read all found serial ports
                             SerialPort.list()
                                 .then(ports => {
-                                    this.log.error(`List of port: ${JSON.stringify(ports)}`);
+                                    this.log.debug(`List of port: ${JSON.stringify(ports)}`);
                                     this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
                                 })
                                 .catch(e => {
