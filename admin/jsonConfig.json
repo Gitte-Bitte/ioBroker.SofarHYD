@@ -53,19 +53,6 @@
                     "type": "pattern",
                     "pattern": "${data.select}"
                 },
-                "selectVal4": {
-                    "type": "pattern",
-                    "pattern": "stored value is ${data.select}"
-                },
-                "selectVal5": {
-                    "type": "pattern",
-                    "pattern": "stored value is ${!data.checkbox2b}"
-                },
-                "selectVal6": {
-                    "type": "pattern",
-                    "pattern": "stored value is ${data.checkbox2b}"
-                },
-
                 "checkbox2a": {
                     "type": "checkbox",
                     "label": "Checkbox #1",
@@ -76,13 +63,13 @@
                     "type": "checkbox",
                     "label": "Checkbox #2",
                     "tooltip": " hides third checkbox",
-                    "hidden": "(data.checkbox2a)"
+                    "hidden": "(data.select==1)"
                 },
                 "checkbox2c": {
                     "type": "checkbox",
                     "label": "Checkbox #3",
                     "tooltip": " hides third checkbox",
-                    "hidden": "!(data.checkbox2a)"
+                    "hidden": "!(data.select>1)"
                 }
             }
         },
