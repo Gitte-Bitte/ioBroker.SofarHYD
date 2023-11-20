@@ -74,12 +74,12 @@
                             "pattern": "Seriell",
                             "newLine": true
                         },
-                        "schnittst": {
+                        "schnittstellen": {
                             "type": "selectSendTo",
-                            "tooltip": "kjhg kjg hkjg ",
-                            "command": "command",
+                            "command": "nu",
                             "noTranslation": true,
-                            "label": "text2command instance"
+                            "label": "text2command instance",
+                            "help":"jg jg jh ghjhelp"
                         }
                     }
                 },
