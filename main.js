@@ -38,44 +38,39 @@ class Sofarhyd extends utils.Adapter {
     onMessage(obj) {
         this.log.error('################ bin da ###########################');
         if (typeof obj === 'object' && obj.message) {
-            if (obj.command === 'send') {
-                //             // e.g. send email or pushover or whatever
-                this.log.info('send command');
+            //             // e.g. send email or pushover or whatever
+            this.log.error(`empfangenes Objekt: ${JSON.stringify(obj)}`);
 
 
-                if (obj.command === 'command') {
-                    if (obj.callback) {
-                        try {
-                            const { SerialPort } = require('serialport');
-                            if (SerialPort) {
-                                // read all found serial ports
-                                SerialPort.list()
-                                    .then(ports => {
-                                        this.log.info(`List of port: ${JSON.stringify(ports)}`);
-                                        this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
-                                    })
-                                    .catch(e => {
-                                        this.sendTo(obj.from, obj.command, [], obj.callback);
-                                        this.log.error(e);
-                                    });
-                            } else {
-                                this.log.warn('Module serialport is not available');
-                                this.sendTo(obj.from, obj.command, [{ label: 'Not available', value: '' }], obj.callback);
-                            }
-                        } catch (e) {
+            if (obj.command === 'command') {
+                if (obj.callback) {
+                    this.log.error(`hat callback`);
+                    try {
+                        const { SerialPort } = require('serialport');
+                        if (SerialPort) {
+                            this.log.error(`hat serialport`);
+
+                            // read all found serial ports
+                            SerialPort.list()
+                                .then(ports => {
+                                    this.log.error(`List of port: ${JSON.stringify(ports)}`);
+                                    this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
+                                })
+                                .catch(e => {
+                                    this.sendTo(obj.from, obj.command, [], obj.callback);
+                                    this.log.error(e);
+                                });
+                        } else {
+                            this.log.error('Module serialport is not available');
                             this.sendTo(obj.from, obj.command, [{ label: 'Not available', value: '' }], obj.callback);
                         }
+                    } catch (e) {
+                        this.sendTo(obj.from, obj.command, [{ label: 'Not available', value: '' }], obj.callback);
                     }
-
                 }
-
-
-
-
-
-                //             // Send response in callback if required
-                if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
             }
+
+            //             // Send response in callback if required
         }
     }
 
