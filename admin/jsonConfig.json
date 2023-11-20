@@ -76,10 +76,7 @@
                         },
                         "schnittstellen": {
                             "type": "selectSendTo",
-                            "command": "nu",
-                            "noTranslation": true,
-                            "label": "text2command instance",
-                            "help":"jg jg jh ghjhelp"
+                            "command": "nu"
                         }
                     }
                 },
