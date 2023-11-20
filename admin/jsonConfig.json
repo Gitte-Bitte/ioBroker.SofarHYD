@@ -16,7 +16,12 @@
                     "newLine": true,
                     "type": "header",
                     "text": "Anschlusseinstellungen",
-                    "size": 2
+                    "size": 2,
+                    "sm": 3,
+                    "md": 3,
+                    "lg": 3,
+                    "xs": 3
+ 
                 },
                 "select": {
                     "type": "select",
@@ -35,10 +40,10 @@
                             "value": 3
                         }
                     ],
-                   // "sm": 3,
-                   // "md": 3,
-                   // "lg": 3,
-                   // "xs": 3,
+                   "sm": 3,
+                   "md": 3,
+                   "lg": 3,
+                   "xs": 3,
                     "newLine": true
                 },
                 "panel_1": {
@@ -50,12 +55,20 @@
                             "type": "pattern",
                             "pattern": "Hier steht was zu TCP",
                             "newLine": true
+                            "sm": 3,
+                            "md": 3,
+                            "lg": 3,
+                            "xs": 3
                         },
                         "checkbox2a": {
                             "type": "checkbox",
                             "label": "TCP Checkbox ",
                             "tooltip": "enables third checkbox",
-                            "newLine": true
+                            "newLine": true,
+                            "sm": 3,
+                            "md": 3,
+                            "lg": 3,
+                            "xs": 3
                         }
                     }
                 },
