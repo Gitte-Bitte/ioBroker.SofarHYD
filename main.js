@@ -27,7 +27,7 @@ class Sofarhyd extends utils.Adapter {
         this.on('unload', this.onUnload.bind(this));
     }
 
-
+//empfangenes Objekt: {"command":"nu","message":null,"from":"system.adapter.admin.0","callback":{"message":null,"id":14,"ack":false,"time":1700482381104},"_id":12502332}
 
     // If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
     // /**
@@ -41,11 +41,15 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('!!!!!!!!!!!!!');
         this.log.error('??????????????????');
 
-        if (typeof obj === 'object' && obj.message) {
+        //if (typeof obj === 'object' && obj.message) {
+        if (typeof obj === 'object') {
             //             // e.g. send email or pushover or whatever
 
+            this.log.error(`hat ojekt==object und objectmessage`);
 
             if (obj.command === 'nu') {
+                this.log.error(`hat command nu`);
+
                 if (obj.callback) {
                     this.log.error(`hat callback`);
                     try {
