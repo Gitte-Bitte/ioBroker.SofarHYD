@@ -5,23 +5,6 @@
             "type": "panel",
             "label": "Protokoll",
             "items": {
-                "lintToJson": {
-                    "type": "staticLink",
-                    "text": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-                    "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
-                    "icon": "info",
-                    "sm": 3
-                },
-                "dividerHdr": {
-                    "newLine": true,
-                    "type": "header",
-                    "text": "Anschlusseinstellungen",
-                    "size": 2,
-                    "sm": 3,
-                    "md": 3,
-                    "lg": 3,
-                    "xs": 3
-                },
                 "select": {
                     "type": "select",
                     "label": "Bitte Protokoll wählen",
@@ -39,11 +22,7 @@
                             "label": "WasWeisIch",
                             "value": 3
                         }
-                    ],
-                    "sm": 3,
-                    "md": 3,
-                    "lg": 3,
-                    "xs": 3
+                    ]
                 },
                 "panel_1": {
                     "type": "panel",
@@ -73,7 +52,7 @@
                             "type": "selectSendTo",
                             "command": "nu"
                         },
-                        "select": {
+                        "baudselect": {
                             "type": "select",
                             "label": "Baudrate",
                             "newLine": true,
@@ -142,8 +121,7 @@
                     "type": "staticLink",
                     "text": "sssssssssssssssssssssssssssssssssssssssssss",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
-                    "icon": "info",
-                    "sm": 12
+                    "icon": "info"
                 }
             }
         },
@@ -155,8 +133,7 @@
                     "type": "staticLink",
                     "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
-                    "icon": "info",
-                    "sm": 12
+                    "icon": "info"
                 }
             }
         }
