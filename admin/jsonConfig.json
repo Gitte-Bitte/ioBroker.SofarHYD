@@ -4,15 +4,15 @@
         "tab_1": {
             "type": "panel",
             "label": "Protokoll",
-            "sm": 4,
-            "lg": 4,
+            "sm": 3,
+            "lg": 3,
             "items": {
                 "select": {
                     "type": "select",
                     "label": "Bitte Protokoll wählen",
                     "newLine": true,
-                    "sm": 4,
-                    "lg": 4,
+                    "sm": 3,
+                    "lg": 3,
                     "options": [
                         {
                             "label": "TCP",
@@ -33,6 +33,8 @@
                     "label": "TCP",
                     "hidden": "!(data.select==1)",
                     "newLine": true,
+                    "sm": 3,
+                    "lg": 3,
                     "items": {
                         "ip": {
                             "type": "ip",
@@ -50,6 +52,8 @@
                     "type": "panel",
                     "hidden": "!(data.select==2)",
                     "newLine": true,
+                    "sm": 3,
+                    "lg": 3,
                     "items": {
                         "schnittstellen": {
                             "label": "Schnittstelle",
@@ -94,6 +98,8 @@
                     "label": "TCP",
                     "hidden": "!(data.select==3)",
                     "newLine": true,
+                    "sm": 3,
+                    "lg": 3,
                     "items": {
                         "selectVal1": {
                             "type": "pattern",
