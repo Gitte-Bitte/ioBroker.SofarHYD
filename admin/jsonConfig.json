@@ -49,6 +49,7 @@
                     "type": "panel",
                     "label": "TCP",
                     "hidden": "!(data.select==1)",
+                    "newLine": true,
                     "items": {
                         "selectVal1": {
                             "type": "pattern",
