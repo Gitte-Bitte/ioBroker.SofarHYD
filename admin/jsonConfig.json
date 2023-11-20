@@ -21,11 +21,11 @@
                     "md": 3,
                     "lg": 3,
                     "xs": 3
- 
                 },
                 "select": {
                     "type": "select",
                     "label": "Please select",
+                    "newLine": true,
                     "options": [
                         {
                             "label": "TCP",
@@ -40,11 +40,10 @@
                             "value": 3
                         }
                     ],
-                   "sm": 3,
-                   "md": 3,
-                   "lg": 3,
-                   "xs": 3,
-                    "newLine": true
+                    "sm": 3,
+                    "md": 3,
+                    "lg": 3,
+                    "xs": 3
                 },
                 "panel_1": {
                     "type": "panel",
@@ -76,6 +75,7 @@
                     "type": "panel",
                     "label": "TCP",
                     "hidden": "!(data.select==2)",
+                    "newLine": true,
                     "items": {
                         "selectVal1": {
                             "type": "pattern",
@@ -94,6 +94,7 @@
                     "type": "panel",
                     "label": "TCP",
                     "hidden": "!(data.select==3)",
+                    "newLine": true,
                     "items": {
                         "selectVal1": {
                             "type": "pattern",
