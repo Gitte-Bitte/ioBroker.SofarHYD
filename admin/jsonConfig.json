@@ -157,41 +157,24 @@
                     "label": "",
                     "showSecondAddAt": 1,
                     "items": [
+
                         {
-                            "type": "checkbox",
-                            "attr": "table1Chk",
-                            "width": "5% ",
-                            "title": "checkbox",
-                            "tooltip": "Click on it",
+                            "type": "number",
+                            "attr": "table1Adr",
+                            "width": "6% ",
+                            "title": "Adresse",
+                            "tooltip": "enter a adress",
                             "filter": false,
                             "sort": false,
-                            "default": true
-                        },
-                        {
-                            "type": "checkbox",
-                            "attr": "table1ChkHide",
-                            "width": "5% ",
-                            "title": "hide",
-                            "tooltip": "click to hide fields",
-                            "filter": false,
-                            "sort": false,
-                            "default": false
-                        },
-                        {
-                            "type": "text",
-                            "attr": "table1Text1",
-                            "width": "8% ",
-                            "title": "Text",
-                            "tooltip": "enter any text",
-                            "filter": false,
-                            "sort": false,
-                            "default": ""
+                            "validator": "const x={};for (const c of globalData.table1) {if (x[c.table1Adr]==='x') return false; x[c.table1Adr]='x';}; return true;",
+                            "validatorNoSaveOnError": true
+
                         },
                         {
                             "type": "text",
                             "attr": "table1Unique",
                             "width": "8% ",
-                            "title": "Unique Text",
+                            "title": "Beschreibung",
                             "tooltip": "enter any text",
                             "filter": false,
                             "sort": false,
@@ -201,29 +184,27 @@
                         },
                         {
                             "type": "text",
-                            "attr": "table1Char",
+                            "attr": "table1Text1",
                             "width": "8% ",
-                            "title": "Restricted Text",
-                            "tooltip": "enter text with 'A-Za-z0-9_' only",
+                            "title": "Einheit",
+                            "tooltip": "enter any text",
                             "filter": false,
                             "sort": false,
-                            "default": "",
-                            "validator": "return (data.table1Char==='') || data.table1Char.match(/^[A-Za-z0-9]([A-Za-z0-9-_])*$/);",
-                            "validatorNoSaveOnError": true
+                            "default": ""
                         },
                         {
                             "type": "number",
                             "attr": "table1Num",
                             "width": "6% ",
-                            "title": "Number",
-                            "tooltip": "enter a number",
-                            "hidden": "data.table1ChkHide",
+                            "title": "Faktor",
+                            "tooltip": "enter a factor",
                             "filter": false,
                             "sort": false,
                             "min": 0,
                             "step": 0.001,
                             "default": 1
                         }
+
                     ]
                 }
             }
