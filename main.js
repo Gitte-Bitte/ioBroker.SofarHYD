@@ -50,7 +50,7 @@ class Sofarhyd extends utils.Adapter {
                             // read all found serial ports
                             SerialPort.list()
                                 .then(ports => {
-                                    this.log.debug(`List of port: ${JSON.stringify(ports)}`);
+                                    //this.log.debug(`List of port: ${JSON.stringify(ports)}`);
                                     this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
                                 })
                                 .catch(e => {
@@ -87,7 +87,8 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config baud:  ' + this.config.baud);
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
-        this.log.error(`config table1:  ${JSON.stringify(this.config.tab_1)}`);
+        this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
+        this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
 
         /*
         For every state in the system there has to be also an object of type state

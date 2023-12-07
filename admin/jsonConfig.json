@@ -92,7 +92,7 @@
                         },      
                         "dataBits": {
                             "type": "number",
-                            "label": "stopp-bits",
+                            "label": "data-bits",
                             "min": 5,
                             "max": 9,
                             "newLine": true,
