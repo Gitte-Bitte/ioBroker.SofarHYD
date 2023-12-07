@@ -146,7 +146,7 @@
                     "md": 12,
                     "lg": 12,
                     "label": "",
-                    "showSecondAddAt": 5,
+                    "showSecondAddAt": 1,
                     "items": [
                         {
                             "type": "checkbox",

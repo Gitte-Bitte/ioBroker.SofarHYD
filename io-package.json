@@ -103,7 +103,11 @@
         "option1": true,
         "option2": "42",
         "number2": 1,
-        "port": 8081
+        "port": 8081,
+        "baud":9600,
+        "parity":false,
+        "protocol":"seriell",
+        "path":""
     },
     "objects": [],
     "instanceObjects": [
