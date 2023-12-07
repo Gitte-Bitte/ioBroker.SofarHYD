@@ -60,7 +60,7 @@
                             "type": "selectSendTo",
                             "command": "nu"
                         },
-                        "baudselect": {
+                        "baud": {
                             "type": "select",
                             "label": "Baudrate",
                             "newLine": true,

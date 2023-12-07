@@ -104,7 +104,7 @@
         "option2": "42",
         "number2": 1,
         "port": 8081,
-        "baud":9600,
+        "baud":1234,
         "parity":false,
         "protocol":"seriell",
         "path":""
