@@ -225,7 +225,7 @@
             "items": {
                 "lintToJson": {
                     "type": "staticLink",
-                    "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "text": "https://github.com/Gitte-Bitte/ioBroker.sofarhyd/tree/0.0.1",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info"
                 }
