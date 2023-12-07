@@ -108,7 +108,9 @@
         "parity":false,
         "protocol":"seriell",
         "path":"",
-        "schnittstellen":""
+        "schnittstellen":"",
+        "adress":0,
+        "table1":""
     },
     "objects": [],
     "instanceObjects": [
