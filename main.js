@@ -87,6 +87,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config baud:  ' + this.config.baud);
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
+        this.log.error(`config table1:  ${JSON.stringify(this.config.tab_1)}`);
 
         /*
         For every state in the system there has to be also an object of type state

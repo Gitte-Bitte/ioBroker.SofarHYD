@@ -105,12 +105,15 @@
         "number2": 1,
         "port": 8081,
         "baud":1234,
+        "dataBits":8,
+        "stoppBits":1,
         "parity":false,
         "protocol":"seriell",
         "path":"",
         "schnittstellen":"",
         "adress":0,
-        "table1":""
+        "table1":"",
+        "tab_1"
     },
     "objects": [],
     "instanceObjects": [

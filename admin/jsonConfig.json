@@ -81,16 +81,25 @@
                                 }
                             ]
                         },
-                        "stopb": {
+                        "stoppBits": {
+                            "type": "number",
+                            "label": "stopp-bits",
+                            "min": 0,
+                            "max": 3,
+                            "newLine": true,
+                            "sm": 3,
+                            "lg": 3
+                        },      
+                        "dataBits": {
                             "type": "number",
                             "label": "stopp-bits",
                             "min": 5,
-                            "max": 8,
+                            "max": 9,
                             "newLine": true,
                             "sm": 3,
                             "lg": 3
                         },
-                        "paritätsbit": {
+                        "parity": {
                             "type": "checkbox",
                             "label": "Paritätsbit",
                             "newLine": true,
