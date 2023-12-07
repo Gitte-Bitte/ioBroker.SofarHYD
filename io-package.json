@@ -107,7 +107,8 @@
         "baud":1234,
         "parity":false,
         "protocol":"seriell",
-        "path":""
+        "path":"",
+        "schnittstellen":""
     },
     "objects": [],
     "instanceObjects": [
