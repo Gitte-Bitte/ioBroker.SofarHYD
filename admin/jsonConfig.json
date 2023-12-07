@@ -138,6 +138,84 @@
                     "text": "sssssssssssssssssssssssssssssssssssssssssss",
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info"
+                },
+                "table1": {
+                    "type": "table",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "",
+                    "showSecondAddAt": 5,
+                    "items": [
+                        {
+                            "type": "checkbox",
+                            "attr": "table1Chk",
+                            "width": "5% ",
+                            "title": "checkbox",
+                            "tooltip": "Click on it",
+                            "filter": false,
+                            "sort": false,
+                            "default": true
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "table1ChkHide",
+                            "width": "5% ",
+                            "title": "hide",
+                            "tooltip": "click to hide fields",
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "text",
+                            "attr": "table1Text1",
+                            "width": "8% ",
+                            "title": "Text",
+                            "tooltip": "enter any text",
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        },
+                        {
+                            "type": "text",
+                            "attr": "table1Unique",
+                            "width": "8% ",
+                            "title": "Unique Text",
+                            "tooltip": "enter any text",
+                            "filter": false,
+                            "sort": false,
+                            "default": "",
+                            "validator": "const x={};for (const c of globalData.table1) {if (x[c.table1Unique]==='x') return false; x[c.table1Unique]='x';}; return true;",
+                            "validatorNoSaveOnError": true
+                        },
+                        {
+                            "type": "text",
+                            "attr": "table1Char",
+                            "width": "8% ",
+                            "title": "Restricted Text",
+                            "tooltip": "enter text with 'A-Za-z0-9_' only",
+                            "filter": false,
+                            "sort": false,
+                            "default": "",
+                            "validator": "return (data.table1Char==='') || data.table1Char.match(/^[A-Za-z0-9]([A-Za-z0-9-_])*$/);",
+                            "validatorNoSaveOnError": true
+                        },
+                        {
+                            "type": "number",
+                            "attr": "table1Num",
+                            "width": "6% ",
+                            "title": "Number",
+                            "tooltip": "enter a number",
+                            "hidden": "data.table1ChkHide",
+                            "filter": false,
+                            "sort": false,
+                            "min": 0,
+                            "step": 0.001,
+                            "default": 1
+                        }
+                    ]
                 }
             }
         },
