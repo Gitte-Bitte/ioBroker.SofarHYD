@@ -7,6 +7,11 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
+const Modbus = require('jsmodbus');
+const SerialPort = require('serialport');
+const options = {
+    baudRate: 57600
+};
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -73,6 +78,9 @@ class Sofarhyd extends utils.Adapter {
 
 
 
+
+
+
     /**
      * Is called when databases are connected and adapter received configuration.
      */
@@ -87,24 +95,24 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config baud:  ' + this.config.baud);
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
-        this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
-        this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
+        // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
+        // this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
 
         /*
-        For every state in the system there has to be also an object of type state
-        Here a simple template for a boolean variable named "testVariable"
-        Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variable        
-        await this.setObjectNotExistsAsync('testVariable', {
-            type: 'state',
-            common: {
-                name: 'testVariable',
-                type: 'boolean',
-                role: 'indicator',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
+                For every state in the system there has to be also an object of type state
+                Here a simple template for a boolean variable named "testVariable"
+                Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variable
+                await this.setObjectNotExistsAsync('testVariable', {
+                    type: 'state',
+                    common: {
+                        name: 'testVariable',
+                        type: 'boolean',
+                        role: 'indicator',
+                        read: true,
+                        write: true,
+                    },
+                    native: {},
+                });
         */
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
