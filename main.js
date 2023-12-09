@@ -9,17 +9,18 @@
 const utils = require('@iobroker/adapter-core');
 
 
-let modbus = null;
+let Modbus = null;
 let SerialPort = null;
 let socket = null;
 let client = null;
 //const modbus = require('jsmodbus');
 //const SerialPort = require('serialport').SerialPort;
-const options = {
+/*const options = {
     baudRate: 9600,
     parity: 'false',
     stopbits: 1
 };
+*/
 //const socket = new SerialPort("/dev/ttyUSB0", options);
 
 
@@ -143,29 +144,31 @@ class Sofarhyd extends utils.Adapter {
         this.setState('info.connection', false, true);
 
         try {
-            SerialPort = require('serialport').SerialPort;
+            SerialPort = require('serialport');
         } catch (err) {
             this.log.warn('Serial is not available');
         }
         try {
-            modbus = require('jsmodbus');
+            Modbus = require('jsmodbus');
         } catch (err) {
             this.log.warn('jsmodbus is not available');
         }
-
+        //                                     /dev/ttyUSB0
         try {
-            socket = new SerialPort('/dev/ttyUSB0', { baudRate: 9600, parity: 'false', stopbits: 1 });
+            socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 
         } catch (err) {
             this.log.warn('SerialPort is not available');
         }
 
         try {
-            client = new modbus.client.RTU(socket, 2);
+            client = new Modbus.client.RTU(socket, 2);
         } catch (err) {
             this.log.warn('client is not available');
 
         }
+
+
 
 
         await this.setObjectNotExistsAsync('counter_1', {
