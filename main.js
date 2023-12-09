@@ -144,7 +144,7 @@ class Sofarhyd extends utils.Adapter {
         this.setState('info.connection', false, true);
 
         try {
-            SerialPort = require('serialport');
+            SerialPort = require('serialport').SerialPort;
         } catch (err) {
             this.log.warn('Serial is not available');
         }
