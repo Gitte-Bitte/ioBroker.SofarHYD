@@ -7,11 +7,23 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
-const Modbus = require('jsmodbus');
-const SerialPort = require('serialport');
+
+const modbus = require('jsmodbus');
+const { SerialPort } = require('serialport');
 const options = {
-    baudRate: 57600
+    baudRate: 57600,
+    parity: 'even',
+    stopbits: 1
 };
+const socket = new SerialPort('/dev/ttyUSB0', options);
+
+const client = new modbus.client.RTU(socket, 2);
+
+//let intv;
+
+//let buf;
+
+
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -30,7 +42,27 @@ class Sofarhyd extends utils.Adapter {
         // this.on('objectChange', this.onObjectChange.bind(this));
         this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
+
+
     }
+
+    response(resp) {
+        this.log.error('response ereicht');
+
+        this.log.error(resp);
+
+    }
+
+    loop_ask() {
+        this.log.error('loop_ask ereicht');
+
+        client.readHoldingRegisters(0x42c, 6).then(this.response);
+        // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
+        // the data will be located in resp.response.body.coils: <Array>, resp.response.body.payload: <Buffer>
+    }
+
+
+
 
     //empfangenes Objekt: {"command":"nu","message":null,"from":"system.adapter.admin.0","callback":{"message":null,"id":14,"ack":false,"time":1700482381104},"_id":12502332}
 
@@ -41,6 +73,7 @@ class Sofarhyd extends utils.Adapter {
     //  * @param {ioBroker.Message} obj
     //  */
     onMessage(obj) {
+
         //this.log.debug('onMessage erreicht, empfangenes Objekt: ${JSON.stringify(obj)}');
         //if (typeof obj === 'object' && obj.message) {
         if (typeof obj === 'object') {
@@ -49,7 +82,9 @@ class Sofarhyd extends utils.Adapter {
                 if (obj.callback) {
                     try {
                         const { SerialPort } = require('serialport');
+
                         if (SerialPort) {
+
                             //this.log.debug(`serialport vorhanden`);
 
                             // read all found serial ports
@@ -95,6 +130,10 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config baud:  ' + this.config.baud);
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
+
+        setInterval(this.loop_ask, 10000);
+        this.log.error('setinterval gesetzt');
+
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
         // this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
 
