@@ -23,7 +23,6 @@ const options = {
 
 //let buf;
 let counter = 0;
-let interval1;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -153,8 +152,8 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config baud:  ' + this.config.baud);
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
-
-        interval1 = this.setInterval(this.loop_ask, 10000);
+        // this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
+        this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
@@ -215,7 +214,7 @@ class Sofarhyd extends utils.Adapter {
             // clearTimeout(timeout1);
             // clearTimeout(timeout2);
             // ...
-            clearInterval(interval1);
+            clearInterval(this.interval1);
 
             callback();
         } catch (e) {
