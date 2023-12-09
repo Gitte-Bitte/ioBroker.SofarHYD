@@ -138,7 +138,7 @@ class Sofarhyd extends utils.Adapter {
             common: {
                 name: 'Zähler',
                 type: 'number',
-                role: 'indicator',
+                role: 'state',
                 read: true,
                 write: true,
             },
