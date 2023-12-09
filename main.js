@@ -56,11 +56,11 @@ class Sofarhyd extends utils.Adapter {
     async loop_ask() {
         counter = + 1;
         try {
-            this.log.debug('loop_ask_2');
-            //await this.setStateAsync('counter_1', { val: counter, ack: true });
+            this.log.error('loop_ask_2');
+            await this.setStateAsync('counter_1', { val: counter, ack: true });
 
         } catch (e) {
-            this.log.debug('loop_ask_3');
+            this.log.error('loop_ask_3');
 
         }
 
