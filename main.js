@@ -22,7 +22,6 @@ const options = {
 //let intv;
 
 //let buf;
-let counter = 0;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -54,10 +53,10 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async loop_ask() {
-        counter = + 1;
+        this.counter = + 1;
         try {
             this.log.error('loop_ask_2');
-            await this.setStateAsync('counter_1', { val: counter, ack: true });
+            await this.setStateAsync('counter_1', this.counter);
 
         } catch (e) {
             this.log.error('loop_ask_3');
