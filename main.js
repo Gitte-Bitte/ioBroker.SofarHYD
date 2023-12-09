@@ -143,17 +143,21 @@ class Sofarhyd extends utils.Adapter {
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
 
+        this.log.warn('Serial ');
         try {
             SerialPort = require('serialport').SerialPort;
         } catch (err) {
             this.log.warn('Serial is not available');
         }
+
+        this.log.warn('jsmodbus ');
         try {
             Modbus = require('jsmodbus');
         } catch (err) {
             this.log.warn('jsmodbus is not available');
         }
         //                                     /dev/ttyUSB0
+        this.log.warn('SerialPort');
         try {
             socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 
@@ -161,6 +165,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.warn('SerialPort is not available');
         }
 
+        this.log.warn('client ');
         try {
             client = new Modbus.client.RTU(socket, 2);
         } catch (err) {
