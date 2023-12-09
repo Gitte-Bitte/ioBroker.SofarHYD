@@ -56,7 +56,7 @@ class Sofarhyd extends utils.Adapter {
 
     loop_ask() {
         counter = +1;
-        this.setStateAsync('counter_1', counter);
+        this.setState('counter_1', counter);
         // this.log.error('loop_ask ereicht');
         //client.readHoldingRegisters(0x42c, 6).then(this.response);
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
