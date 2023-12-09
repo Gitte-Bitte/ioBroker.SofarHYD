@@ -9,15 +9,15 @@
 const utils = require('@iobroker/adapter-core');
 
 const modbus = require('jsmodbus');
-const { SerialPort } = require('serialport');
+//const { SerialPort } = require('serialport');
 const options = {
-    baudRate: 57600,
-    parity: 'even',
+    baudRate: 9600,
+    parity: 'false',
     stopbits: 1
 };
-const socket = new SerialPort('/dev/ttyUSB0', options);
+//const socket = new SerialPort('/dev/ttyUSB0', options);
 
-const client = new modbus.client.RTU(socket, 2);
+//const client = new modbus.client.RTU(socket, 2);
 
 //let intv;
 
@@ -56,7 +56,7 @@ class Sofarhyd extends utils.Adapter {
     loop_ask() {
         this.log.error('loop_ask ereicht');
 
-        client.readHoldingRegisters(0x42c, 6).then(this.response);
+        //client.readHoldingRegisters(0x42c, 6).then(this.response);
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
         // the data will be located in resp.response.body.coils: <Array>, resp.response.body.payload: <Buffer>
     }
