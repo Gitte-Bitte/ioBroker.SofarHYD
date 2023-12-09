@@ -9,13 +9,13 @@
 const utils = require('@iobroker/adapter-core');
 
 const modbus = require('jsmodbus');
-const SerialPort = require('serialport');
+const SerialPort = require('serialport').SerialPort;
 const options = {
     baudRate: 9600,
     parity: 'false',
     stopbits: 1
 };
-const socket = new SerialPort("/dev/ttyUSB0", options);
+const socket = new SerialPort('/dev/ttyUSB0', options);
 
 
 //const client = new modbus.client.RTU(socket, 2);
@@ -56,7 +56,7 @@ class Sofarhyd extends utils.Adapter {
     async loop_ask() {
         this.counter = this.counter + 1;
         try {
-            this.log.error('loop_ask_2a');
+            this.log.error('loop_ask_2b');
             this.log.error(this.counter);
             await this.setStateAsync('counter_1', this.counter);
             //client.readHoldingRegisters(0x42c, 6).then(this.response);
