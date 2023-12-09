@@ -17,6 +17,7 @@ const options = {
 };
 const socket = new SerialPort('/dev/ttyUSB0', options);
 
+
 //const client = new modbus.client.RTU(socket, 2);
 
 //let intv;
