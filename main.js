@@ -15,7 +15,7 @@ const options = {
     parity: 'false',
     stopbits: 1
 };
-//const socket = new SerialPort('/dev/ttyUSB0', options);
+const socket = new SerialPort('/dev/ttyUSB0', options);
 
 //const client = new modbus.client.RTU(socket, 2);
 
