@@ -23,7 +23,7 @@ const options = {
 
 //let buf;
 let counter = 0;
-
+let interval1;
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -55,8 +55,8 @@ class Sofarhyd extends utils.Adapter {
     }
 
     loop_ask() {
-        counter = +1;
-        this.setState('counter_1', counter);
+        counter =+ 1;
+        this.setState('counter_1', 7);
         // this.log.error('loop_ask ereicht');
         //client.readHoldingRegisters(0x42c, 6).then(this.response);
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
@@ -146,7 +146,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
 
-        this.setInterval(this.loop_ask, 10000);
+        interval1 = this.setInterval(this.loop_ask, 10000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
@@ -207,7 +207,7 @@ class Sofarhyd extends utils.Adapter {
             // clearTimeout(timeout1);
             // clearTimeout(timeout2);
             // ...
-            // clearInterval(interval1);
+            clearInterval(interval1);
 
             callback();
         } catch (e) {
