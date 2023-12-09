@@ -22,8 +22,7 @@ const options = {
 //let intv;
 
 //let buf;
-
-let adapter;
+let counter = 0;
 
 
 // Load your modules here, e.g.:
@@ -33,6 +32,8 @@ class Sofarhyd extends utils.Adapter {
     /**
      * @param {Partial<utils.AdapterOptions>} [options={}]
      */
+
+
     constructor(options) {
         super({
             ...options,
@@ -43,7 +44,6 @@ class Sofarhyd extends utils.Adapter {
         // this.on('objectChange', this.onObjectChange.bind(this));
         this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
-        adapter = new utils.Adapter('');
 
     }
 
@@ -55,8 +55,9 @@ class Sofarhyd extends utils.Adapter {
     }
 
     loop_ask() {
+        counter = +1;
+        this.setStateAsync('counter_1', counter);
         // this.log.error('loop_ask ereicht');
-        adapter.log.error('da');
         //client.readHoldingRegisters(0x42c, 6).then(this.response);
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
         // the data will be located in resp.response.body.coils: <Array>, resp.response.body.payload: <Buffer>
@@ -125,6 +126,19 @@ class Sofarhyd extends utils.Adapter {
 
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
+
+        await this.setObjectNotExistsAsync('counter_1', {
+            type: 'state',
+            common: {
+                name: 'Zähler',
+                type: 'number',
+                role: 'indicator',
+                read: true,
+                write: true,
+            },
+            native: {},
+        });
+
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
