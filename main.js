@@ -131,7 +131,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
         this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
 
-        setInterval(this.loop_ask, 10000);
+        //setInterval(this.loop_ask, 10000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
