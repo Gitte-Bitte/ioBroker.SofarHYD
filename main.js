@@ -174,6 +174,7 @@ class Sofarhyd extends utils.Adapter {
         }
 
 
+        this.log.warn('make state ');
 
 
         await this.setObjectNotExistsAsync('counter_1', {
@@ -188,6 +189,7 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
+        this.log.warn('state ');
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
