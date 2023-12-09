@@ -53,9 +53,10 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async loop_ask() {
-        this.counter = + 1;
+        this.counter = this.counter + 1;
         try {
             this.log.error('loop_ask_2');
+            this.log.error(this.counter);
             await this.setStateAsync('counter_1', this.counter);
 
         } catch (e) {
@@ -129,7 +130,7 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
         // Initialize your adapter here
-
+        this.counter = 0;
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
 
