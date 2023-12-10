@@ -143,6 +143,21 @@ class Sofarhyd extends utils.Adapter {
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
 
+
+
+        await this.setObjectNotExistsAsync('counter_1', {
+            type: 'state',
+            common: {
+                name: 'Zähler',
+                type: 'number',
+                role: 'state',
+                read: true,
+                write: true,
+            },
+            native: {},
+        });
+
+        this.log.warn('state ');
         this.log.warn('Serial ');
         try {
             SerialPort = require('serialport').SerialPort;
@@ -176,27 +191,14 @@ class Sofarhyd extends utils.Adapter {
 
         this.log.warn('make state ');
 
-
-        await this.setObjectNotExistsAsync('counter_1', {
-            type: 'state',
-            common: {
-                name: 'Zähler',
-                type: 'number',
-                role: 'state',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
-
-        this.log.warn('state ');
-
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
-        this.log.error('config baud:  ' + this.config.baud);
-        this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
-        this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
+        //this.log.error('config baud:  ' + this.config.baud);
+        //this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
+        //this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
         // this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
+
+        
         this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
         this.log.error('setinterval gesetzt');
 
