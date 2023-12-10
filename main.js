@@ -160,36 +160,13 @@ class Sofarhyd extends utils.Adapter {
 
         this.log.warn('state ');
         this.log.warn('Serial ');
-        try {
-            SerialPort = require('serialport').SerialPort;
-        } catch (err) {
-            this.log.warn('Serial is not available');
-        }
-
+        SerialPort = require('serialport').SerialPort;
         this.log.warn('jsmodbus ');
-        try {
-            Modbus = require('jsmodbus');
-        } catch (err) {
-            this.log.warn('jsmodbus is not available');
-        }
-        //                                     /dev/ttyUSB0
+        Modbus = require('jsmodbus');
         this.log.warn('SerialPort');
-        try {
-            socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
-
-        } catch (err) {
-            this.log.warn('SerialPort is not available');
-        }
-
+        socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
         this.log.warn('client ');
-        try {
-            client = new Modbus.client.RTU(socket, 2);
-        } catch (err) {
-            this.log.warn('client is not available');
-
-        }
-
-
+        client = new Modbus.client.RTU(socket, 2);
         this.log.warn('make state ');
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
@@ -200,7 +177,7 @@ class Sofarhyd extends utils.Adapter {
         // this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
 
 
-       // this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
+        // this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
@@ -265,7 +242,7 @@ class Sofarhyd extends utils.Adapter {
             // clearTimeout(timeout1);
             // clearTimeout(timeout2);
             // ...
-            clearInterval(this.interval1);
+            //clearInterval(this.interval1);
 
             callback();
         } catch (e) {
