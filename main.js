@@ -9,10 +9,14 @@
 const utils = require('@iobroker/adapter-core');
 
 
-let Modbus = null;
-let SerialPort = null;
-let socket = null;
-let client = null;
+let Modbus = require('jsmodbus');
+
+let SerialPort = require('serialport').SerialPort;
+
+let socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+
+let client = new Modbus.client.RTU(socket, 2);
+
 //const modbus = require('jsmodbus');
 //const SerialPort = require('serialport').SerialPort;
 /*const options = {
@@ -139,12 +143,10 @@ class Sofarhyd extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-        // Initialize your adapter here
+
         this.counter = 0;
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
-
-
 
         await this.setObjectNotExistsAsync('counter_1', {
             type: 'state',
@@ -158,74 +160,23 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
-        this.log.warn('state ');
-        this.log.warn('Serial ');
-        SerialPort = require('serialport').SerialPort;
-        this.log.warn('jsmodbus ');
-        Modbus = require('jsmodbus');
-        this.log.warn('SerialPort');
-        socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
-        this.log.warn('client ');
-        client = new Modbus.client.RTU(socket, 2);
-        this.log.warn('make state ');
 
-        // The adapters config (in the instance object everything under the attribute "native") is accessible via
-        // this.config:
-        //this.log.error('config baud:  ' + this.config.baud);
-        //this.log.error('config schnittstelle:  ' + this.config.schnittstellen);
-        //this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
-        // this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
+        //this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
 
 
         // this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
-        this.log.error('setinterval gesetzt');
+        //this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
         // this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
 
-        /*
-                For every state in the system there has to be also an object of type state
-                Here a simple template for a boolean variable named "testVariable"
-                Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variable
-                await this.setObjectNotExistsAsync('testVariable', {
-                    type: 'state',
-                    common: {
-                        name: 'testVariable',
-                        type: 'boolean',
-                        role: 'indicator',
-                        read: true,
-                        write: true,
-                    },
-                    native: {},
-                });
-        */
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
         // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
         // this.subscribeStates('lights.*');
-        // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-        // this.subscribeStates('*');
-
-        /*
-            setState examples
-            you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-        */
-        // the variable testVariable is set to true as command (ack=false)
         //await this.setStateAsync('testVariable', true);
-
-        // same thing, but the value is flagged "ack"
-        // ack should be always set to true if the value is received from or acknowledged from the target system
         //await this.setStateAsync('testVariable', { val: true, ack: true });
-
-        // same thing, but the state is deleted after 30s (getState will return null afterwards)
         //await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
-
-        // examples for the checkPassword/checkGroup functions
-        //let result = await this.checkPasswordAsync('admin', 'iobroker');
-        //this.log.info('check user admin pw iobroker: ' + result);
-
-        //result = await this.checkGroupAsync('admin', 'admin');
-        //this.log.info('check group user admin group admin: ' + result);
     }
 
 
