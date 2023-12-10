@@ -9,13 +9,13 @@
 const utils = require('@iobroker/adapter-core');
 
 
-const Modbus = require('jsmodbus');
+//const Modbus = require('jsmodbus');
 
-const SerialPort = require('serialport').SerialPort;
+//const SerialPort = require('serialport').SerialPort;
 
-const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+//const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 
-const client = new Modbus.client.RTU(socket, 2);
+//const client = new Modbus.client.RTU(socket, 2);
 
 //const modbus = require('jsmodbus');
 //const SerialPort = require('serialport').SerialPort;
