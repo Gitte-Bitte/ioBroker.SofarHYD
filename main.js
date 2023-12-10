@@ -7,8 +7,10 @@ const Modbus = require('jsmodbus');
 
 const SerialPort = require('serialport').SerialPort;
 
-//const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 
+
+const client = new Modbus.client.RTU(socket, 2);
 
 
 class Sofarhyd extends utils.Adapter {
