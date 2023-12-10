@@ -5,9 +5,8 @@ const utils = require('@iobroker/adapter-core');
 
 const Modbus = require('jsmodbus');
 
-const { SerialPort } = require('serialport');
 
-let socket = null;
+//let socket = null;
 
 let client = null;
 
@@ -109,7 +108,7 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    async test() {
+    test() {
         console.log('test');
         client.readHoldingRegisters(0x42c, 6)
             .then(function (resp) {
@@ -131,16 +130,14 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
         this.log.error('onready');
+        const { SerialPort } = require('serialport');
+        const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 
-        try {
-            socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
-            this.log.error('socket gesetzt');
-        } catch (e) {
-            this.log.error('socket NICHT gesetzt');
-        }
-        socket.on('close', function () {
-            console.log(`arguments : ${JSON.stringify(arguments)}`);
-        });
+        this.log.error('socket gesetzt');
+        client = new Modbus.client.RTU(socket, 2);
+        this.log.error('client gesetzt');
+
+        this.log.error('jhg');
 
 
         socket.on('open', function () {
@@ -153,15 +150,17 @@ class Sofarhyd extends utils.Adapter {
                     console.error(`arguments2 : ${JSON.stringify(arguments)}`);
                     socket.close();
                 });
+
         });
 
         socket.on('data', function () {
             console.log(`arguments3 : ${JSON.stringify(arguments)}`);
         });
 
+        socket.on('close', function () {
+            console.log(`arguments : ${JSON.stringify(arguments)}`);
+        });
 
-        client = new Modbus.client.RTU(socket, 2);
-        this.log.error('client gesetzt');
 
 
 
@@ -183,7 +182,7 @@ class Sofarhyd extends utils.Adapter {
         });
 
 
-        this.interval1 = setInterval(function(){socket.open();},5000);
+        this.interval1 = setInterval(function () { socket.open(); }, 5000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
