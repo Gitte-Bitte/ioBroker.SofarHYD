@@ -5,7 +5,7 @@ const utils = require('@iobroker/adapter-core');
 
 const Modbus = require('jsmodbus');
 
-const {SerialPort} = require('serialport');
+const { SerialPort } = require('serialport');
 
 let socket = null;
 
@@ -109,6 +109,20 @@ class Sofarhyd extends utils.Adapter {
 
 
 
+    async test() {
+        console.log('test');
+        client.readHoldingRegisters(0x42c, 6)
+            .then(function (resp) {
+                console.log(`resp :  ${JSON.stringify(resp)}`);
+            }).catch(function () {
+                console.error(`arguments2 socket geschlossen: ${JSON.stringify(arguments)}`);
+                socket.close();
+            });
+    }
+
+
+
+
 
 
 
@@ -118,17 +132,38 @@ class Sofarhyd extends utils.Adapter {
     async onReady() {
         this.log.error('onready');
 
+        try {
+            socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+            this.log.error('socket gesetzt');
+        } catch (e) {
+            this.log.error('socket NICHT gesetzt');
+        }
+        socket.on('close', function () {
+            console.log(`arguments : ${JSON.stringify(arguments)}`);
+        });
 
-        socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
-        this.log.error('socket gesetzt');
+
+        socket.on('open', function () {
+            // console.log('fg');
+            client.readHoldingRegisters(0x42c, 6)
+                .then(function (resp) {
+                    console.log(`resp :  ${JSON.stringify(resp)}`);
+                    socket.close();
+                }).catch(function () {
+                    console.error(`arguments2 : ${JSON.stringify(arguments)}`);
+                    socket.close();
+                });
+        });
+
+        socket.on('data', function () {
+            console.log(`arguments3 : ${JSON.stringify(arguments)}`);
+        });
+
 
         client = new Modbus.client.RTU(socket, 2);
-
         this.log.error('client gesetzt');
 
-        this.log.error('connectionState : ' +client.connectionState);
-        this.log.error('slaveID : '+ client.slaveId );
-        this.log.error('socket : ' +client.socket);
+
 
 
         this.counter = 0;
@@ -148,7 +183,7 @@ class Sofarhyd extends utils.Adapter {
         });
 
 
-        this.interval1 = setInterval(() => this.loop_ask(), 10000);
+        this.interval1 = setInterval(function(){socket.open();},5000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
