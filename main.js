@@ -61,18 +61,19 @@ class Sofarhyd extends utils.Adapter {
 
     async loop_ask() {
         this.counter = this.counter + 1;
-        try {
-            this.log.error('loop_ask_2b');
-            this.log.error(this.counter);
-            await this.setStateAsync('counter_1', this.counter);
-            //client.readHoldingRegisters(0x42c, 6).then(this.response);
+        this.log.error('loop_ask_2b');
+        this.log.error(this.counter);
+        /*
+   try {
+        await this.setStateAsync('counter_1', this.counter);
+        //client.readHoldingRegisters(0x42c, 6).then(this.response);
 
 
-        } catch (e) {
-            this.log.error('loop_ask_3');
+    } catch (e) {
+        this.log.error('loop_ask_3');
 
-        }
-
+    }
+*/
         // this.log.error('loop_ask ereicht');
         //client.readHoldingRegisters(0x42c, 6).then(this.response);
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
@@ -198,7 +199,7 @@ class Sofarhyd extends utils.Adapter {
         //this.log.error(`config table1:  ${JSON.stringify(this.config.table1)}`);
         // this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
 
-        
+
         this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
         this.log.error('setinterval gesetzt');
 
@@ -249,6 +250,10 @@ class Sofarhyd extends utils.Adapter {
         //result = await this.checkGroupAsync('admin', 'admin');
         //this.log.info('check group user admin group admin: ' + result);
     }
+
+
+
+
 
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
