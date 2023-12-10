@@ -5,12 +5,11 @@ const utils = require('@iobroker/adapter-core');
 
 const Modbus = require('jsmodbus');
 
-const SerialPort = require('serialport').SerialPort;
+const {SerialPort} = require('serialport');
 
-const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+let socket = null;
 
-
-const client = new Modbus.client.RTU(socket, 2);
+let client = null;
 
 
 class Sofarhyd extends utils.Adapter {
@@ -117,6 +116,20 @@ class Sofarhyd extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
+        this.log.error('onready');
+
+
+        socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+        this.log.error('socket gesetzt');
+
+        client = new Modbus.client.RTU(socket, 2);
+
+        this.log.error('client gesetzt');
+
+        this.log.error('connectionState : ' +client.connectionState);
+        this.log.error('slaveID : '+ client.slaveId );
+        this.log.error('socket : ' +client.socket);
+
 
         this.counter = 0;
         // Reset the connection indicator during startup
