@@ -1,41 +1,15 @@
 'use strict';
 
-/*
- * Created with @iobroker/create-adapter v2.5.0
- */
-
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
 const utils = require('@iobroker/adapter-core');
 
 
-//const Modbus = require('jsmodbus');
+const Modbus = require('jsmodbus');
 
-//const SerialPort = require('serialport').SerialPort;
+const SerialPort = require('serialport').SerialPort;
 
-//const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
-
-//const client = new Modbus.client.RTU(socket, 2);
-
-//const modbus = require('jsmodbus');
-//const SerialPort = require('serialport').SerialPort;
-/*const options = {
-    baudRate: 9600,
-    parity: 'false',
-    stopbits: 1
-};
-*/
-//const socket = new SerialPort("/dev/ttyUSB0", options);
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 
 
-//const client = new modbus.client.RTU(socket, 2);
-
-//let intv;
-
-//let buf;
-
-// Load your modules here, e.g.:
-// const fs = require("fs");
 
 class Sofarhyd extends utils.Adapter {
     /**
