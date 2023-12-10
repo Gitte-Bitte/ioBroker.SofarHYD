@@ -200,7 +200,7 @@ class Sofarhyd extends utils.Adapter {
         // this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
 
 
-        this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
+       // this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
