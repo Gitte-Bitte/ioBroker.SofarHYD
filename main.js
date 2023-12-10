@@ -32,9 +32,7 @@ class Sofarhyd extends utils.Adapter {
 
     response(resp) {
         this.log.error('response ereicht');
-
         this.log.error(resp);
-
     }
 
     async loop_ask() {
@@ -135,11 +133,8 @@ class Sofarhyd extends utils.Adapter {
         });
 
 
-        //this.connInterval = setInterval(() => this.sendInit(), this.config.reconnectInterval * 1_000);
-
-
-        // this.interval1 = this.setInterval(() => this.loop_ask(), 10000);
-        //this.log.error('setinterval gesetzt');
+        this.interval1 = setInterval(() => this.loop_ask(), 10000);
+        this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
         // this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
