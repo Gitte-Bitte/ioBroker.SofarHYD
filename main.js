@@ -50,7 +50,7 @@ class Sofarhyd extends utils.Adapter {
             // this.readValue = resp;
             //callback(resp);
             //})
-            socket.open();
+            //socket.open();
             client.readHoldingRegisters(0x42c, 6).then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`)).then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`)).catch(e => { this.log.error('Hier sama : ' + e); });
 
 
