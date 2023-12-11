@@ -183,7 +183,7 @@ class Sofarhyd extends utils.Adapter {
 
 
         // this.interval1 = setInterval(function () { socket.open(); }, 5000);
-        this.interval1 = setInterval(this.loop_ask, 5000);
+       // this.interval1 = setInterval(this.loop_ask, 5000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
