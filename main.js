@@ -45,7 +45,9 @@ class Sofarhyd extends utils.Adapter {
     
             await this.setStateAsync('counter_1', this.counter);
       */
-            client.readHoldingRegisters(0x42c, 6).then(this.response).catch(e => { this.log.error('Hier sama : ' + e); });
+           // client.readHoldingRegisters(0x42c, 6).then(this.response).catch(e => { this.log.error('Hier sama : ' + e); });
+           socket.open();
+            client.readHoldingRegisters(0x42c, 6).catch(e => { this.log.error('Hier sama : ' + e); });
 
 
         } catch (e) {
