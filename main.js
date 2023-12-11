@@ -155,6 +155,12 @@ class Sofarhyd extends utils.Adapter {
             console.log(`arguments : ${JSON.stringify(arguments)}`);
         });
 
+        socket.on('error', (err) => {
+            console.error(err);
+            process.exit(1);
+        });
+
+        socket.on('end', () => process.exit(0));
 
 
 
