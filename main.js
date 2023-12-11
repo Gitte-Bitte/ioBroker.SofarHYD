@@ -33,7 +33,7 @@ class Sofarhyd extends utils.Adapter {
 
     splitter(resp) {
         this.log.error('splitter');
-        const result = resp.response;
+        const result = resp.response._valuesAsBuffer;
         this.log.error(typeof(resp));
         this.log.error(`hier : ${JSON.stringify(result)}`);
     }
