@@ -8,6 +8,7 @@ const { SerialPort } = require('serialport');
 const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 2);
 
+let counter = 0;
 
 
 class Sofarhyd extends utils.Adapter {
@@ -36,9 +37,9 @@ class Sofarhyd extends utils.Adapter {
     }
 
     loop_ask() {
-        this.counter = this.counter + 1;
+        counter = counter + 1;
         this.log.error('loop_ask_2b');
-        this.log.error(this.counter);
+        this.log.error(counter.toString());
         /*
    try {
         await this.setStateAsync('counter_1', this.counter);
@@ -161,7 +162,7 @@ class Sofarhyd extends utils.Adapter {
             console.log('Error: ', err.message);
         });
 
-        this.counter = 0;
+        counter = 0;
         // Reset the connection indicator during startup
         this.setState('info.connection', false, true);
 
