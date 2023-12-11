@@ -36,9 +36,9 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(resp);
     }
 
-    loop_ask() {
+    async loop_ask() {
         counter = counter + 1;
-       // this.log.error('loop_ask_2b');
+        this.log.error('loop_ask_2b');
         //this.log.error(counter.toString());
         /*
    try {
