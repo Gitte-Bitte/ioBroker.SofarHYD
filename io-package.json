@@ -127,12 +127,33 @@
             "native": {}
         },
         {
+            "_id": "status",
+            "type": "channel",
+            "common": {
+                "name": "StatusInformation"
+            },
+            "native": {}
+        },
+        {
             "_id": "info.connection",
             "type": "state",
             "common": {
                 "role": "indicator.connected",
                 "name": "Device or service connected",
                 "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "status.was",
+            "type": "state",
+            "common": {
+                "role": "state",
+                "name": "was auch immer",
+                "type": "number",
                 "read": true,
                 "write": false,
                 "def": false

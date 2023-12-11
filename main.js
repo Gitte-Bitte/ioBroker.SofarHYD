@@ -8,7 +8,6 @@ const { SerialPort } = require('serialport');
 const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 2);
 
-let counter = 0;
 
 
 class Sofarhyd extends utils.Adapter {
@@ -32,12 +31,7 @@ class Sofarhyd extends utils.Adapter {
 
 
     async splitter(resp) {
-        this.log.error('splitter');
-        const result = resp.response._body._valuesAsBuffer;
-        this.log.error(typeof (result));
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
-        this.log.error(`hier : ${JSON.stringify(result)}`);
-        this.log.error('da : ' + buf.length.toString());
         await this.setStateAsync('Stunde', buf.readUint16BE(6));
         await this.setStateAsync('Minute', buf.readUint16BE(8));
         await this.setStateAsync('Sekunde', buf.readUint16BE(10));
@@ -47,9 +41,6 @@ class Sofarhyd extends utils.Adapter {
 
     async loop_ask() {
         try {
-            counter = counter + 1;
-            this.log.error('loop_ask');
-            this.log.error(counter.toString());
             client.readHoldingRegisters(0x42c, 6)
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 .then((resp) => this.splitter(resp))
@@ -117,9 +108,8 @@ class Sofarhyd extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-        this.log.error('onready');
+
         this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
-        this.log.error('setinterval gesetzt');
 
         await this.setObjectNotExistsAsync('Stunde', {
             type: 'state',
