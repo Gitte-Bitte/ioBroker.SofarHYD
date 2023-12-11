@@ -4,11 +4,9 @@ const utils = require('@iobroker/adapter-core');
 
 
 const Modbus = require('jsmodbus');
-
-
-//let socket = null;
-
-let client = null;
+const SerialPort = require('serialport').SerialPort;
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+const client = new Modbus.client.RTU(socket, 2);
 
 
 class Sofarhyd extends utils.Adapter {
@@ -27,8 +25,9 @@ class Sofarhyd extends utils.Adapter {
         // this.on('objectChange', this.onObjectChange.bind(this));
         this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
-
     }
+
+
 
     response(resp) {
         this.log.error('response ereicht');
@@ -109,14 +108,16 @@ class Sofarhyd extends utils.Adapter {
 
 
     test() {
-        console.log('test');
-        client.readHoldingRegisters(0x42c, 6)
-            .then(function (resp) {
-                console.log(`resp :  ${JSON.stringify(resp)}`);
-            }).catch(function () {
-                console.error(`arguments2 socket geschlossen: ${JSON.stringify(arguments)}`);
-                socket.close();
-            });
+        this.log.error('test');
+        /*
+              client.readHoldingRegisters(0x42c, 6)
+                  .then(function (resp) {
+                      console.log(`resp :  ${JSON.stringify(resp)}`);
+                  }).catch(function () {
+                      console.error(`arguments2 socket geschlossen: ${JSON.stringify(arguments)}`);
+                      socket.close();
+                  });
+                  */
     }
 
 
@@ -130,18 +131,11 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
         this.log.error('onready');
-        const { SerialPort } = require('serialport');
-        const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
-
-        this.log.error('socket gesetzt');
-        client = new Modbus.client.RTU(socket, 2);
-        this.log.error('client gesetzt');
 
         this.log.error('jhg');
 
-
         socket.on('open', function () {
-            // console.log('fg');
+            console.log('fg');
             client.readHoldingRegisters(0x42c, 6)
                 .then(function (resp) {
                     console.log(`resp :  ${JSON.stringify(resp)}`);
