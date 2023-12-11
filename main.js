@@ -38,7 +38,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.error(counter.toString());
             client.readHoldingRegisters(0x42c, 6)
                 .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
-                .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+               // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
                 .catch(e => { this.log.error('Hier sama : ' + e); });
         } catch (e) {
             this.log.error('Fehler loop_ask');
