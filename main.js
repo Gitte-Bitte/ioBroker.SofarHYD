@@ -126,7 +126,7 @@ class Sofarhyd extends utils.Adapter {
             common: {
                 name: 'Stunde_h',
                 type: 'number',
-                role: 'string',
+                role: 'value',
                 read: true,
                 write: true,
             },
@@ -137,7 +137,7 @@ class Sofarhyd extends utils.Adapter {
             common: {
                 name: 'Sekunde_s',
                 type: 'number',
-                role: 'string',
+                role: 'value',
                 read: true,
                 write: true,
             },
@@ -148,7 +148,7 @@ class Sofarhyd extends utils.Adapter {
             common: {
                 name: 'Minute_min',
                 type: 'number',
-                role: 'string',
+                role: 'value',
                 read: true,
                 write: true,
             },
