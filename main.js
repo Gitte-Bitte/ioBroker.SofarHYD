@@ -38,8 +38,8 @@ class Sofarhyd extends utils.Adapter {
 
     loop_ask() {
         counter = counter + 1;
-        this.log.error('loop_ask_2b');
-        this.log.error(counter.toString());
+       // this.log.error('loop_ask_2b');
+        //this.log.error(counter.toString());
         /*
    try {
         await this.setStateAsync('counter_1', this.counter);
