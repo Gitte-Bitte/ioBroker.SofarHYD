@@ -37,7 +37,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(typeof(result));
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         this.log.error(`hier : ${JSON.stringify(result)}`);
-        this.log.error('da : ' + buf.toString());
+        this.log.error('da : ' + buf.toLocaleString());
     }
 
 
