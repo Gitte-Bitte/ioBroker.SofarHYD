@@ -31,13 +31,17 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    splitter(resp) {
+    async splitter(resp) {
         this.log.error('splitter');
         const result = resp.response._body._valuesAsBuffer;
-        this.log.error(typeof(result));
+        this.log.error(typeof (result));
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         this.log.error(`hier : ${JSON.stringify(result)}`);
         this.log.error('da : ' + buf.length.toString());
+        await this.setStateAsync('Stunde', buf.readUint16BE(6));
+        await this.setStateAsync('Minute', buf.readUint16BE(8));
+        await this.setStateAsync('Sekunde', buf.readUint16BE(10));
+
     }
 
 
@@ -116,6 +120,40 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('onready');
         this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
         this.log.error('setinterval gesetzt');
+
+        await this.setObjectNotExistsAsync('Stunde', {
+            type: 'state',
+            common: {
+                name: 'Stunde_h',
+                type: 'number',
+                role: 'string',
+                read: true,
+                write: true,
+            },
+            native: {},
+        });
+        await this.setObjectNotExistsAsync('Sekunde', {
+            type: 'state',
+            common: {
+                name: 'Sekunde_s',
+                type: 'number',
+                role: 'string',
+                read: true,
+                write: true,
+            },
+            native: {},
+        });
+        await this.setObjectNotExistsAsync('Minute', {
+            type: 'state',
+            common: {
+                name: 'Minute_min',
+                type: 'number',
+                role: 'string',
+                read: true,
+                write: true,
+            },
+            native: {},
+        });
 
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
