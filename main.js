@@ -45,9 +45,13 @@ class Sofarhyd extends utils.Adapter {
     
             await this.setStateAsync('counter_1', this.counter);
       */
-           // client.readHoldingRegisters(0x42c, 6).then(this.response).catch(e => { this.log.error('Hier sama : ' + e); });
-           socket.open();
-            client.readHoldingRegisters(0x42c, 6).then(this.response).catch(e => { this.log.error('Hier sama : ' + e); });
+            // client.readHoldingRegisters(0x42c, 6).then(this.response).catch(e => { this.log.error('Hier sama : ' + e); });
+            //.then((resp) => {
+            // this.readValue = resp;
+            //callback(resp);
+            //})
+            socket.open();
+            client.readHoldingRegisters(0x42c, 6).then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`)).then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`)).catch(e => { this.log.error('Hier sama : ' + e); });
 
 
         } catch (e) {
@@ -90,7 +94,7 @@ class Sofarhyd extends utils.Adapter {
                             // read all found serial ports
                             SerialPort.list()
                                 .then(ports => {
-                                    //this.log.debug(`List of port: ${JSON.stringify(ports)}`);
+                                    //this.log.debug(`List of port: ${ JSON.stringify(ports) }`);
                                     this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
                                 })
                                 .catch(e => {
@@ -118,9 +122,9 @@ class Sofarhyd extends utils.Adapter {
         /*
               client.readHoldingRegisters(0x42c, 6)
                   .then(function (resp) {
-                      console.log(`resp :  ${JSON.stringify(resp)}`);
+                      console.log(`resp : ${ JSON.stringify(resp) }`);
                   }).catch(function () {
-                      console.error(`arguments2 socket geschlossen: ${JSON.stringify(arguments)}`);
+                      console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
                       socket.close();
                   });
                   */
@@ -131,9 +135,9 @@ class Sofarhyd extends utils.Adapter {
         /*
               client.readHoldingRegisters(0x42c, 6)
                   .then(function (resp) {
-                      console.log(`resp :  ${JSON.stringify(resp)}`);
+                      console.log(`resp : ${ JSON.stringify(resp) }`);
                   }).catch(function () {
-                      console.error(`arguments2 socket geschlossen: ${JSON.stringify(arguments)}`);
+                      console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
                       socket.close();
                   });
                   */
@@ -158,7 +162,7 @@ class Sofarhyd extends utils.Adapter {
             console.log('fg');
             client.readHoldingRegisters(0x42c, 6)
                 .then(function (resp) {
-                    console.log(`resp :  ${JSON.stringify(resp)}`);
+                    console.log(`resp : ${JSON.stringify(resp)}`);
                     socket.close();
                 }).catch(function () {
                     console.error(`arguments2 : ${JSON.stringify(arguments)}`);
@@ -201,8 +205,8 @@ class Sofarhyd extends utils.Adapter {
         this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
         this.log.error('setinterval gesetzt');
 
-        // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
-        // this.log.error(`config panel_2:  ${JSON.stringify(this.config.panel_2)}`);
+        // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
+        // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
 
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
@@ -245,10 +249,10 @@ class Sofarhyd extends utils.Adapter {
     // onObjectChange(id, obj) {
     //     if (obj) {
     //         // The object was changed
-    //         this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
+    //         this.log.info(`object ${ id } changed: ${ JSON.stringify(obj) }`);
     //     } else {
     //         // The object was deleted
-    //         this.log.info(`object ${id} deleted`);
+    //         this.log.info(`object ${ id } deleted`);
     //     }
     // }
 
@@ -260,7 +264,7 @@ class Sofarhyd extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             // The state was changed
-            this.log.error(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            this.log.error(`state ${id} changed: ${state.val}(ack = ${state.ack})`);
         } else {
             // The state was deleted
             this.log.error(`state ${id} deleted`);
