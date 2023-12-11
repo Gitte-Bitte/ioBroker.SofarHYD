@@ -127,7 +127,7 @@
             "native": {}
         },
         {
-            "_id": "status",
+            "_id": "statt",
             "type": "channel",
             "common": {
                 "name": "StatusInformation"
@@ -148,7 +148,7 @@
             "native": {}
         },
         {
-            "_id": "status.was",
+            "_id": "statt.was",
             "type": "state",
             "common": {
                 "role": "state",
@@ -156,7 +156,7 @@
                 "type": "number",
                 "read": true,
                 "write": false,
-                "def": false
+                "def": 5
             },
             "native": {}
         }
