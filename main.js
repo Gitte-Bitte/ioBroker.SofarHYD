@@ -40,12 +40,12 @@ class Sofarhyd extends utils.Adapter {
         try {
             counter = counter + 1;
             this.log.error('loop_ask_2b');
-            //this.log.error(counter.toString());
+            this.log.error(counter.toString());
             /*
     
             await this.setStateAsync('counter_1', this.counter);
-            //client.readHoldingRegisters(0x42c, 6).then(this.response);
-    */
+      */
+            client.readHoldingRegisters(0x42c, 6).then(this.response);
 
 
         } catch (e) {
@@ -57,6 +57,7 @@ class Sofarhyd extends utils.Adapter {
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
         // the data will be located in resp.response.body.coils: <Array>, resp.response.body.payload: <Buffer>
     }
+
 
 
 
@@ -110,8 +111,21 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    test() {
-        console.log('test');
+    async test() {
+        this.log.error('test');
+        /*
+              client.readHoldingRegisters(0x42c, 6)
+                  .then(function (resp) {
+                      console.log(`resp :  ${JSON.stringify(resp)}`);
+                  }).catch(function () {
+                      console.error(`arguments2 socket geschlossen: ${JSON.stringify(arguments)}`);
+                      socket.close();
+                  });
+                  */
+    }
+
+    test2() {
+        this.log.error('test2');
         /*
               client.readHoldingRegisters(0x42c, 6)
                   .then(function (resp) {
@@ -136,8 +150,10 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('onready');
         this.loop_ask();
         this.log.error('jhg');
+        this.test();
 
         socket.on('open', function () {
+            () => this.test();
             // console.log('fg');
             client.readHoldingRegisters(0x42c, 6)
                 .then(function (resp) {
