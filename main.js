@@ -31,39 +31,19 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    response(resp) {
-        this.log.error('response ereicht');
-        this.log.error(resp);
-    }
-
     async loop_ask() {
         try {
             counter = counter + 1;
-            this.log.error('loop_ask_2b');
+            this.log.error('loop_ask');
             this.log.error(counter.toString());
-            /*
-    
-            await this.setStateAsync('counter_1', this.counter);
-      */
-            // client.readHoldingRegisters(0x42c, 6).then(this.response).catch(e => { this.log.error('Hier sama : ' + e); });
-            //.then((resp) => {
-            // this.readValue = resp;
-            //callback(resp);
-            //})
-            //socket.open();
-            client.readHoldingRegisters(0x42c, 6).then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`)).then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`)).catch(e => { this.log.error('Hier sama : ' + e); });
-
-
+            client.readHoldingRegisters(0x42c, 6)
+                .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+                .catch(e => { this.log.error('Hier sama : ' + e); });
         } catch (e) {
-            this.log.error('loop_ask_3');
-
+            this.log.error('Fehler loop_ask');
         }
-        // this.log.error('loop_ask ereicht');
-        //client.readHoldingRegisters(0x42c, 6).then(this.response);
-        // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
-        // the data will be located in resp.response.body.coils: <Array>, resp.response.body.payload: <Buffer>
     }
-
 
 
 
@@ -116,34 +96,6 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    /*
-        test() {
-            this.log.error('test');
-                  client.readHoldingRegisters(0x42c, 6)
-                      .then(function (resp) {
-                          console.log(`resp : ${ JSON.stringify(resp) }`);
-                      }).catch(function () {
-                          console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
-                          socket.close();
-                      });
-        }
-        test2() {
-            this.log.error('test2');
-            /*
-                  client.readHoldingRegisters(0x42c, 6)
-                      .then(function (resp) {
-                          console.log(`resp : ${ JSON.stringify(resp) }`);
-                      }).catch(function () {
-                          console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
-                          socket.close();
-                      });
-                     
-        }
-    
-    
-    
-    */
-
 
 
     /**
@@ -151,57 +103,6 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
         this.log.error('onready');
-
-
-        /*
-        this.loop_ask();
-        this.log.error('jhg');
-        this.test();
-
-        socket.on('open', function () {
-            console.log('fg');
-            client.readHoldingRegisters(0x42c, 6)
-                .then(function (resp) {
-                    console.log(`resp : ${JSON.stringify(resp)}`);
-                    socket.close();
-                }).catch(function () {
-                    console.error(`arguments2 : ${JSON.stringify(arguments)}`);
-                    socket.close();
-                });
-
-        });
-
-        socket.on('data', function () {
-            console.log(`arguments3 : ${JSON.stringify(arguments)}`);
-        });
-
-        socket.on('close', function () {
-            console.log(`arguments : ${JSON.stringify(arguments)}`);
-        });
-
-
-        socket.on('error', function (err) {
-            console.log('Error: ', err.message);
-        });
-
-        counter = 0;
-        // Reset the connection indicator during startup
-        this.setState('info.connection', false, true);
-
-        await this.setObjectNotExistsAsync('counter_1', {
-            type: 'state',
-            common: {
-                name: 'Zähler',
-                type: 'number',
-                role: 'state',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
-
-*/
-        // this.interval1 = setInterval(function () { socket.open(); }, 5000);
         this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
         this.log.error('setinterval gesetzt');
 
