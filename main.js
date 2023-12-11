@@ -4,12 +4,10 @@ const utils = require('@iobroker/adapter-core');
 
 
 const Modbus = require('jsmodbus');
-const SerialPort = require('serialport').SerialPort;
+const { SerialPort } = require('serialport');
 const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 2);
 
-
-let interval1 = null;
 
 
 class Sofarhyd extends utils.Adapter {
@@ -111,7 +109,7 @@ class Sofarhyd extends utils.Adapter {
 
 
     test() {
-        this.log.error('test');
+        console.log('test');
         /*
               client.readHoldingRegisters(0x42c, 6)
                   .then(function (resp) {
@@ -138,7 +136,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('jhg');
 
         socket.on('open', function () {
-            console.log('fg');
+            // console.log('fg');
             client.readHoldingRegisters(0x42c, 6)
                 .then(function (resp) {
                     console.log(`resp :  ${JSON.stringify(resp)}`);
@@ -158,15 +156,10 @@ class Sofarhyd extends utils.Adapter {
             console.log(`arguments : ${JSON.stringify(arguments)}`);
         });
 
-        socket.on('error', (err) => {
-            console.error(err);
-            process.exit(1);
+
+        socket.on('error', function (err) {
+            console.log('Error: ', err.message);
         });
-
-        socket.on('end', () => process.exit(0));
-
-
-
 
         this.counter = 0;
         // Reset the connection indicator during startup
@@ -186,7 +179,7 @@ class Sofarhyd extends utils.Adapter {
 
 
         // this.interval1 = setInterval(function () { socket.open(); }, 5000);
-        interval1 = setInterval(function () { loop_ask(); }, 5000);
+        this.interval1 = setInterval(this.loop_ask, 5000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
@@ -215,7 +208,7 @@ class Sofarhyd extends utils.Adapter {
             // clearTimeout(timeout1);
             // clearTimeout(timeout2);
             // ...
-            clearInterval(interval1);
+            //clearInterval(this.interval1);
 
             callback();
         } catch (e) {
