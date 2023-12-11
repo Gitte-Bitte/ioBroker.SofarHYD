@@ -37,7 +37,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(resp);
     }
 
-     loop_ask() {
+    loop_ask() {
         this.counter = this.counter + 1;
         this.log.error('loop_ask_2b');
         this.log.error(this.counter);
@@ -186,7 +186,7 @@ class Sofarhyd extends utils.Adapter {
 
 
         // this.interval1 = setInterval(function () { socket.open(); }, 5000);
-        interval1 = setInterval(function() {this.loop_ask();},5000);
+        interval1 = setInterval(function () { loop_ask(); }, 5000);
         this.log.error('setinterval gesetzt');
 
         // this.log.error(`config tab_1:  ${JSON.stringify(this.config.tab_1)}`);
