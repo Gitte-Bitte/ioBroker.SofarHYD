@@ -37,20 +37,21 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async loop_ask() {
-        counter = counter + 1;
-        this.log.error('loop_ask_2b');
-        //this.log.error(counter.toString());
-        /*
-   try {
-        await this.setStateAsync('counter_1', this.counter);
-        //client.readHoldingRegisters(0x42c, 6).then(this.response);
+        try {
+            counter = counter + 1;
+            this.log.error('loop_ask_2b');
+            //this.log.error(counter.toString());
+            /*
+    
+            await this.setStateAsync('counter_1', this.counter);
+            //client.readHoldingRegisters(0x42c, 6).then(this.response);
+    */
 
 
-    } catch (e) {
-        this.log.error('loop_ask_3');
+        } catch (e) {
+            this.log.error('loop_ask_3');
 
-    }
-*/
+        }
         // this.log.error('loop_ask ereicht');
         //client.readHoldingRegisters(0x42c, 6).then(this.response);
         // resp will look like { response : [TCP|RTU]Response, request: [TCP|RTU]Request }
