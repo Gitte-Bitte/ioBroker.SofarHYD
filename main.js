@@ -116,36 +116,33 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-
-    test() {
-        this.log.error('test');
-        /*
-              client.readHoldingRegisters(0x42c, 6)
-                  .then(function (resp) {
-                      console.log(`resp : ${ JSON.stringify(resp) }`);
-                  }).catch(function () {
-                      console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
-                      socket.close();
-                  });
-                  */
-    }
-
-    test2() {
-        this.log.error('test2');
-        /*
-              client.readHoldingRegisters(0x42c, 6)
-                  .then(function (resp) {
-                      console.log(`resp : ${ JSON.stringify(resp) }`);
-                  }).catch(function () {
-                      console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
-                      socket.close();
-                  });
-                  */
-    }
-
-
-
-
+    /*
+        test() {
+            this.log.error('test');
+                  client.readHoldingRegisters(0x42c, 6)
+                      .then(function (resp) {
+                          console.log(`resp : ${ JSON.stringify(resp) }`);
+                      }).catch(function () {
+                          console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
+                          socket.close();
+                      });
+        }
+        test2() {
+            this.log.error('test2');
+            /*
+                  client.readHoldingRegisters(0x42c, 6)
+                      .then(function (resp) {
+                          console.log(`resp : ${ JSON.stringify(resp) }`);
+                      }).catch(function () {
+                          console.error(`arguments2 socket geschlossen: ${ JSON.stringify(arguments) }`);
+                          socket.close();
+                      });
+                     
+        }
+    
+    
+    
+    */
 
 
 
@@ -154,6 +151,9 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
         this.log.error('onready');
+
+
+        /*
         this.loop_ask();
         this.log.error('jhg');
         this.test();
@@ -200,7 +200,7 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
-
+*/
         // this.interval1 = setInterval(function () { socket.open(); }, 5000);
         this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
         this.log.error('setinterval gesetzt');
