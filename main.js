@@ -7,6 +7,7 @@ const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
 const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 2);
+const mwArray = [];
 
 
 
@@ -145,6 +146,10 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
+
+        this.initRegister();
+        this.createReadings();
+
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
 
@@ -212,7 +217,63 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
+    pushRegister(arr, addr, name, desc, eh, fkt) {
+        if (desc == '') { desc = name; }
+        const register = {
+            name: name,
+            description: desc,
+            eh: eh,
+            fkt: fkt,
+            sum: 0,
+            val: 0
+        };
+        arr.push(register);
+    }
+
+
+    initRegister() {
+        this.pushRegister(mwArray, 0x485, 'ActivePower_Output_Total', '', 'W', 2);
+        this.pushRegister(mwArray, 0x488, 'ActivePower_PCC_Total', '', 'W', 2);
+        this.pushRegister(mwArray, 0x48F, 'ActivePower_Output_R', '', 'W', 2);
+        this.pushRegister(mwArray, 0x49A, 'ActivePower_Output_S', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4A5, 'ActivePower_Output_T', '', 'W', 2);
+        this.pushRegister(mwArray, 0x493, 'ActivePower_PCC_R', '', 'W', 2);
+        this.pushRegister(mwArray, 0x49E, 'ActivePower_PCC_S', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4A9, 'ActivePower_PCC_T', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4AE, 'ActivePower_PV_Ext', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4AF, 'ActivePower_Load_Sys', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4B2, 'ActivePower_Output_L1N', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2);
+        this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2);
+        this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2);
+        this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2);
+        this.pushRegister(mwArray, 0x51C, 'ActivePower_Load_T', '', 'W', 2);
+        this.pushRegister(mwArray, 0x524, 'ActivePower_Load_L1N', '', 'W', 2);
+        this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2);
+    }
+
+    async createReadings(arr) {
+        for (let register of arr) {
+            await this.setObjectNotExistsAsync('Stunde', {
+                type: 'state',
+                common: {
+                    name: arr[register].name,
+                    type: 'number',
+                    role: 'value',
+                    read: true,
+                    write: true,
+                },
+                native: {},
+            });
+        }
+    }
+
+
 }
+
+
 
 if (require.main !== module) {
     // Export the constructor in compact mode
