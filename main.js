@@ -50,17 +50,17 @@ class Sofarhyd extends utils.Adapter {
 
     async loop_ask() {
         this.log.error('loop_ask start');
-/*
+
         try {
             client.readHoldingRegisters(0x42c, 6)
                 .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 .then((resp) => this.splitter(resp))
-                .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lli : ${JSON.stringify(resp)}`))
                 .catch(e => { this.log.error('Hier sama : ' + e); });
         } catch (e) {
-            this.log.error('Fehler loop_ask');
+            this.log.error('Fehler1 loop_ask');
         }
-*/
+
 
         this.log.error('loop_ask mitte');
         try {
@@ -70,7 +70,7 @@ class Sofarhyd extends utils.Adapter {
                 .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
                 .catch(e => { this.log.error('Hier sisi : ' + e); });
         } catch (e) {
-            this.log.error('Fehler loop_ask');
+            this.log.error('Fehler2 loop_ask');
         }
 
     }
