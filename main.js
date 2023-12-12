@@ -56,9 +56,12 @@ class Sofarhyd extends utils.Adapter {
         try {
             client.readHoldingRegisters(0x42c, 6)
                 .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
-                .then((resp) => this.splitter(resp))
-                .then(()=>client.readHoldingRegisters(0x480, 0x40))//B0
-                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`));
+                //.then((resp) => this.splitter(resp))
+                .then(() => client.readHoldingRegisters(0x480, 0x40))//B0
+                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
+                .catch(e => {
+                    this.log.error(`lliooo : ${JSON.stringify(e)}`)
+                });
             //.then((resp) => this.splitter2(resp))
             // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
             //.then((resp) => this.log.error(`lli : ${JSON.stringify(resp)}`))
