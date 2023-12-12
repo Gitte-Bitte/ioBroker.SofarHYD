@@ -57,30 +57,14 @@ class Sofarhyd extends utils.Adapter {
             client.readHoldingRegisters(0x42c, 6)
                 .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 .then((resp) => this.splitter(resp))
-                .then((resp) => this.log.error(`lli : ${JSON.stringify(resp)}`))
-                .catch(e => { this.log.error('Hier sama : ' + e); });
+                .then(()=>client.readHoldingRegisters(0x480, 0x40))//B0
+                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`));
+            //.then((resp) => this.splitter2(resp))
+            // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+            //.then((resp) => this.log.error(`lli : ${JSON.stringify(resp)}`))
         } catch (e) {
-            this.log.error('Fehler1 loop_ask');
+            this.log.error(`lli : ${JSON.stringify(e)}`);
         }
-        this.log.error('requestcount : ' + client.requestCount.toString());
-        this.log.error('connectionstate : ' + client.connectionState.toString());
-
-
-        this.log.error('loop_ask mitte');
-        try {
-            client.readHoldingRegisters(0x480, 0x40)//B0
-                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
-                //.then((resp) => this.splitter2(resp))
-                .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
-                .catch(e => { this.log.error('Hier sisi : ' + e); });
-        } catch (e) {
-            this.log.error('Fehler2 loop_ask');
-        }
-        this.log.error('loop_ask ende');
-
-        this.log.error('requestcount : ' + client.requestCount.toString());
-        this.log.error('connectionstate : ' + client.connectionState.toString());
-
     }
 
 
