@@ -62,11 +62,11 @@ class Sofarhyd extends utils.Adapter {
         }
         this.log.error('loop_ask mitte');
         try {
-            client.readHoldingRegisters(0x480, 0xB0)
-                .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
-                .then((resp) => this.splitter2(resp))
+            client.readHoldingRegisters(0x480, 0x10)//B0
+                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
+                //.then((resp) => this.splitter2(resp))
                 .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
-                .catch(e => { this.log.error('Hier sama : ' + e); });
+                .catch(e => { this.log.error('Hier sisi : ' + e); });
         } catch (e) {
             this.log.error('Fehler loop_ask');
         }
