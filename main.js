@@ -50,6 +50,8 @@ class Sofarhyd extends utils.Adapter {
 
     async loop_ask() {
         this.log.error('loop_ask start');
+        this.log.error('requestcount : ' + client.requestCount.toString());
+        this.log.error('connectionstate : ' + client.connectionState.toString());
 
         try {
             client.readHoldingRegisters(0x42c, 6)
@@ -60,6 +62,8 @@ class Sofarhyd extends utils.Adapter {
         } catch (e) {
             this.log.error('Fehler1 loop_ask');
         }
+        this.log.error('requestcount : ' + client.requestCount.toString());
+        this.log.error('connectionstate : ' + client.connectionState.toString());
 
 
         this.log.error('loop_ask mitte');
@@ -72,6 +76,10 @@ class Sofarhyd extends utils.Adapter {
         } catch (e) {
             this.log.error('Fehler2 loop_ask');
         }
+        this.log.error('loop_ask ende');
+
+        this.log.error('requestcount : ' + client.requestCount.toString());
+        this.log.error('connectionstate : ' + client.connectionState.toString());
 
     }
 
