@@ -258,12 +258,12 @@ class Sofarhyd extends utils.Adapter {
 
     createReadings(arr) {
         for (let register of arr) {
-            this.log.error(arr[register].name);
+            this.log.error(register.name);
             /*
-                        await this.setObjectNotExistsAsync(arr[register].name, {
+                        await this.setObjectNotExistsAsync(register.name, {
                             type: 'state',
                             common: {
-                                name: arr[register].name,
+                                name: register.name,
                                 type: 'number',
                                 role: 'value',
                                 read: true,
