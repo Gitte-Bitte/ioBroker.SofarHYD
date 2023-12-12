@@ -64,7 +64,7 @@ class Sofarhyd extends utils.Adapter {
 
         this.log.error('loop_ask mitte');
         try {
-            client.readHoldingRegisters(0x480, 0x70)//B0
+            client.readHoldingRegisters(0x480, 0x40)//B0
                 .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter2(resp))
                 .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
