@@ -256,23 +256,23 @@ class Sofarhyd extends utils.Adapter {
         this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2);
     }
 
-    createReadings(arr) {
+    async createReadings(arr) {
         for (let register of arr) {
             this.log.error(register.name);
-            /*
-                        await this.setObjectNotExistsAsync(register.name, {
-                            type: 'state',
-                            common: {
-                                name: register.name,
-                                type: 'number',
-                                role: 'value',
-                                read: true,
-                                write: true,
-                            },
-                            native: {},
-                        });
-            
-                        */
+
+            await this.setObjectNotExistsAsync(register.name, {
+                type: 'state',
+                common: {
+                    name: register.name,
+                    type: 'number',
+                    role: 'value',
+                    read: true,
+                    write: true,
+                },
+                native: {},
+            });
+
+
         }
     }
 
