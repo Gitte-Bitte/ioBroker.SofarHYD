@@ -148,7 +148,7 @@ class Sofarhyd extends utils.Adapter {
 
 
         this.initRegister();
-        this.createReadings();
+        this.createReadings(mwArray);
 
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
