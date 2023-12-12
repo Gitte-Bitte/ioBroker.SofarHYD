@@ -42,7 +42,7 @@ class Sofarhyd extends utils.Adapter {
     async splitter2(resp) {
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         for (let register of mwArray) {
-            await this.setStateAsync('register.name', buf.readInt16BE(register.addr - 0x480));
+            await this.setStateAsync(register.name, buf.readInt16BE(register.addr - 0x480));
         }
     }
 
