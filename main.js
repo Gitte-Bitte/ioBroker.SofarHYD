@@ -39,8 +39,18 @@ class Sofarhyd extends utils.Adapter {
 
     }
 
+    async splitter2(resp) {
+        const buf = Buffer.from(resp.response._body._valuesAsBuffer);
+        for (let register of mwArray) {
+            await this.setStateAsync('register.name', buf.readInt16BE(register.addr - 0x480));
+        }
+    }
+
+
 
     async loop_ask() {
+        this.log.error('loop_ask start');
+
         try {
             client.readHoldingRegisters(0x42c, 6)
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
@@ -50,6 +60,17 @@ class Sofarhyd extends utils.Adapter {
         } catch (e) {
             this.log.error('Fehler loop_ask');
         }
+        this.log.error('loop_ask mitte');
+        try {
+            client.readHoldingRegisters(0x480, 0xB0)
+                //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
+                .then((resp) => this.splitter2(resp))
+                // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+                .catch(e => { this.log.error('Hier sama : ' + e); });
+        } catch (e) {
+            this.log.error('Fehler loop_ask');
+        }
+
     }
 
 
@@ -222,6 +243,7 @@ class Sofarhyd extends utils.Adapter {
     pushRegister(arr, addr, name, desc, eh, fkt) {
         if (desc == '') { desc = name; }
         const register = {
+            addr: addr,
             name: name,
             description: desc,
             eh: eh,
@@ -258,8 +280,6 @@ class Sofarhyd extends utils.Adapter {
 
     async createReadings(arr) {
         for (let register of arr) {
-            this.log.error(register.name);
-
             await this.setObjectNotExistsAsync(register.name, {
                 type: 'state',
                 common: {
