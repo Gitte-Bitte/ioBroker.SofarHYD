@@ -50,7 +50,7 @@ class Sofarhyd extends utils.Adapter {
 
     async loop_ask() {
         this.log.error('loop_ask start');
-
+/*
         try {
             client.readHoldingRegisters(0x42c, 6)
                 .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
@@ -60,6 +60,8 @@ class Sofarhyd extends utils.Adapter {
         } catch (e) {
             this.log.error('Fehler loop_ask');
         }
+*/
+
         this.log.error('loop_ask mitte');
         try {
             client.readHoldingRegisters(0x480, 0x10)//B0
