@@ -61,7 +61,7 @@ class Sofarhyd extends utils.Adapter {
                 .then((resp) => this.splitter2(resp))
                 //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
-                    this.log.error(`lliooo : ${JSON.stringify(e)}`)
+                    this.log.error(`lliooo : ${JSON.stringify(e)}`);
                 });
             //.then((resp) => this.splitter2(resp))
             // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
@@ -257,10 +257,10 @@ class Sofarhyd extends utils.Adapter {
         this.pushRegister(mwArray, 0x485, 'ActivePower_Output_Total', '', 'W', 2);
         this.pushRegister(mwArray, 0x488, 'ActivePower_PCC_Total', '', 'W', 2);
         this.pushRegister(mwArray, 0x48F, 'ActivePower_Output_R', '', 'W', 2);
-        this.pushRegister(mwArray, 0x49A, 'ActivePower_Output_S', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4A5, 'ActivePower_Output_T', '', 'W', 2);
         this.pushRegister(mwArray, 0x493, 'ActivePower_PCC_R', '', 'W', 2);
+        this.pushRegister(mwArray, 0x49A, 'ActivePower_Output_S', '', 'W', 2);
         this.pushRegister(mwArray, 0x49E, 'ActivePower_PCC_S', '', 'W', 2);
+        this.pushRegister(mwArray, 0x4A5, 'ActivePower_Output_T', '', 'W', 2);
         this.pushRegister(mwArray, 0x4A9, 'ActivePower_PCC_T', '', 'W', 2);
         this.pushRegister(mwArray, 0x4AE, 'ActivePower_PV_Ext', '', 'W', 2);
         this.pushRegister(mwArray, 0x4AF, 'ActivePower_Load_Sys', '', 'W', 2);
@@ -268,12 +268,12 @@ class Sofarhyd extends utils.Adapter {
         this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2);
         this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2);
         this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2);
-        this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2);
-        this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2);
-        this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2);
-        this.pushRegister(mwArray, 0x51C, 'ActivePower_Load_T', '', 'W', 2);
-       // this.pushRegister(mwArray, 0x524, 'ActivePower_Load_L1N', '', 'W', 2);
-       // this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2);
+        //this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2);
+        //this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2);
+        //this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2);
+        //this.pushRegister(mwArray, 0x51C, 'ActivePower_Load_T', '', 'W', 2);
+        // this.pushRegister(mwArray, 0x524, 'ActivePower_Load_L1N', '', 'W', 2);
+        // this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2);
     }
 
     async createReadings(arr) {
