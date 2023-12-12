@@ -53,9 +53,9 @@ class Sofarhyd extends utils.Adapter {
 
         try {
             client.readHoldingRegisters(0x42c, 6)
-                //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 .then((resp) => this.splitter(resp))
-                // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
                 .catch(e => { this.log.error('Hier sama : ' + e); });
         } catch (e) {
             this.log.error('Fehler loop_ask');
@@ -63,9 +63,9 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('loop_ask mitte');
         try {
             client.readHoldingRegisters(0x480, 0xB0)
-                //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 .then((resp) => this.splitter2(resp))
-                // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
                 .catch(e => { this.log.error('Hier sama : ' + e); });
         } catch (e) {
             this.log.error('Fehler loop_ask');
