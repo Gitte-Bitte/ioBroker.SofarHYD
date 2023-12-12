@@ -256,7 +256,7 @@ class Sofarhyd extends utils.Adapter {
         this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2);
     }
 
-    async createReadings(arr) {
+    createReadings(arr) {
         for (let register of arr) {
             this.log.error(arr[register].name);
             /*
