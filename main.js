@@ -39,14 +39,16 @@ class Sofarhyd extends utils.Adapter {
 
     }
 
-    async splitter2(resp) {
-        const buf = Buffer.from(resp.response._body._valuesAsBuffer);
-        for (let register of mwArray) {
+    async splitter2(buf,arr,start) {
+        for (const register of arr) {
             if (register.typus == 'I16') {
-                await this.setStateAsync(register.name, buf.readInt16BE(register.addr - 0x480));
+                await this.setStateAsync(register.name, buf.readInt16BE(  (register.adr-start)*2 ));
             }
             else if (register.typus == 'U16') {
-                await this.setStateAsync(register.name, buf.readUint16BE(register.addr - 0x480));
+                await this.setStateAsync(register.name, buf.readUint16BE((register.adr-start)*2 ));
+            }
+            else if (register.typus == 'U64') {
+                //await this.setStateAsync(register.name, buf.readUint16BE((register.adr-start)*2 ));
             }
         }
     }
@@ -60,11 +62,11 @@ class Sofarhyd extends utils.Adapter {
 
         try {
             //client.readHoldingRegisters(0x42c, 6)
-            client.readHoldingRegisters(0x480, 30)
+            client.readHoldingRegisters(0x480, 40)
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                .then((resp) => this.splitter2(resp))
+                .then((resp) => this.splitter2(resp.response._body._valuesAsBuffer,mwArray,0x480))
                 //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
@@ -244,10 +246,11 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    pushRegister(arr, addr, name, desc, eh, fkt, typus) {
+    pushRegister(arr, addr, buffAdr, name, desc, eh, fkt, typus) {
         if (desc == '') { desc = name; }
         const register = {
             addr: addr,
+            buffAdr:buffAdr,
             name: name,
             description: desc,
             eh: eh,
@@ -272,10 +275,10 @@ class Sofarhyd extends utils.Adapter {
         this.pushRegister(mwArray, 0x4A9, 'ActivePower_PCC_T', '', 'W', 2, 'I16');
         this.pushRegister(mwArray, 0x4AE, 'ActivePower_PV_Ext', '', 'W', 2, 'I16');
         this.pushRegister(mwArray, 0x4AF, 'ActivePower_Load_Sys', '', 'W', 2, 'I16');
-        //this.pushRegister(mwArray, 0x4B2, 'ActivePower_Output_L1N', '', 'W', 2, 'I16');
-        //this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2, 'I16');
-        //this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2, 'I16');
-        //this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4B2, 'ActivePower_Output_L1N', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2, 'I16');
         //this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2,'I16');
         //this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2,'I16');
         //this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2,'I16');
