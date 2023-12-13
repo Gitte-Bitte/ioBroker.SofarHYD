@@ -42,7 +42,12 @@ class Sofarhyd extends utils.Adapter {
     async splitter2(resp) {
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         for (let register of mwArray) {
-            await this.setStateAsync(register.name, buf.readInt16BE(register.addr - 0x480));
+            if (register.typus == 'I16') {
+                await this.setStateAsync(register.name, buf.readInt16BE(register.addr - 0x480));
+            }
+            else if (register.typus == 'U16') {
+                await this.setStateAsync(register.name, buf.readUint16BE(register.addr - 0x480));
+            }
         }
     }
 
@@ -54,12 +59,13 @@ class Sofarhyd extends utils.Adapter {
         this.log.error('connectionstate : ' + client.connectionState.toString());
 
         try {
-            client.readHoldingRegisters(0x42c, 6)
-                //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
-                .then((resp) => this.splitter(resp))
-                .then(() => client.readHoldingRegisters(0x480, 0x40))//B0
+            //client.readHoldingRegisters(0x42c, 6)
+            client.readHoldingRegisters(0x480, 30)
+                .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
+                //.then((resp) => this.splitter(resp))
+                //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
                 //.then((resp) => this.splitter2(resp))
-                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
+                //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
                 });
@@ -238,7 +244,7 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    pushRegister(arr, addr, name, desc, eh, fkt) {
+    pushRegister(arr, addr, name, desc, eh, fkt, typus) {
         if (desc == '') { desc = name; }
         const register = {
             addr: addr,
@@ -247,33 +253,34 @@ class Sofarhyd extends utils.Adapter {
             eh: eh,
             fkt: fkt,
             sum: 0,
-            val: 0
+            val: 0,
+            typus: typus
         };
         arr.push(register);
     }
 
 
     initRegister() {
-        this.pushRegister(mwArray, 0x485, 'ActivePower_Output_Total', '', 'W', 2);
-        this.pushRegister(mwArray, 0x488, 'ActivePower_PCC_Total', '', 'W', 2);
-        this.pushRegister(mwArray, 0x48F, 'ActivePower_Output_R', '', 'W', 2);
-        this.pushRegister(mwArray, 0x493, 'ActivePower_PCC_R', '', 'W', 2);
-        this.pushRegister(mwArray, 0x49A, 'ActivePower_Output_S', '', 'W', 2);
-        this.pushRegister(mwArray, 0x49E, 'ActivePower_PCC_S', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4A5, 'ActivePower_Output_T', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4A9, 'ActivePower_PCC_T', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4AE, 'ActivePower_PV_Ext', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4AF, 'ActivePower_Load_Sys', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4B2, 'ActivePower_Output_L1N', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2);
-        this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2);
-        //this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2);
-        //this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2);
-        //this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2);
-        //this.pushRegister(mwArray, 0x51C, 'ActivePower_Load_T', '', 'W', 2);
-        // this.pushRegister(mwArray, 0x524, 'ActivePower_Load_L1N', '', 'W', 2);
-        // this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2);
+        this.pushRegister(mwArray, 0x485, 'ActivePower_Output_Total', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x488, 'ActivePower_PCC_Total', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x48F, 'ActivePower_Output_R', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x493, 'ActivePower_PCC_R', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x49A, 'ActivePower_Output_S', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x49E, 'ActivePower_PCC_S', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4A5, 'ActivePower_Output_T', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4A9, 'ActivePower_PCC_T', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4AE, 'ActivePower_PV_Ext', '', 'W', 2, 'I16');
+        this.pushRegister(mwArray, 0x4AF, 'ActivePower_Load_Sys', '', 'W', 2, 'I16');
+        //this.pushRegister(mwArray, 0x4B2, 'ActivePower_Output_L1N', '', 'W', 2, 'I16');
+        //this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2, 'I16');
+        //this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2, 'I16');
+        //this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2, 'I16');
+        //this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2,'I16');
+        //this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2,'I16');
+        //this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2,'I16');
+        //this.pushRegister(mwArray, 0x51C, 'ActivePower_Load_T', '', 'W', 2,'I16');
+        // this.pushRegister(mwArray, 0x524, 'ActivePower_Load_L1N', '', 'W', 2,'I16');
+        // this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2,'I16');
     }
 
     async createReadings(arr) {
