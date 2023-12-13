@@ -42,8 +42,6 @@ class Sofarhyd extends utils.Adapter {
     async splitter2(resp, arr, start) {
         const buf = Buffer.from(resp);
         this.log.error('jhgfhgfjhgf : ' + buf.length.toString());
-        this.log.error('jhgfhgfjhgf : ' + buf.  .length.toString());
-
         for (let register of arr) {
             if (register.typus == 'I16') {
                 await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
