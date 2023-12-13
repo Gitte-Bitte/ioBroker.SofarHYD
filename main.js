@@ -66,7 +66,7 @@ class Sofarhyd extends utils.Adapter {
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                .then((resp) => this.splitter2(resp.response._body._valuesAsBuffer,mwArray,0x480))
+                //.then((resp) => this.splitter2(resp.response._body._valuesAsBuffer,mwArray,0x480))
                 //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
@@ -246,11 +246,10 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    pushRegister(arr, addr, buffAdr, name, desc, eh, fkt, typus) {
+    pushRegister(arr, addr, name, desc, eh, fkt, typus) {
         if (desc == '') { desc = name; }
         const register = {
             addr: addr,
-            buffAdr:buffAdr,
             name: name,
             description: desc,
             eh: eh,
