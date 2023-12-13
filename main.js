@@ -247,11 +247,10 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    pushRegister(arr, addr, buffAdr, name, desc, eh, fkt, typus) {
+    pushRegister(arr, addr, name, desc, eh, fkt, typus) {
         if (desc == '') { desc = name; }
         const register = {
             addr: addr,
-            buffAdr:buffAdr,
             name: name,
             description: desc,
             eh: eh,
