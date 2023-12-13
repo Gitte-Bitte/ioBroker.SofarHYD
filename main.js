@@ -42,6 +42,8 @@ class Sofarhyd extends utils.Adapter {
     async splitter2(resp, arr, start) {
         const buf = Buffer.from(resp);
         this.log.error('jhgfhgfjhgf : ' + buf.length.toString());
+        this.log.error('jhgfhgfjhgf : ' + buf.  .length.toString());
+
         for (let register of arr) {
             if (register.typus == 'I16') {
                 await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
@@ -69,7 +71,7 @@ class Sofarhyd extends utils.Adapter {
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
                 .then((resp) => this.splitter2(resp.response.body.valuesAsBuffer, mwArray, 0x480))
-                //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
+                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
                 });
