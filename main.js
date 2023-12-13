@@ -39,16 +39,17 @@ class Sofarhyd extends utils.Adapter {
 
     }
 
-    async splitter2(buf,arr,start) {
-        for (const register of arr) {
+    async splitter2(resp,arr,start) {
+        const buf = Buffer.from(resp);
+        for (let register of arr) {
             if (register.typus == 'I16') {
-                await this.setStateAsync(register.name, buf.readInt16BE(  (register.adr-start)*2 ));
+                await this.setStateAsync(register.name, buf.readInt16BE(  (register.addr-start)*2));
             }
             else if (register.typus == 'U16') {
-                await this.setStateAsync(register.name, buf.readUint16BE((register.adr-start)*2 ));
+                await this.setStateAsync(register.name, buf.readUint16BE((register.addr-start)*2));
             }
             else if (register.typus == 'U64') {
-                //await this.setStateAsync(register.name, buf.readUint16BE((register.adr-start)*2 ));
+               // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
         }
     }
@@ -66,8 +67,8 @@ class Sofarhyd extends utils.Adapter {
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                //.then((resp) => this.splitter2(resp.response._body._valuesAsBuffer,mwArray,0x480))
-                .then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
+                .then((resp) => this.splitter2(resp.response.body.valuesAsBuffer))
+                //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
                 });
@@ -246,10 +247,11 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    pushRegister(arr, addr, name, desc, eh, fkt, typus) {
+    pushRegister(arr, addr, buffAdr, name, desc, eh, fkt, typus) {
         if (desc == '') { desc = name; }
         const register = {
             addr: addr,
+            buffAdr:buffAdr,
             name: name,
             description: desc,
             eh: eh,
