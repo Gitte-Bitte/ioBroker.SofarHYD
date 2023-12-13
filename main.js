@@ -42,19 +42,23 @@ class Sofarhyd extends utils.Adapter {
     async splitter2(resp, arr, start) {
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         let str = '';
-        for (const r of buf) { str = str + r.toString() +' : ';}
+        for (const r of buf) { str = str + r.toString() + ' : '; }
         this.log.error(str);
         this.log.error('jhgfhgfjhgf : ' + buf.toLocaleString());
         for (const register of mwArray) {
+            str = start.toString() + ' : ' + register.name + ' : ' + register.addr + ' : ';
             if (register.typus == 'I16') {
                 await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
+                str = str + buf.readInt16BE((register.addr - start) * 2);
             }
             else if (register.typus == 'U16') {
                 await this.setStateAsync(register.name, buf.readUint16BE((register.addr - start) * 2));
+                str = str + buf.readUInt16BE((register.addr - start) * 2);
             }
             else if (register.typus == 'U64') {
                 // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
+            this.log.error(str);
         }
     }
 
