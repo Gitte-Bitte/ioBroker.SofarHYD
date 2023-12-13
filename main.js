@@ -39,17 +39,18 @@ class Sofarhyd extends utils.Adapter {
 
     }
 
-    async splitter2(resp,arr,start) {
+    async splitter2(resp, arr, start) {
         const buf = Buffer.from(resp);
+        this.log.error('jhgfhgfjhgf : ' + buf.length.toString());
         for (let register of arr) {
             if (register.typus == 'I16') {
-                await this.setStateAsync(register.name, buf.readInt16BE(  (register.addr-start)*2));
+                await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
             }
             else if (register.typus == 'U16') {
-                await this.setStateAsync(register.name, buf.readUint16BE((register.addr-start)*2));
+                await this.setStateAsync(register.name, buf.readUint16BE((register.addr - start) * 2));
             }
             else if (register.typus == 'U64') {
-               // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
+                // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
         }
     }
@@ -67,7 +68,7 @@ class Sofarhyd extends utils.Adapter {
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                .then((resp) => this.splitter2(resp.response.body.valuesAsBuffer))
+                .then((resp) => this.splitter2(resp.response.body.valuesAsBuffer, mwArray, 0x480))
                 //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
