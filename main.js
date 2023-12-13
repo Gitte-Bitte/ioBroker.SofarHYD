@@ -40,12 +40,13 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async splitter2(resp, arr, start) {
-        const buf = Buffer.from(resp.response._body._valuesAsBuffer);
+        //const buf = Buffer.from(resp.response._body._valuesAsBuffer);
+        const buf = Buffer.from(resp);
         let str = '';
         for (const r of buf) { str = str + r.toString() + ' : '; }
         this.log.error(str);
         this.log.error('jhgfhgfjhgf : ' + buf.toLocaleString());
-        for (const register of mwArray) {
+        for (const register of arr) {
             str = start.toString() + ' : ' + register.name + ' : ' + register.addr + ' : ';
             if (register.typus == 'I16') {
                 await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
@@ -65,18 +66,14 @@ class Sofarhyd extends utils.Adapter {
 
 
     async loop_ask() {
-        this.log.error('loop_ask start');
-        this.log.error('requestcount : ' + client.requestCount.toString());
-        this.log.error('connectionstate : ' + client.connectionState.toString());
-
         try {
             //client.readHoldingRegisters(0x42c, 6)
             client.readHoldingRegisters(0x480, 0x40)
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                //.then((resp) => this.splitter2(resp.response.body.valuesAsBuffer, mwArray, 0x480))
-                .then((resp) => this.splitter2(resp, mwArray, 0x480))
+                .then((resp) => this.splitter2(resp.response._body._valuesAsBuffer, mwArray, 0x480))
+                //.then((resp) => this.splitter2(resp, mwArray, 0x480))
                 //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
