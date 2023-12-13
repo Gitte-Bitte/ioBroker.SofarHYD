@@ -61,10 +61,10 @@ class Sofarhyd extends utils.Adapter {
         try {
             //client.readHoldingRegisters(0x42c, 6)
             client.readHoldingRegisters(0x480, 30)
-                .then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
+                //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
                 //.then((resp) => this.splitter(resp))
                 //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                //.then((resp) => this.splitter2(resp))
+                .then((resp) => this.splitter2(resp))
                 //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
                 .catch(e => {
                     this.log.error(`lliooo : ${JSON.stringify(e)}`);
@@ -261,6 +261,7 @@ class Sofarhyd extends utils.Adapter {
 
 
     initRegister() {
+        this.pushRegister(mwArray, 0x484, 'Frequency_Grid', '', 'Hz', 2, 'U16');
         this.pushRegister(mwArray, 0x485, 'ActivePower_Output_Total', '', 'W', 2, 'I16');
         this.pushRegister(mwArray, 0x488, 'ActivePower_PCC_Total', '', 'W', 2, 'I16');
         this.pushRegister(mwArray, 0x48F, 'ActivePower_Output_R', '', 'W', 2, 'I16');
