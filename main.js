@@ -86,7 +86,7 @@ const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
 
 const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
-const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600, autoOpen: true });
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 115200, autoOpen: true });
 const client = new Modbus.client.RTU(socket, 2);
 const mwArray = [];
 
