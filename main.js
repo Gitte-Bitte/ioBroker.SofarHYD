@@ -208,6 +208,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
+        this.setTimeout(this.readChecked,5000);
     }
 
 
@@ -271,7 +272,7 @@ class Sofarhyd extends utils.Adapter {
     async onReady() {
 
         //this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
-        this.interval1 = this.setInterval(() => this.readChecked(), 5000);
+        //this.interval1 = this.setInterval(() => this.readChecked(), 5000);
 
         await this.setObjectNotExistsAsync('Stunde', {
             type: 'state',
@@ -314,6 +315,8 @@ class Sofarhyd extends utils.Adapter {
         // this.log.error('Arraylänge : ' + mwArray.length.toString());
 
         this.createReadings(mwArray);
+
+        this.readChecked();
 
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
