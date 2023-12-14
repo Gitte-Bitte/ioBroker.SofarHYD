@@ -200,7 +200,7 @@ class Sofarhyd extends utils.Adapter {
                 if (r.check) {
                     //r.check = false;
                     //this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then(() => r.check = false).then(() => this.delay(50))
+                    await client.readHoldingRegisters(r.start, r.length).then(() => r.check = false).then(() => this.delay(20))
                         //.then((resp) => this.log.error(r.name + ' : wiederholt')
                         //.then((resp) => this.log.debug(r.name + ' abgerufen'))
                         //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
