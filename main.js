@@ -80,7 +80,7 @@ const complete_buf = [{
 }];
 
 
-const registerToReadOften = [0x5C4, 0x485];
+const registerToReadOften = [, 0x485,0x5C4];
 const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
 
 
@@ -179,7 +179,7 @@ class Sofarhyd extends utils.Adapter {
     async readChecked() {
         if (client.connectionState == 'online') {
 
-            if (counter < 4) {
+            if (counter < 1) {
                 counter++;
                 this.markBuffer(clusterToReadOften);
             }
