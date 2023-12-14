@@ -312,10 +312,10 @@ class Sofarhyd extends utils.Adapter {
         //this.fillClusterIndex(registerToReadOften, clusterToReadOften);
         //this.fillClusterIndex(registerToReadRar, clusterToReadRar);
 
-        this.initRegister();
+        //this.initRegister();
         // this.log.error('Arraylänge : ' + mwArray.length.toString());
 
-        this.createReadings(mwArray);
+        //this.createReadings(mwArray);
 
         this.readChecked();
 
