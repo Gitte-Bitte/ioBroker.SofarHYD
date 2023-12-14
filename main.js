@@ -209,7 +209,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
-        //this.setTimeout(this.readChecked,5000);
+        this.setTimeout(()=>{this.readChecked;},8000);
     }
 
 
