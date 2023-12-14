@@ -196,7 +196,7 @@ class Sofarhyd extends utils.Adapter {
                         //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
 
                         .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(arguments)}`));
-                    this.log.debug(r.name + ' geschesked');
+                    //this.log.debug(r.name + ' geschesked');
                 }
                 else {
                     // this.log.error('nicht gechecked');
@@ -382,7 +382,7 @@ class Sofarhyd extends utils.Adapter {
 
 
     markBuffer(arr) {
-        this.log.error(arr);
+        this.log.debug(arr);
         for (const i of arr) {
             complete_buf[i].check = true;
         }
@@ -393,7 +393,7 @@ class Sofarhyd extends utils.Adapter {
         const q = reg - reg % 0x40;
         const i = complete_buf.map(e => e.start).indexOf(q);
         if (!cTR.includes(i)) { cTR.push(i); }
-        this.log.error(q + ' : ' + i + ' : ' + cTR.toLocaleString('hex'));
+        //this.log.error(q + ' : ' + i + ' : ' + cTR.toLocaleString('hex'));
 
     }
 
