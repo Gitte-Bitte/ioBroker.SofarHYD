@@ -177,6 +177,11 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
+    delay(t, val) {
+        return new Promise(resolve => setTimeout(resolve, t, val));
+    }
+
+
     async readChecked() {
 
         if (client.connectionState == 'online') {
@@ -195,7 +200,7 @@ class Sofarhyd extends utils.Adapter {
                 if (r.check) {
                     //r.check = false;
                     //this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then(() =>r.check = false)
+                    await client.readHoldingRegisters(r.start, r.length).then(() => r.check = false).then(() => this.delay(500))
                         //.then((resp) => this.log.error(r.name + ' : wiederholt')
                         //.then((resp) => this.log.debug(r.name + ' abgerufen'))
                         //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
