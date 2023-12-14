@@ -80,7 +80,7 @@ const complete_buf = [{
 }];
 
 
-const registerToReadOften = [, 0x485,0x5C4];
+const registerToReadOften = [0x485,0x5C4];
 const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
 
 
