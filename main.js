@@ -189,17 +189,17 @@ class Sofarhyd extends utils.Adapter {
             }
 
             for (const r of complete_buf) {
-                this.log.error(r.name + ' : ' + r.check);
+                //this.log.error(r.name + ' : ' + r.check);
                 if (r.check) {
                     r.check = false;
                     await client.readHoldingRegisters(r.start, r.length).then((resp) => this.log.error(r.name + ' abgerufen'))
-                    //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
+                        //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
 
                         .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(arguments)}`));
-                    this.log.error('geschesked');
+                    this.log.debug(r.name + ' geschesked');
                 }
                 else {
-                    this.log.error('nicht gechecked');
+                    // this.log.error('nicht gechecked');
                 }
             }
         }
@@ -310,7 +310,7 @@ class Sofarhyd extends utils.Adapter {
         this.fillClusterIndex(registerToReadRar, clusterToReadRar);
 
         this.initRegister();
-        this.log.error('Arraylänge : ' + mwArray.length.toString());
+        // this.log.error('Arraylänge : ' + mwArray.length.toString());
 
         this.createReadings(mwArray);
 
