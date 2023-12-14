@@ -80,21 +80,22 @@ const complete_buf = [{
 }];
 
 
-const registerToReadOften = [0x485,0x5C4];
+const registerToReadOften = [0x485, 0x5C4];
 const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
 
 
 const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
-const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600, autoOpen: false });
 const client = new Modbus.client.RTU(socket, 2);
 const mwArray = [];
 
-const clusterToReadOften = [1,3,5];
+const clusterToReadOften = [1, 3, 5];
 //const registerToReadOften=[];
-const clusterToReadRar = [1,2,3,4,5,6];
+const clusterToReadRar = [1, 2, 3, 4, 5, 6];
 //const registerToReadRar=[];
 let counter = 0;
+
 
 
 class Sofarhyd extends utils.Adapter {
@@ -194,7 +195,7 @@ class Sofarhyd extends utils.Adapter {
                 if (r.check) {
                     r.check = false;
                     this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then(() => this.log.debug(r.name + ' abgerufen')).finally(()=>this.log.debug(r.name + 'Abruf erledigt'))
+                    await client.readHoldingRegisters(r.start, r.length).then(() => this.log.debug(r.name + ' abgerufen')).finally(() => this.log.debug(r.name + 'Abruf erledigt'))
                         //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
 
                         .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(resp)}`));
@@ -209,7 +210,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
-        this.setTimeout(()=>{this.readChecked();},8000);
+        this.setTimeout(() => { this.readChecked(); }, 8000);
     }
 
 
@@ -271,6 +272,10 @@ class Sofarhyd extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
+
+
+        socket.on('error', (err) => { this.log.error('Error: '+ err.message); });
+        socket.on('open', () => { this.log.error('Port geöffnet '); });
 
         //this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
         //this.interval1 = this.setInterval(() => this.readChecked(), 5000);
