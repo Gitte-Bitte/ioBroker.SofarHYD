@@ -194,8 +194,10 @@ class Sofarhyd extends utils.Adapter {
                 //this.log.error(r.name + ' : ' + r.check);
                 if (r.check) {
                     r.check = false;
-                    this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then(() => this.log.debug(r.name + ' abgerufen')).finally(() => this.log.debug(r.name + 'Abruf erledigt'))
+                    //this.log.debug(r.name + 'starte Abruf');
+                    await client.readHoldingRegisters(r.start, r.length)
+                        //.then((resp) => this.log.debug(r.name + ' abgerufen'))
+                        //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
                         //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
 
                         .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(resp)}`));
@@ -274,7 +276,7 @@ class Sofarhyd extends utils.Adapter {
     async onReady() {
 
 
-        socket.on('error', (err) => { this.log.error('Error: '+ err.message); });
+        socket.on('error', (err) => { this.log.error('Error: ' + err.message); });
         socket.on('open', () => { this.log.error('Port geöffnet '); });
 
         //this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
