@@ -1,6 +1,87 @@
 'use strict';
 
+
+
+
+
 const utils = require('@iobroker/adapter-core');
+
+
+
+const complete_buf = [{
+    buf: Buffer.alloc(0x80),
+    start: 0x40,
+    length: 40,
+    name: 'general',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x80),
+    start: 0x400,
+    length: 0x40,
+    name: 'sysInfo1',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x80),
+    start: 0x440,
+    length: 0x40,
+    name: 'sysInfo2',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x7C),
+    start: 0x480,
+    length: 0x3E,
+    name: 'onGrid',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x50),
+    start: 0x500,
+    length: 0x28,
+    name: 'offGrid',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x80),
+    start: 0x580,
+    length: 0x40,
+    name: 'pvInp1',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x0A),
+    start: 0x5C0,
+    length: 0x05,
+    name: 'pvInp2',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x80),
+    start: 0x600,
+    length: 0x40,
+    name: 'battInp1',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x56),
+    start: 0x640,
+    length: 0x2B,
+    name: 'battInp2',
+    check: false
+},
+{
+    buf: Buffer.alloc(0x68),
+    start: 0x680,
+    length: 0x34,
+    name: 'statistic',
+    check: false
+}];
+
+
+const registerToReadOften = [0x5C4, 0x485];
+const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
 
 
 const Modbus = require('jsmodbus');
@@ -9,6 +90,11 @@ const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 2);
 const mwArray = [];
 
+const clusterToReadOften = [];
+//const registerToReadOften=[];
+const clusterToReadRar = [];
+//const registerToReadRar=[];
+let counter = 0;
 
 
 class Sofarhyd extends utils.Adapter {
@@ -32,6 +118,8 @@ class Sofarhyd extends utils.Adapter {
 
 
     async splitter(resp) {
+
+        client.manuallyClearRequests(0);
         const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         await this.setStateAsync('Stunde', buf.readUint16BE(6));
         await this.setStateAsync('Minute', buf.readUint16BE(8));
@@ -67,6 +155,7 @@ class Sofarhyd extends utils.Adapter {
 
     async loop_ask() {
         try {
+            //client.socket.open();
             //client.readHoldingRegisters(0x42c, 6)
             client.readHoldingRegisters(0x480, 0x40)
                 //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
@@ -85,6 +174,42 @@ class Sofarhyd extends utils.Adapter {
             this.log.error(`lli : ${JSON.stringify(e)}`);
         }
     }
+
+
+    async readChecked() {
+        if (client.connectionState == 'online') {
+
+            if (counter < 4) {
+                counter++;
+                this.markBuffer(clusterToReadOften);
+            }
+            else {
+                counter = 0;
+                this.markBuffer(clusterToReadRar);
+            }
+
+            for (const r of complete_buf) {
+                this.log.error(r.name + ' : ' + r.check);
+                if (r.check) {
+                    r.check = false;
+                    await client.readHoldingRegisters(r.start, r.length).then((resp) => this.log.error(r.name + ' abgerufen'))
+                    //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
+
+                        .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(arguments)}`));
+                    this.log.error('geschesked');
+                }
+                else {
+                    this.log.error('nicht gechecked');
+                }
+            }
+        }
+        else {
+            this.log.error('Socket leider nicht IO');
+            //socket.close().then(socket.open());
+        }
+    }
+
+
 
 
 
@@ -144,7 +269,8 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
 
-        this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
+        //this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
+        this.interval1 = this.setInterval(() => this.readChecked(), 5000);
 
         await this.setObjectNotExistsAsync('Stunde', {
             type: 'state',
@@ -180,6 +306,8 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
+        this.fillClusterIndex(registerToReadOften, clusterToReadOften);
+        this.fillClusterIndex(registerToReadRar, clusterToReadRar);
 
         this.initRegister();
         this.log.error('Arraylänge : ' + mwArray.length.toString());
@@ -249,6 +377,29 @@ class Sofarhyd extends utils.Adapter {
         } else {
             // The state was deleted
             this.log.error(`state ${id} deleted`);
+        }
+    }
+
+
+    markBuffer(arr) {
+        this.log.error(arr);
+        for (const i of arr) {
+            complete_buf[i].check = true;
+        }
+        //this.log.error(complete_buf);
+    }
+
+    findBufferIndex(reg, cTR) {
+        const q = reg - reg % 0x40;
+        const i = complete_buf.map(e => e.start).indexOf(q);
+        if (!cTR.includes(i)) { cTR.push(i); }
+        this.log.error(q + ' : ' + i + ' : ' + cTR.toLocaleString('hex'));
+
+    }
+
+    fillClusterIndex(regArr, cluArr) {
+        for (const r of regArr) {
+            this.findBufferIndex(r, cluArr);
         }
     }
 
