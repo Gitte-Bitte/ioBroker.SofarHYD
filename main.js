@@ -90,9 +90,9 @@ const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 2);
 const mwArray = [];
 
-const clusterToReadOften = [];
+const clusterToReadOften = [1,3,5];
 //const registerToReadOften=[];
-const clusterToReadRar = [];
+const clusterToReadRar = [1,2,3,4,5,6];
 //const registerToReadRar=[];
 let counter = 0;
 
@@ -177,6 +177,7 @@ class Sofarhyd extends utils.Adapter {
 
 
     async readChecked() {
+
         if (client.connectionState == 'online') {
 
             if (counter < 1) {
@@ -193,10 +194,10 @@ class Sofarhyd extends utils.Adapter {
                 if (r.check) {
                     r.check = false;
                     this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then((resp) => this.log.debug(r.name + ' abgerufen')).finally(()=>this.log.debug(r.name + 'Abruf erledigt'))
+                    await client.readHoldingRegisters(r.start, r.length).then(() => this.log.debug(r.name + ' abgerufen')).finally(()=>this.log.debug(r.name + 'Abruf erledigt'))
                         //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
 
-                        .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(arguments)}`));
+                        .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(resp)}`));
                     //this.log.debug(r.name + ' geschesked');
                 }
                 else {
@@ -308,8 +309,8 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
-        this.fillClusterIndex(registerToReadOften, clusterToReadOften);
-        this.fillClusterIndex(registerToReadRar, clusterToReadRar);
+        //this.fillClusterIndex(registerToReadOften, clusterToReadOften);
+        //this.fillClusterIndex(registerToReadRar, clusterToReadRar);
 
         this.initRegister();
         // this.log.error('Arraylänge : ' + mwArray.length.toString());
