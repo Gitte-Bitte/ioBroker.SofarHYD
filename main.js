@@ -1,6 +1,8 @@
 'use strict';
 
 const utils = require('@iobroker/adapter-core');
+const fetch = require('node-fetch');
+
 
 const registerOften = {};
 const registerRar = {};
@@ -221,8 +223,8 @@ class Sofarhyd extends utils.Adapter {
 
         //this.createReadings(mwArray);
 
-        this.readFromObject();
-
+        //this.readFromObject();
+        this.log.error(this.adapterDir);
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
 
@@ -350,8 +352,19 @@ class Sofarhyd extends utils.Adapter {
         }
     }
 
+    async makeStatesFromRegister() {
+        const response = await fetch(this.adapterDir + '/lib/Mod_Register.json');
+        const names = await response.json();
 
+        for (const cluster in registerOften) {
+            for (const reg in registerOften[cluster]) {
+
+            }
+        }
+    }
 }
+
+
 
 
 
