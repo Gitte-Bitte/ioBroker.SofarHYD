@@ -97,10 +97,6 @@ const clusterToReadRar = [1, 2, 3, 4, 5, 6];
 //const registerToReadRar=[];
 let counter = 0;
 
-const testObjekt = {
-    eins: [1, 2, 3, 4],
-    'zwei': [45, 46, 67, 78]
-};
 
 
 class Sofarhyd extends utils.Adapter {
@@ -129,9 +125,9 @@ class Sofarhyd extends utils.Adapter {
         else {
             //console.log('ist ein array');
         }
-        for (var i in reg) {
+        for (const i in reg) {
             //console.log(reg[i]);
-            const c = (reg[i] - reg[i] % 10);
+            const c = (reg[i] - reg[i] % 0x40);
             //console.log(c);
             if (obj[c]) {
                 //console.log('existiert');
