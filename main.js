@@ -258,17 +258,20 @@ class Sofarhyd extends utils.Adapter {
             if (counter < 1) {
                 counter++;
                 toRead = registerOften;
-                this.log.debug(Object.keys(toRead).toString());
+                this.log.debug(Object.keys(toRead).toLocaleString());
             }
             else {
                 counter = 0;
                 toRead = registerRar;
-                this.log.debug(Object.keys(toRead).toString());
+                this.log.debug(Object.keys(toRead).toLocaleString());
             }
 
             for (const r in toRead) {
-                this.log.error(toRead[r] + ' zu lesen ');
-                await client.readHoldingRegisters(toRead[r], 0x40)
+                this.log.error(r + ' zu lesen ');
+                this.log.error(Number(r).toString() + ' ergibt zu lesen ');
+                this.log.error(Number(r) + ' das ergibt zu lesen ');
+
+                await client.readHoldingRegisters(Number(r), 0x04)
                     .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
