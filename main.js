@@ -267,7 +267,7 @@ class Sofarhyd extends utils.Adapter {
                 this.log.error(Number(r).toString() + ' ergibt zu lesen ');
                 this.log.error(Number(r) + ' das ergibt zu lesen ');
 
-                await client.readHoldingRegisters(Number(r), 0x40)
+                await client.readHoldingRegisters(Number(r), 0x04)
                     .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
