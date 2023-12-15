@@ -82,7 +82,8 @@ const complete_buf = [{
 
 const registerToReadOften = [0x485, 0x5C4];
 const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
-
+const registerOften = {};
+const registerRar = {};
 
 const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
@@ -96,6 +97,10 @@ const clusterToReadRar = [1, 2, 3, 4, 5, 6];
 //const registerToReadRar=[];
 let counter = 0;
 
+const testObjekt = {
+    eins: [1, 2, 3, 4],
+    'zwei': [45, 46, 67, 78]
+};
 
 
 class Sofarhyd extends utils.Adapter {
@@ -116,6 +121,29 @@ class Sofarhyd extends utils.Adapter {
         this.on('unload', this.onUnload.bind(this));
     }
 
+    addRegister(reg, obj) {
+        if (!Array.isArray(reg)) {
+            reg = [reg];
+            //console.log('ist kein array, umwandeln');
+        }
+        else {
+            //console.log('ist ein array');
+        }
+        for (var i in reg) {
+            //console.log(reg[i]);
+            const c = (reg[i] - reg[i] % 10);
+            //console.log(c);
+            if (obj[c]) {
+                //console.log('existiert');
+                if (!obj[c].includes(reg[i])) {
+                    obj[c].push(reg[i]);
+                }
+            } else {
+                //console.log('existiert nicht');
+                obj[c] = [reg[i]];
+            }
+        }
+    }
 
 
     async splitter(resp) {
@@ -200,7 +228,7 @@ class Sofarhyd extends utils.Adapter {
                 if (r.check) {
                     //r.check = false;
                     //this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then(() => r.check = false).then(() => this.delay(20))
+                    await client.readHoldingRegisters(r.start, r.length).then(() => r.check = false).then(() => this.delay(2 0))
                         //.then((resp) => this.log.error(r.name + ' : wiederholt')
                         //.then((resp) => this.log.debug(r.name + ' abgerufen'))
                         //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
@@ -223,6 +251,42 @@ class Sofarhyd extends utils.Adapter {
 
 
 
+    async readfromObject() {
+        let toRead = null;
+        if (client.connectionState == 'online') {
+
+            if (counter < 1) {
+                counter++;
+                toRead = registerOften;
+                this.log.debug(Object.keys(toRead).toString());
+            }
+            else {
+                counter = 0;
+                toRead = registerRar;
+                this.log.debug(Object.keys(toRead).toString());
+            }
+
+            for (const r in toRead) {
+                this.log.error(toRead[r] + ' zu lesen ');
+                await client.readHoldingRegisters(toRead[r], 0x40)
+                    .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
+                    .then(() => this.delay(20))
+                    //.then((resp) => this.log.error(r.name + ' : wiederholt')
+                    //.then((resp) => this.log.debug(r.name + ' abgerufen'))
+                    //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
+                    //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
+
+                    .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
+                //this.log.debug(r.name + ' geschesked');
+            }
+
+        }
+        else {
+            this.log.error('Socket leider nicht IO');
+            //socket.close().then(socket.open());
+        }
+        //this.setTimeout(() => { this.readFromObject(); }, 8000);
+    }
 
 
 
@@ -322,6 +386,9 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
+        this.addRegister([0x485, 0x5C4], registerOften);
+        this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430], registerRar);
+
         //this.fillClusterIndex(registerToReadOften, clusterToReadOften);
         //this.fillClusterIndex(registerToReadRar, clusterToReadRar);
 
@@ -330,7 +397,8 @@ class Sofarhyd extends utils.Adapter {
 
         //this.createReadings(mwArray);
 
-        this.readChecked();
+        //this.readChecked();
+        this.readfromObject();
 
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
