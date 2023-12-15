@@ -1,87 +1,7 @@
 'use strict';
 
-
-
-
-
 const utils = require('@iobroker/adapter-core');
 
-
-
-const complete_buf = [{
-    buf: Buffer.alloc(0x80),
-    start: 0x40,
-    length: 40,
-    name: 'general',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x80),
-    start: 0x400,
-    length: 0x40,
-    name: 'sysInfo1',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x80),
-    start: 0x440,
-    length: 0x40,
-    name: 'sysInfo2',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x7C),
-    start: 0x480,
-    length: 0x3E,
-    name: 'onGrid',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x50),
-    start: 0x500,
-    length: 0x28,
-    name: 'offGrid',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x80),
-    start: 0x580,
-    length: 0x40,
-    name: 'pvInp1',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x0A),
-    start: 0x5C0,
-    length: 0x05,
-    name: 'pvInp2',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x80),
-    start: 0x600,
-    length: 0x40,
-    name: 'battInp1',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x56),
-    start: 0x640,
-    length: 0x2B,
-    name: 'battInp2',
-    check: false
-},
-{
-    buf: Buffer.alloc(0x68),
-    start: 0x680,
-    length: 0x34,
-    name: 'statistic',
-    check: false
-}];
-
-
-const registerToReadOften = [0x485, 0x5C4];
-const registerToReadRar = [0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430];
 const registerOften = {};
 const registerRar = {};
 
@@ -89,13 +9,9 @@ const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
 const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 115200, autoOpen: true });
 const client = new Modbus.client.RTU(socket, 2);
-const mwArray = [];
 
-const clusterToReadOften = [1, 3, 5];
-//const registerToReadOften=[];
-const clusterToReadRar = [1, 2, 3, 4, 5, 6];
-//const registerToReadRar=[];
 let counter = 0;
+const mwArray = [];
 
 
 
@@ -142,15 +58,6 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    async splitter(resp) {
-
-        client.manuallyClearRequests(0);
-        const buf = Buffer.from(resp.response._body._valuesAsBuffer);
-        await this.setStateAsync('Stunde', buf.readUint16BE(6));
-        await this.setStateAsync('Minute', buf.readUint16BE(8));
-        await this.setStateAsync('Sekunde', buf.readUint16BE(10));
-
-    }
 
     async splitter2(resp, arr, start) {
         //const buf = Buffer.from(resp.response._body._valuesAsBuffer);
@@ -178,72 +85,10 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    async loop_ask() {
-        try {
-            //client.socket.open();
-            //client.readHoldingRegisters(0x42c, 6)
-            client.readHoldingRegisters(0x480, 0x40)
-                //.then((resp) => this.log.error(`lalala : ${JSON.stringify(resp)}`))
-                //.then((resp) => this.splitter(resp))
-                //.then(() => client.readHoldingRegisters(0x480, 0x30))//B0
-                .then((resp) => this.splitter2(resp.response._body._valuesAsBuffer, mwArray, 0x480))
-                //.then((resp) => this.splitter2(resp, mwArray, 0x480))
-                //.then((resp) => this.log.error(`lululu : ${JSON.stringify(resp)}`))
-                .catch(e => {
-                    this.log.error(`lliooo : ${JSON.stringify(e)}`);
-                });
-            //.then((resp) => this.splitter2(resp))
-            // .then((resp) => this.log.error(`lilili : ${JSON.stringify(resp)}`))
-            //.then((resp) => this.log.error(`lli : ${JSON.stringify(resp)}`))
-        } catch (e) {
-            this.log.error(`lli : ${JSON.stringify(e)}`);
-        }
-    }
-
-
     delay(t, val) {
         return new Promise(resolve => setTimeout(resolve, t, val));
     }
 
-
-    async readChecked() {
-
-        if (client.connectionState == 'online') {
-
-            if (counter < 1) {
-                counter++;
-                this.markBuffer(clusterToReadOften);
-            }
-            else {
-                counter = 0;
-                this.markBuffer(clusterToReadRar);
-            }
-
-            for (const r of complete_buf) {
-                //this.log.error(r.name + ' : ' + r.check);
-                if (r.check) {
-                    //r.check = false;
-                    //this.log.debug(r.name + 'starte Abruf');
-                    await client.readHoldingRegisters(r.start, r.length).then(() => r.check = false).then(() => this.delay(20))
-                        //.then((resp) => this.log.error(r.name + ' : wiederholt')
-                        //.then((resp) => this.log.debug(r.name + ' abgerufen'))
-                        //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
-                        //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
-
-                        .catch((resp) => this.log.error(r.name + ` : Stimmt was nicht: ${JSON.stringify(resp)}`));
-                    //this.log.debug(r.name + ' geschesked');
-                }
-                else {
-                    // this.log.error('nicht gechecked');
-                }
-            }
-        }
-        else {
-            this.log.error('Socket leider nicht IO');
-            //socket.close().then(socket.open());
-        }
-        this.setTimeout(() => { this.readChecked(); }, 8000);
-    }
 
 
 
@@ -267,7 +112,7 @@ class Sofarhyd extends utils.Adapter {
                 this.log.error(Number(r).toString() + ' ergibt zu lesen ');
                 this.log.error(Number(r) + ' das ergibt zu lesen ');
 
-                await client.readHoldingRegisters(Number(r), 0x04)
+                await client.readHoldingRegisters(Number(r), 0x40)
                     .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
@@ -362,41 +207,15 @@ class Sofarhyd extends utils.Adapter {
             },
             native: {},
         });
-        await this.setObjectNotExistsAsync('Sekunde', {
-            type: 'state',
-            common: {
-                name: 'Sekunde_s',
-                type: 'number',
-                role: 'value',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
-        await this.setObjectNotExistsAsync('Minute', {
-            type: 'state',
-            common: {
-                name: 'Minute_min',
-                type: 'number',
-                role: 'value',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
 
-        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x472, 0x521, 0x624, 0x6df, 0x805, 0x1028, 0x131e, 0x1466,0x14bf,0x15b9,0x2006,0x900a], registerOften);
+        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x472, 0x521, 0x624, 0x6df, 0x805, 0x1028, 0x131e, 0x1466, 0x14bf, 0x15b9, 0x2006, 0x900a], registerOften);
         this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430], registerRar);
 
-        //this.fillClusterIndex(registerToReadOften, clusterToReadOften);
-        //this.fillClusterIndex(registerToReadRar, clusterToReadRar);
 
         //this.initRegister();
-        // this.log.error('Arraylänge : ' + mwArray.length.toString());
 
         //this.createReadings(mwArray);
 
-        //this.readChecked();
         this.readFromObject();
 
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
@@ -466,27 +285,6 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
-    markBuffer(arr) {
-        this.log.debug(arr);
-        for (const i of arr) {
-            complete_buf[i].check = true;
-        }
-        //this.log.error(complete_buf);
-    }
-
-    findBufferIndex(reg, cTR) {
-        const q = reg - reg % 0x40;
-        const i = complete_buf.map(e => e.start).indexOf(q);
-        if (!cTR.includes(i)) { cTR.push(i); }
-        //this.log.error(q + ' : ' + i + ' : ' + cTR.toLocaleString('hex'));
-
-    }
-
-    fillClusterIndex(regArr, cluArr) {
-        for (const r of regArr) {
-            this.findBufferIndex(r, cluArr);
-        }
-    }
 
 
     pushRegister(arr, addr, name, desc, eh, fkt, typus) {
