@@ -214,6 +214,8 @@ class Sofarhyd extends utils.Adapter {
             },
             native: {},
         });
+
+
         this.addRegister([0x485, 0x5C4, 0x40e, 0x14bf,], registerOften);
         this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430, 0x15b9, 0x2006, 0x900a], registerRar);
 
@@ -224,7 +226,9 @@ class Sofarhyd extends utils.Adapter {
         //this.createReadings(mwArray);
 
         //this.readFromObject();
-        this.log.error(this.adapterDir);
+
+        this.makeStatesFromRegister();
+        //this.log.error(this.adapterDir);
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
 
@@ -353,12 +357,14 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async makeStatesFromRegister() {
+        //   /opt/iobroker/node_modules/iobroker.sofarhyd
         const response = await fetch(this.adapterDir + '/lib/Mod_Register.json');
         const names = await response.json();
 
         for (const cluster in registerOften) {
             for (const reg in registerOften[cluster]) {
-
+                const str = names[reg].Field;
+                this.log.error(str);
             }
         }
     }
