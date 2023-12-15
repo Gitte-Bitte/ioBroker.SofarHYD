@@ -89,31 +89,38 @@ class Sofarhyd extends utils.Adapter {
         return new Promise(resolve => setTimeout(resolve, t, val));
     }
 
-
-
+    objAusgabe(obj) {
+        let str = '';
+        for (const i in obj) {
+            str = str + ' / ' + i + ':{' + obj[i] + '}';
+        }
+        this.log.debug(str);
+    }
 
     async readFromObject() {
         let toRead = null;
         if (client.connectionState == 'online') {
-
-            if (counter < 1) {
-                counter++;
-                toRead = registerOften;
-                // this.log.debug(Object.keys(toRead).toLocaleString());
-            }
-            else {
-                counter = 0;
-                toRead = registerRar;
-                //this.log.debug(Object.keys(toRead).toLocaleString());
-            }
-
+            /*
+                        if (counter < 1) {
+                            counter++;
+                            toRead = registerOften;
+                            this.log.debug(Object.keys(toRead).toLocaleString());
+                        }
+                        else {
+                            counter = 0;
+                            toRead = registerRar;
+                            //this.log.debug(Object.keys(toRead).toLocaleString());
+                        }
+            */
+            toRead = registerOften;
+            this.objAusgabe(toRead);
             for (const r in toRead) {
                 this.log.error(r + ' zu lesen ');
-                this.log.error(Number(r).toString() + ' ergibt zu lesen ');
-                this.log.error(Number(r) + ' das ergibt zu lesen ');
+                //this.log.error(Number(r).toString() + ' ergibt zu lesen ');
+                //this.log.error(Number(r) + ' das ergibt zu lesen ');
 
                 await client.readHoldingRegisters(Number(r), 0x40)
-                    .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
+                    // .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
                     //.then((resp) => this.log.debug(r.name + ' abgerufen'))
@@ -129,7 +136,8 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
-        this.setTimeout(() => { this.readFromObject(); }, 8000);
+        this.log.debug('fertig mit lesen');
+        //this.setTimeout(() => { this.readFromObject(); }, 8000);
     }
 
 
@@ -207,9 +215,9 @@ class Sofarhyd extends utils.Adapter {
             },
             native: {},
         });
-
-        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x472, 0x521, 0x624, 0x6df, 0x805, 0x1028, 0x131e, 0x1466, 0x14bf, 0x15b9, 0x2006, 0x900a], registerOften);
+        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x14bf, 0x15b9, 0x2006, 0x900a], registerOften);
         this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430], registerRar);
+
 
 
         //this.initRegister();
