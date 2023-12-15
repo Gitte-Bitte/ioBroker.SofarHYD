@@ -267,7 +267,7 @@ class Sofarhyd extends utils.Adapter {
                 this.log.error(Number(r).toString() + ' ergibt zu lesen ');
                 this.log.error(Number(r) + ' das ergibt zu lesen ');
 
-                await client.readHoldingRegisters(Number(r), 0x04)
+                await client.readHoldingRegisters(Number(r), 0x40)
                     .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
@@ -385,7 +385,7 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
-        this.addRegister([0x485, 0x5C4], registerOften);
+        this.addRegister([0x485, 0x5C4,0x44c,0x22b,0x45], registerOften);
         this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430], registerRar);
 
         //this.fillClusterIndex(registerToReadOften, clusterToReadOften);
