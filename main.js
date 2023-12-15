@@ -247,7 +247,7 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    async readfromObject() {
+    async readFromObject() {
         let toRead = null;
         if (client.connectionState == 'online') {
 
@@ -284,7 +284,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
-        //this.setTimeout(() => { this.readFromObject(); }, 8000);
+        this.setTimeout(() => { this.readFromObject(); }, 8000);
     }
 
 
@@ -385,7 +385,7 @@ class Sofarhyd extends utils.Adapter {
             native: {},
         });
 
-        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x472, 0x521, 0x624, 0x6df, 0x805, 0x1028, 0x131e, 0x1466,], registerOften);
+        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x472, 0x521, 0x624, 0x6df, 0x805, 0x1028, 0x131e, 0x1466,0x14bf,0x15b9,0x2006,0x900a], registerOften);
         this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430], registerRar);
 
         //this.fillClusterIndex(registerToReadOften, clusterToReadOften);
@@ -397,7 +397,7 @@ class Sofarhyd extends utils.Adapter {
         //this.createReadings(mwArray);
 
         //this.readChecked();
-        this.readfromObject();
+        this.readFromObject();
 
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
