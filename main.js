@@ -100,19 +100,16 @@ class Sofarhyd extends utils.Adapter {
     async readFromObject() {
         let toRead = null;
         if (client.connectionState == 'online') {
-            /*
-                        if (counter < 1) {
-                            counter++;
-                            toRead = registerOften;
-                            this.log.debug(Object.keys(toRead).toLocaleString());
-                        }
-                        else {
-                            counter = 0;
-                            toRead = registerRar;
-                            //this.log.debug(Object.keys(toRead).toLocaleString());
-                        }
-            */
-            toRead = registerOften;
+
+            if (counter < 1) {
+                counter++;
+                toRead = registerOften;
+            }
+            else {
+                counter = 0;
+                toRead = registerRar;
+            }
+
             this.objAusgabe(toRead);
             for (const r in toRead) {
                 this.log.error(r + ' zu lesen ');
@@ -137,7 +134,7 @@ class Sofarhyd extends utils.Adapter {
             //socket.close().then(socket.open());
         }
         this.log.debug('fertig mit lesen');
-        //this.setTimeout(() => { this.readFromObject(); }, 8000);
+        this.setTimeout(() => { this.readFromObject(); }, 8000);
     }
 
 
@@ -215,8 +212,8 @@ class Sofarhyd extends utils.Adapter {
             },
             native: {},
         });
-        this.addRegister([0x485, 0x5C4, 0x44c, 0x45, 0x5c, 0x40e, 0x14bf, 0x15b9, 0x2006, 0x900a], registerOften);
-        this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430], registerRar);
+        this.addRegister([0x485, 0x5C4, 0x40e, 0x14bf,], registerOften);
+        this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430, 0x15b9, 0x2006, 0x900a], registerRar);
 
 
 
