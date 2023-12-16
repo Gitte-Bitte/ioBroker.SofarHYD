@@ -238,9 +238,13 @@ class Sofarhyd extends utils.Adapter {
             .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
 */
-        let obj;
         await this.getForeignObjectAsync("system.adapter.sofarhyd.0")
-            .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp.native.option1)}`))
+            .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp)}`))
+            .catch((resp) => this.log.error(` kjhg: Stimmt ertwas nicht: ${JSON.stringify(resp)}`));
+
+
+        await this.getAdapterObjectsAsync("system.adapter.sofarhyd.0")
+            .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` kjhg: Stimmt ertwas nicht: ${JSON.stringify(resp)}`));
         //this.log.error(` alle: ${JSON.stringify(allObjects)}`);
         // Alle folder, device, channel und state Objekte
