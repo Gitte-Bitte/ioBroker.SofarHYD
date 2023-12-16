@@ -229,7 +229,7 @@ class Sofarhyd extends utils.Adapter {
 
         //this.makeStatesFromRegister();
 
-        this.delObjectAsync("system.adapter.sofarhyd.0.config.option1")
+        this.delObjectAsync("system.adapter.sofarhyd.0.")
             .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
 
@@ -241,7 +241,7 @@ class Sofarhyd extends utils.Adapter {
             .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
 */
-        const allObjects = await this.getAdapterObjectsAsync("system.adapter.sofarhyd.0.config")
+        const allObjects = await this.getAdapterObjectsAsync("sofarhyd.0")
             .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` : Stimmt ertwas nicht: ${JSON.stringify(resp)}`));
         this.log.error(` alle: ${JSON.stringify(allObjects)}`);
