@@ -151,7 +151,7 @@
                 "staticText3a": {
                     "newLine": true,
                     "type": "staticText",
-                    "text": "Im Textfeld kann beliebiger Text eingegebenwerden. Auszulesende Register mmüssen jeweils ein # vorangestellt haben",
+                    "text": "Im Textfeld kann beliebiger Text eingegebenwerden. Auszulesende Register müssen jeweils ein # vorangestellt haben",
                     "style": {
                         "fontSize": 24
                     }

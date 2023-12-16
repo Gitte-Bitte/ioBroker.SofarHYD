@@ -195,7 +195,7 @@ class Sofarhyd extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-
+        this.setState('info.connection', false, true);
 
         //socket.on('error', (err) => { this.log.error('Error: ' + err.message); });
         //socket.on('open', () => { this.log.error('Port geöffnet '); });
@@ -227,7 +227,11 @@ class Sofarhyd extends utils.Adapter {
 
         //this.readFromObject();
 
-        this.makeStatesFromRegister();
+        //this.makeStatesFromRegister();
+
+
+        this.log.info(`config option2: ${this.config}`);
+
         //this.log.error(this.adapterDir);
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
         // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
