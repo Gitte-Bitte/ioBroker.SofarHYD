@@ -89,7 +89,7 @@
                             "newLine": true,
                             "sm": 3,
                             "lg": 3
-                        },      
+                        },
                         "dataBits": {
                             "type": "number",
                             "label": "data-bits",
@@ -148,64 +148,111 @@
                     "href": "https://github.com/mcm1957/ioBroker.jsonconfig-demo/blob/main/admin/jsonConfig.json5",
                     "icon": "info"
                 },
-                "table1": {
-                    "type": "table",
+                "staticText3a": {
                     "newLine": true,
-                    "sm": 12,
-                    "md": 12,
-                    "lg": 12,
-                    "label": "",
-                    "showSecondAddAt": 1,
-                    "items": [
-
-                        {
-                            "type": "number",
-                            "attr": "table1Adr",
-                            "width": "6% ",
-                            "title": "Adresse",
-                            "tooltip": "enter a adress",
-                            "filter": false,
-                            "sort": false,
-                            "validator": "const x={};for (const c of globalData.table1) {if (x[c.table1Adr]==='x') return false; x[c.table1Adr]='x';}; return true;",
-                            "validatorNoSaveOnError": true
-
-                        },
-                        {
-                            "type": "text",
-                            "attr": "table1Unique",
-                            "width": "8% ",
-                            "title": "Beschreibung",
-                            "tooltip": "enter any text",
-                            "filter": false,
-                            "sort": false,
-                            "default": "",
-                            "validator": "const x={};for (const c of globalData.table1) {if (x[c.table1Unique]==='x') return false; x[c.table1Unique]='x';}; return true;",
-                            "validatorNoSaveOnError": true
-                        },
-                        {
-                            "type": "text",
-                            "attr": "table1Text1",
-                            "width": "8% ",
-                            "title": "Einheit",
-                            "tooltip": "enter any text",
-                            "filter": false,
-                            "sort": false,
-                            "default": ""
-                        },
-                        {
-                            "type": "number",
-                            "attr": "table1Num",
-                            "width": "6% ",
-                            "title": "Faktor",
-                            "tooltip": "enter a factor",
-                            "filter": false,
-                            "sort": false,
-                            "min": 0,
-                            "step": 0.001,
-                            "default": 1
-                        }
-
-                    ]
+                    "type": "staticText",
+                    "text": "red",
+                    "style": {
+                        "color": "red",
+                        "fontSize": 24
+                    }
+                },
+                "autocomplete1": {
+                    "type": "autocomplete",
+                    "label": "Simple autocomplete",
+                    "options": [
+                        "2",
+                        "3",
+                        "5",
+                        "6",
+                        "10",
+                        "12",
+                        "15",
+                        "20",
+                        "30"
+                    ],
+                    "freeSolo": false,
+                    "sm": 6,
+                    "md": 6,
+                    "lg": 6,
+                    "xs": 6,
+                    "newLine": true
+                },
+                "autocomplete2": {
+                    "type": "autocomplete",
+                    "label": "Simple autocomplete",
+                    "options": [
+                        "0,5",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5"
+                    ],
+                    "freeSolo": false,
+                    "sm": 6,
+                    "md": 6,
+                    "lg": 6,
+                    "xs": 6,
+                    "newLine": true
+                },
+                "autocomplete1Val": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.autocomplete1}"
+                },
+                "autocomplete2Val": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.autocomplete2}"
+                },
+                "checkbox1": {
+                    "type": "checkbox",
+                    "label": "Register als HEX",
+                    "tooltip": "click to enable or disable checkbox, check tooltip by hovering over checkbox",
+                    "help": "Help text possible",
+                    "default": false,
+                    "newLine": true
+                },
+                "checkbox1Val": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.checkbox1}"
+                },
+                "text1": {
+                    "newLine": true,
+                    "type": "text",
+                    "label": "Textinput",
+                    "minRows": 3,
+                    "maxRows": 7,
+                    "sm": 6,
+                    "md": 6,
+                    "lg": 6,
+                    "xs": 6
+                },
+                "text2": {
+                    "type": "text",
+                    "label": "Textinput",
+                    "minRows": 3,
+                    "maxRows": 7,
+                    "sm": 6,
+                    "md": 6,
+                    "lg": 6,
+                    "xs": 6
+                },
+                "text1Val": {
+                    "newLine": true,
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.text1}",
+                    "sm": 6,
+                    "md": 6,
+                    "lg": 6,
+                    "xs": 6
+                },
+                "text2Val": {
+                    "type": "pattern",
+                    "pattern": "stored value is ${data.text2}",
+                    "sm": 6,
+                    "md": 6,
+                    "lg": 6,
+                    "xs": 6
                 }
             }
         },

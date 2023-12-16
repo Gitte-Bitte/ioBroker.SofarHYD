@@ -357,7 +357,7 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async makeStatesFromRegister() {
-        //   /opt/iobroker/node_modules/iobroker.sofarhyd
+        //   /opt/iobroker/node_modules/iobroker.sofarhyd  /lib/Mod_Register.json
         const response = await fetch(this.adapterDir + '/lib/Mod_Register.json');
         const names = await response.json();
 
