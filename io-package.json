@@ -100,31 +100,6 @@
         ]
     },
     "native": {
-        "table1": {
-            "port": 8081,
-            "baud": 1234,
-            "dataBits": 8,
-            "stoppBits": 1,
-            "parity": false,
-            "protocol": "seriell",
-            "path": "",
-            "schnittstellen": "",
-            "adress": 0
-        },
-        "table2": [
-            {
-                "table2Chk": true,
-                "table2Text1": "Example 1"
-            },
-            {
-                "table2Chk": false,
-                "table2Text1": "Example 2"
-            },
-            {
-                "table2Chk": true,
-                "table2Text1": "Example 3"
-            }
-        ]
     },
     "objects": [],
     "instanceObjects": [
