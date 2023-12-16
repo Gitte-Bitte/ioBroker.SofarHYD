@@ -229,7 +229,7 @@ class Sofarhyd extends utils.Adapter {
 
         //this.makeStatesFromRegister();
         
-                this.delObjectAsync("system.adapter.name.sofarhyd.0" )
+                this.delObjectAsync("system.adapter.name.sofarhyd.0.config.option2" )
                     .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
                     .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
                     
