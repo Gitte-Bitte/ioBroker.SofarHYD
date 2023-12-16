@@ -151,16 +151,22 @@
                 "staticText3a": {
                     "newLine": true,
                     "type": "staticText",
-                    "text": "red",
+                    "text": "Im Textfeld kann beliebiger Text eingegebenwerden. Auszulesende Register mmüssen jeweils ein # vorangestellt haben",
                     "style": {
-                        "color": "red",
                         "fontSize": 24
                     }
                 },
+                "checkbox1": {
+                    "type": "checkbox",
+                    "label": "Register als HEX",
+                    "tooltip": "click to enable or disable checkbox, check tooltip by hovering over checkbox",
+                    "default": false,
+                    "newLine": true
+                },
                 "autocomplete1": {
-                    "newLine":true,
+                    "newLine": true,
                     "type": "autocomplete",
-                    "label": "Simple autocomplete",
+                    "label": "Interne Aktualisierung in Sekunden",
                     "options": [
                         "2",
                         "3",
@@ -176,12 +182,11 @@
                     "sm": 6,
                     "md": 6,
                     "lg": 6,
-                    "xs": 6,
-                    "newLine": true
+                    "xs": 6
                 },
                 "autocomplete2": {
                     "type": "autocomplete",
-                    "label": "Simple autocomplete",
+                    "label": "Aktualisierung in Minuten",
                     "options": [
                         "0,5",
                         "1",
@@ -196,17 +201,10 @@
                     "lg": 6,
                     "xs": 6
                 },
-                "checkbox1": {
-                    "type": "checkbox",
-                    "label": "Register als HEX",
-                    "tooltip": "click to enable or disable checkbox, check tooltip by hovering over checkbox",
-                    "default": false,
-                    "newLine": true
-                },
                 "text1": {
                     "newLine": true,
                     "type": "text",
-                    "label": "Textinput",
+                    "label": "Register mit Mittelwert",
                     "minRows": 3,
                     "maxRows": 7,
                     "sm": 6,
@@ -216,7 +214,7 @@
                 },
                 "text2": {
                     "type": "text",
-                    "label": "Textinput",
+                    "label": "Register ohne Mittelwert",
                     "minRows": 3,
                     "maxRows": 7,
                     "sm": 6,
