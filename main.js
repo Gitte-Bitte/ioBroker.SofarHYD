@@ -231,10 +231,7 @@ class Sofarhyd extends utils.Adapter {
 
 
         this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
-        this.log.info(`config this.config: ${JSON.stringify(this.common)}`);
-        this.config = {};
-        this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
-        this.log.info(`config this.config: ${JSON.stringify(this.common)}`);
+        //this.config = {};
 
         //this.log.error(this.adapterDir);
         // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
