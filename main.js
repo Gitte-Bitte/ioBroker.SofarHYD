@@ -229,17 +229,19 @@ class Sofarhyd extends utils.Adapter {
 
         //this.makeStatesFromRegister();
         
-                this.delObjectAsync(this.config.option2)
+                this.delObjectAsync("system.adapter.name.sofarhyd.0" )
                     .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
                     .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
                     
         this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
+        this.log.info(`config this.config: ${JSON.stringify(this.config.option2)}`);
+
         /*
         await this.getObjectAsync('sofarhyd.0', true)
             .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
 */
-        const allObjects = await this.getAdapterObjectsAsync();
+        const allObjects = await this.getAdapterObjectsAsync("system.adapter.name.sofarhyd.0");
         this.log.error(` alle: ${JSON.stringify(allObjects)}`);
         // Alle folder, device, channel und state Objekte
         //this.config = {};
