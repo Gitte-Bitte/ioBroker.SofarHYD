@@ -229,9 +229,6 @@ class Sofarhyd extends utils.Adapter {
 
         //this.makeStatesFromRegister();
 
-        this.delObjectAsync("system.adapter.sofarhyd.0.")
-            .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
-            .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
 
         this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
         this.log.info(`config this.config: ${JSON.stringify(this.config.option1)}`);
@@ -240,11 +237,11 @@ class Sofarhyd extends utils.Adapter {
         await this.getObjectAsync('sofarhyd.0', true)
             .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
             .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
-*/
-        const allObjects = await this.getAdapterObjectsAsync("sofarhyd.0")
+*/ 
+        await this.getForeignObjectAsync("system.adapter.sofarhyd.0")
             .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp)}`))
-            .catch((resp) => this.log.error(` : Stimmt ertwas nicht: ${JSON.stringify(resp)}`));
-        this.log.error(` alle: ${JSON.stringify(allObjects)}`);
+            .catch((resp) => this.log.error(` kjhg: Stimmt ertwas nicht: ${JSON.stringify(resp)}`));
+        //this.log.error(` alle: ${JSON.stringify(allObjects)}`);
         // Alle folder, device, channel und state Objekte
         //this.config = {};
 
