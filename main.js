@@ -320,48 +320,50 @@ class Sofarhyd extends utils.Adapter {
         return regArr;
     }
 
+    fill(regArr, obj) {
+        if (regArr.lenght > 0) {
+            for (const i in regArr) {
+                addRegister(regArr[i], obj);
+            }
+        }
+    }
+
+    addRegister(reg, obj) {
+        if (!Array.isArray(reg)) {
+            reg = [reg];
+            //console.log('ist kein array, umwandeln');
+        }
+        else {
+            //console.log('ist ein array');
+        }
+        for (const i in reg) {
+            //console.log(reg[i]);
+            const c = (reg[i] - reg[i] % 0x40);
+            //console.log(c);
+            if (obj[c]) {
+                //console.log('existiert');
+                if (!obj[c].includes(reg[i])) {
+                    obj[c].push(reg[i]);
+                }
+            } else {
+                //console.log('existiert nicht');
+                obj[c] = [reg[i]];
+            }
+        }
+    }
+
+
+
     fillRegisterObjects() {
         const path = '/opt/iobroker/node_modules/iobroker.sofarhyd/lib/Mod_Register.json';
         const data = fs.readFileSync(path);
         const json = JSON.parse(data);
         //const test = json['1047'];
 
-        function addRegister(reg, obj) {
-            if (!Array.isArray(reg)) {
-                reg = [reg];
-                //console.log('ist kein array, umwandeln');
-            }
-            else {
-                //console.log('ist ein array');
-            }
-            for (const i in reg) {
-                //console.log(reg[i]);
-                const c = (reg[i] - reg[i] % 0x40);
-                //console.log(c);
-                if (obj[c]) {
-                    //console.log('existiert');
-                    if (!obj[c].includes(reg[i])) {
-                        obj[c].push(reg[i]);
-                    }
-                } else {
-                    //console.log('existiert nicht');
-                    obj[c] = [reg[i]];
-                }
-            }
-        }
 
-        function fill(regArr, obj) {
-            if (regArr.lenght > 0) {
-                for (const i in regArr) {
-                    addRegister(regArr[i], obj);
-                }
-            }
-        }
-        this.log.error(this.config.text1);
-        this.log.error(this.config.text2);
 
-        fill(this.parseText(this.config.text1), registerOften);
-        fill(this.parseText(this.config.text2), registerRar);
+        this.fill(this.parseText(this.config.text1), registerOften);
+        this.fill(this.parseText(this.config.text2), registerRar);
     }
 
 
