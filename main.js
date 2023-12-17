@@ -325,8 +325,8 @@ class Sofarhyd extends utils.Adapter {
         if (regArr.lenght > 0) {
             this.log.error('schleife ');
             for (const i of regArr) {
-                this.log.error('eee  : ' + regArr[i].toString());
-                this.addRegister(regArr[i], obj);
+                this.log.error('eee  : ' + i.toString());
+                this.addRegister(i, obj);
             }
         }
     }
