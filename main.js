@@ -4,6 +4,10 @@ const utils = require('@iobroker/adapter-core');
 const fetch = require('node-fetch');
 
 
+const fs = require('fs');
+//const path = require('path');
+
+
 const registerOften = {};
 const registerRar = {};
 
@@ -13,7 +17,6 @@ const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 115200, autoOpen
 const client = new Modbus.client.RTU(socket, 2);
 
 let counter = 0;
-const mwArray = [];
 
 
 
@@ -35,27 +38,17 @@ class Sofarhyd extends utils.Adapter {
         this.on('unload', this.onUnload.bind(this));
     }
 
-    addRegister(reg, obj) {
-        if (!Array.isArray(reg)) {
-            reg = [reg];
-            //console.log('ist kein array, umwandeln');
-        }
-        else {
-            //console.log('ist ein array');
-        }
-        for (const i in reg) {
-            //console.log(reg[i]);
-            const c = (reg[i] - reg[i] % 0x40);
-            //console.log(c);
-            if (obj[c]) {
-                //console.log('existiert');
-                if (!obj[c].includes(reg[i])) {
-                    obj[c].push(reg[i]);
-                }
-            } else {
-                //console.log('existiert nicht');
-                obj[c] = [reg[i]];
+    addSingleRegister(reg, obj) {
+        const c = (reg - reg % 0x40);
+        //console.log(c);
+        if (obj[c]) {
+            //console.log('existiert');
+            if (!obj[c].includes(reg)) {
+                obj[c].push(reg);
             }
+        } else {
+            //console.log('existiert nicht');
+            obj[c] = [reg];
         }
     }
 
@@ -216,8 +209,9 @@ class Sofarhyd extends utils.Adapter {
         });
 
 
-        this.addRegister([0x485, 0x5C4, 0x40e, 0x14bf,], registerOften);
-        this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430, 0x15b9, 0x2006, 0x900a], registerRar);
+        //this.addRegister([0x485, 0x5C4, 0x40e, 0x14bf,], registerOften);
+        //this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430, 0x15b9, 0x2006, 0x900a], registerRar);
+
 
 
 
@@ -231,28 +225,13 @@ class Sofarhyd extends utils.Adapter {
 
 
         this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
-        this.log.info(`config this.config: ${JSON.stringify(this.config.option1)}`);
-
-        /*
-        await this.getObjectAsync('sofarhyd.0', true)
-            .then((resp) => this.log.error(` geklappt: ${JSON.stringify(resp)}`))
-            .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
-*/
-        await this.getForeignObjectAsync("system.adapter.sofarhyd.0")
-            .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp)}`))
-            .catch((resp) => this.log.error(` kjhg: Stimmt ertwas nicht: ${JSON.stringify(resp)}`));
 
 
-        await this.getAdapterObjectsAsync()
-            .then((resp) => this.log.error(` geklappertt: ${JSON.stringify(resp)}`))
-            .catch((resp) => this.log.error(` kjrtwas nicht: ${JSON.stringify(resp)}`));
-        //this.log.error(` alle: ${JSON.stringify(allObjects)}`);
-        // Alle folder, device, channel und state Objekte
-        //this.config = {};
+        this.log.error(this.adapterDir);
+        this.fillRegisterObjects();
+        this.log.info(`often: ${JSON.stringify(registerOften)}`);
+        this.log.info(`rar: ${JSON.stringify(registerRar)}`);
 
-        //this.log.error(this.adapterDir);
-        // this.log.error(`config tab_1: ${ JSON.stringify(this.config.tab_1) }`);
-        // this.log.error(`config panel_2: ${ JSON.stringify(this.config.panel_2) }`);
 
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
@@ -318,47 +297,68 @@ class Sofarhyd extends utils.Adapter {
     }
 
 
+    parseText(str) {
+        const txtArr = str.split('#');
+        const regArr = [];
 
+        const lenght = txtArr.length;
+        if (lenght > 1) {
+            for (let jjj = 1; jjj < lenght; jjj++) {
+                const pos = txtArr[jjj].search('[^0-9a-fA-F]');
+                if (pos > 0) {
+                    const sub = txtArr[jjj].substring(0, pos);
+                    regArr.push(parseInt(sub, 16));
+                } else {
+                    regArr.push(parseInt(txtArr[jjj], 16));
+                }
+            }
+        }
+        return regArr;
+    }
 
-    pushRegister(arr, addr, name, desc, eh, fkt, typus) {
-        if (desc == '') { desc = name; }
-        const register = {
-            addr: addr,
-            name: name,
-            description: desc,
-            eh: eh,
-            fkt: fkt,
-            sum: 0,
-            val: 0,
-            typus: typus
-        };
-        arr.push(register);
+    fillRegisterObjects() {
+        const path = '/opt/iobroker/node_modules/iobroker.sofarhyd/lib/Mod_Register.json';
+        const data = fs.readFileSync(path);
+        const json = JSON.parse(data);
+        //const test = json['1047'];
+
+        function addRegister(reg, obj) {
+            if (!Array.isArray(reg)) {
+                reg = [reg];
+                //console.log('ist kein array, umwandeln');
+            }
+            else {
+                //console.log('ist ein array');
+            }
+            for (const i in reg) {
+                //console.log(reg[i]);
+                const c = (reg[i] - reg[i] % 0x40);
+                //console.log(c);
+                if (obj[c]) {
+                    //console.log('existiert');
+                    if (!obj[c].includes(reg[i])) {
+                        obj[c].push(reg[i]);
+                    }
+                } else {
+                    //console.log('existiert nicht');
+                    obj[c] = [reg[i]];
+                }
+            }
+        }
+
+        function fill(regArr, obj) {
+            if (regArr.lenght > 0) {
+                for (const i in regArr) {
+                    addRegister(regArr[i], obj);
+                }
+            }
+        }
+
+        fill(this.parseText(this.config.text1), registerOften);
+        fill(this.parseText(this.config.text2), registerRar);
     }
 
 
-    initRegister() {
-        this.pushRegister(mwArray, 0x484, 'Frequency_Grid', '', 'Hz', 2, 'U16');
-        this.pushRegister(mwArray, 0x485, 'ActivePower_Output_Total', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x488, 'ActivePower_PCC_Total', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x48F, 'ActivePower_Output_R', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x493, 'ActivePower_PCC_R', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x49A, 'ActivePower_Output_S', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x49E, 'ActivePower_PCC_S', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4A5, 'ActivePower_Output_T', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4A9, 'ActivePower_PCC_T', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4AE, 'ActivePower_PV_Ext', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4AF, 'ActivePower_Load_Sys', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4B2, 'ActivePower_Output_L1N', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4B4, 'ActivePower_PCC_L1N', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4B7, 'ActivePower_Output_L2N', '', 'W', 2, 'I16');
-        this.pushRegister(mwArray, 0x4B9, 'ActivePower_PCC_L2N', '', 'W', 2, 'I16');
-        //this.pushRegister(mwArray, 0x504, 'ActivePower_Load_Total', '', 'W', 2,'I16');
-        //this.pushRegister(mwArray, 0x50C, 'ActivePower_Load_R', '', 'W', 2,'I16');
-        //this.pushRegister(mwArray, 0x514, 'ActivePower_Load_S', '', 'W', 2,'I16');
-        //this.pushRegister(mwArray, 0x51C, 'ActivePower_Load_T', '', 'W', 2,'I16');
-        // this.pushRegister(mwArray, 0x524, 'ActivePower_Load_L1N', '', 'W', 2,'I16');
-        // this.pushRegister(mwArray, 0x527, 'ActivePower_Load_L2N', '', 'W', 2,'I16');
-    }
 
     async createReadings(arr) {
         for (let register of arr) {
