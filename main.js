@@ -353,6 +353,8 @@ class Sofarhyd extends utils.Adapter {
                 }
             }
         }
+        this.log.error(this.config.text1);
+        this.log.error(this.config.text2);
 
         fill(this.parseText(this.config.text1), registerOften);
         fill(this.parseText(this.config.text2), registerRar);
