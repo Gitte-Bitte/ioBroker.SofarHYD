@@ -317,11 +317,12 @@ class Sofarhyd extends utils.Adapter {
     }
 
     fill(regArr, obj) {
-        this.log.error('sdfsdf  : ' + regArr.toLocaleString());
+        this.log.error('kjh  : ' + Array.isArray(regArr));
+        this.log.error('kjh  : ' + regArr[1].toString());
         this.log.error('kjh  : ' + regArr.length.toString());
         this.log.error('kjh  : ' + regArr[0].toString());
         this.log.error('kjh  : ' + regArr[1].toString());
-        if (regArr.lenght > 0) {
+        if (regArr.lenght() > 0) {
             this.log.error('schleife ');
             for (const i in regArr) {
                 this.log.error('eee  : ' + regArr[i].toString());
