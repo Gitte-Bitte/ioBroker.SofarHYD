@@ -313,6 +313,7 @@ class Sofarhyd extends utils.Adapter {
                 }
             }
         }
+        this.log.error('sdfsdf' + regArr.toLocaleString());
         return regArr;
     }
 
