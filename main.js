@@ -313,17 +313,17 @@ class Sofarhyd extends utils.Adapter {
                 }
             }
         }
-        this.log.error('sdfsdf  : ' + regArr.toLocaleString());
-        this.log.error('kjh  : ' + regArr.length.toString());
-        this.log.error('kjh  : ' + regArr[0].toString());
-        this.log.error('kjh  : ' + regArr[1].toString());
         return regArr;
     }
 
     fill(regArr, obj) {
+        this.log.error('sdfsdf  : ' + regArr.toLocaleString());
+        this.log.error('kjh  : ' + regArr.length.toString());
+        this.log.error('kjh  : ' + regArr[0].toString());
+        this.log.error('kjh  : ' + regArr[1].toString());
         if (regArr.lenght > 0) {
             for (const i in regArr) {
-                addRegister(regArr[i], obj);
+                this.addRegister(regArr[i], obj);
             }
         }
     }
