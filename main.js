@@ -222,13 +222,13 @@ class Sofarhyd extends utils.Adapter {
         //this.makeStatesFromRegister();
 
 
-        this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
+        //this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
 
 
-        this.log.error(this.adapterDir);
+        //this.log.error(this.adapterDir);
         this.fillRegisterObjects();
-        this.log.info(`often: ${JSON.stringify(registerOften)}`);
-        this.log.info(`rar: ${JSON.stringify(registerRar)}`);
+        //this.log.info(`often: ${JSON.stringify(registerOften)}`);
+        //this.log.info(`rar: ${JSON.stringify(registerRar)}`);
 
 
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
@@ -375,11 +375,13 @@ class Sofarhyd extends utils.Adapter {
             console.log('Datei fehlt');
         }
 
-        const json = JSON.parse(data.toString());
+        const json = JSON.parse(data);
         for (const cluster in obj) {
-            this.log.error(cluster);
+            this.log.error(cluster + ' cluster');
+            this.log.error(JSON.stringify(obj[cluster]) + ' : ' + obj.cluster);
+
             for (const reg in obj[cluster]) {
-                this.log.error(reg);
+                this.log.error(reg + ' reg');
                 if (json[obj][cluster][reg].regName == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
                 const name = json[obj][cluster][reg].regName.Field || obj[cluster][reg].regName;
                 const unit = json[obj][cluster][reg].regName.Unit;
