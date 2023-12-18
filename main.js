@@ -186,6 +186,8 @@ class Sofarhyd extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
+
+
         this.setState('info.connection', false, true);
 
         //socket.on('error', (err) => { this.log.error('Error: ' + err.message); });
@@ -194,41 +196,11 @@ class Sofarhyd extends utils.Adapter {
         //this.interval1 = this.setInterval(() => this.loop_ask(), 5000);
         //this.interval1 = this.setInterval(() => this.readChecked(), 5000);
 
-        await this.setObjectNotExistsAsync('Stunde', {
-            type: 'state',
-            common: {
-                name: 'Stunde_h',
-                type: 'number',
-                role: 'value',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
-
-
-        //this.addRegister([0x485, 0x5C4, 0x40e, 0x14bf,], registerOften);
-        //this.addRegister([0x5C4, 0x485, 0x42C, 0x42D, 0x42E, 0x42F, 0x430, 0x15b9, 0x2006, 0x900a], registerRar);
-
-
-
-
-        //this.initRegister();
-
-        //this.createReadings(mwArray);
-
-        //this.readFromObject();
-
-        //this.makeStatesFromRegister();
-
 
         //this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
 
 
-        //this.log.error(this.adapterDir);
         this.fillRegisterObjects();
-        //this.log.info(`often: ${JSON.stringify(registerOften)}`);
-        //this.log.info(`rar: ${JSON.stringify(registerRar)}`);
 
 
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
@@ -239,8 +211,6 @@ class Sofarhyd extends utils.Adapter {
         //await this.setStateAsync('testVariable', { val: true, ack: true });
         //await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
     }
-
-
 
 
 
@@ -390,7 +360,7 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
-                await this.createStateAsync(myPath, '', name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
+                await this.createStateAsync('',myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
                     .then(e => { this.log.debug(`geschafft ${JSON.stringify(e)}`); })
                     .catch(e => { this.log.error(`fehler ${JSON.stringify(e)}`); });
             }
