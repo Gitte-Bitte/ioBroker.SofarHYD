@@ -394,6 +394,7 @@ class Sofarhyd extends utils.Adapter {
 
             }
         }
+        this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
 
 
     }
