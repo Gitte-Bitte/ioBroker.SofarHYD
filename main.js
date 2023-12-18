@@ -360,7 +360,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(JSON.stringify(registerRar));
 
         this.makeStatesFromRegister(registerOften, 'Register.mw_');
-        this.makeStatesFromRegister(registerRar,'Register.');
+        this.makeStatesFromRegister(registerRar, 'Register.');
     }
 
 
@@ -375,10 +375,14 @@ class Sofarhyd extends utils.Adapter {
         }
 
         const json = JSON.parse(data);
+        this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
         for (const cluster in obj) {
-
+            this.log.error(cluster + `obj_cluster :  :  ${JSON.stringify(obj[cluster])}`);
             for (const reg in obj[cluster]) {
-                if (json[obj[cluster][reg].regName] == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
+                this.log.error(reg +`obj_cluster_reg :  ${JSON.stringify(obj[cluster][reg])}`);
+                this.log.error(`regname:  ${JSON.stringify(obj[cluster][reg].regName)}`);
+
+                if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
                 const name = json[obj[cluster][reg].regName].Field || obj[cluster][reg].regName;
                 const unit = json[obj[cluster][reg].regName].Unit;
                 const accuracy = json[obj[cluster][reg].regName].Accuracy || 1;
@@ -390,7 +394,6 @@ class Sofarhyd extends utils.Adapter {
 
             }
         }
-        this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
 
 
     }
