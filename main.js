@@ -314,17 +314,6 @@ class Sofarhyd extends utils.Adapter {
         return regArr;
     }
 
-    fill(regArr, obj) {
-        this.log.error('kjh  : ' + Array.isArray(regArr));
-        this.log.error('kjh  : ' + regArr[1].toString());
-        this.log.error('kjh  : ' + regArr.length.toString());
-        this.log.error('kjh  : ' + regArr[0].toString());
-        this.log.error('kjh  : ' + regArr[1].toString());
-        for (const i of regArr) {
-            this.log.error('eee  : ' + i.toString());
-            this.addRegister(i, obj);
-        }
-    }
 
     arrayIncludesReg(arr, val) {
         let b = false;
@@ -377,10 +366,20 @@ class Sofarhyd extends utils.Adapter {
 
     async makeStatesFromRegister(obj, myPath) {
         const path = '/opt/iobroker/node_modules/iobroker.sofarhyd/lib/Mod_Register.json';
+        this.log.error(JSON.stringify(obj) + ' : ' + myPath);
         const data = fs.readFileSync(path);
+        if (fs.existsSync(path)) {
+            console.log('Datei ist da');
+        }
+        else {
+            console.log('Datei fehlt');
+        }
+
         const json = JSON.parse(data.toString());
         for (const cluster in obj) {
+            this.log.error(cluster);
             for (const reg in obj[cluster]) {
+                this.log.error(reg);
                 if (json[obj][cluster][reg].regName == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
                 const name = json[obj][cluster][reg].regName.Field || obj[cluster][reg].regName;
                 const unit = json[obj][cluster][reg].regName.Unit;
@@ -390,17 +389,11 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
                 //console.log(unit + '  : ' + accuracy +'  : ' + accuracy);
-                await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
+                //await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
 
             }
         }
-        this.log.error(JSON.stringify(obj));
-        if (fs.existsSync(path)) {
-            console.log('Datei ist da');
-        }
-        else {
-            console.log('Datei fehlt');
-        }
+
     }
 
 }
