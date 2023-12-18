@@ -359,7 +359,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(JSON.stringify(registerOften));
         this.log.error(JSON.stringify(registerRar));
 
-        //this.makeStatesFromRegister(registerOften,'Register.mw_');
+        this.makeStatesFromRegister(registerOften,'Register.mw_');
         //this.makeStatesFromRegister(registerRar,'Register.');
     }
 
