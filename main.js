@@ -382,7 +382,8 @@ class Sofarhyd extends utils.Adapter {
 
             for (const reg in obj[cluster]) {
                 this.log.error(reg + ' reg');
-                if (json[obj][cluster][reg].regName == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
+                this.log.error(JSON.stringify(obj[cluster][reg])) ;
+                if (json[obj[cluster][reg].regName] == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
                 const name = json[obj][cluster][reg].regName.Field || obj[cluster][reg].regName;
                 const unit = json[obj][cluster][reg].regName.Unit;
                 const accuracy = json[obj][cluster][reg].regName.Accuracy || 1;
