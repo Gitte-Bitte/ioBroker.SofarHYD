@@ -100,27 +100,11 @@
         ]
     },
     "native": {
-        "text1":"",
-        "text2":""
+        "text1": "",
+        "text2": ""
     },
     "objects": [],
     "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "statt",
-            "type": "channel",
-            "common": {
-                "name": "StatusInformation"
-            },
-            "native": {}
-        },
         {
             "_id": "info.connection",
             "type": "state",
