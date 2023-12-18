@@ -1,8 +1,6 @@
 'use strict';
 
 const utils = require('@iobroker/adapter-core');
-const fetch = require('node-fetch');
-
 
 const fs = require('fs');
 //const path = require('path');
@@ -328,26 +326,38 @@ class Sofarhyd extends utils.Adapter {
         }
     }
 
+    arrayIncludesReg(arr, val) {
+        let b = false;
+        for (const i in arr) {
+            // console.log('>>> ' + i+ '  : ' + arr[i].value + '   <<<  ' + val);
+            if (arr[i].regNr == val) {
+                b = true;
+                break;
+            }
+        }
+        //console.log(b);
+        return b;
+    }
+
+
+    createRegName(i) {
+        return i.toString(16).toUpperCase().padStart(4, '0');
+    }
+
     addRegister(reg, obj) {
-        if (!Array.isArray(reg)) {
-            reg = [reg];
-            //console.log('ist kein array, umwandeln');
-        }
-        else {
-            //console.log('ist ein array');
-        }
         for (const i in reg) {
             //console.log(reg[i]);
             const c = (reg[i] - reg[i] % 0x40);
             //console.log(c);
             if (obj[c]) {
-                //console.log('existiert');
-                if (!obj[c].includes(reg[i])) {
-                    obj[c].push(reg[i]);
+                // console.log(' cluster existiert');
+                if (!this.arrayIncludesReg(obj[c], reg[i])) {
+                    // console.log('array einfügen');
+                    obj[c].push({ regNr: reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 });
                 }
             } else {
-                //console.log('existiert nicht');
-                obj[c] = [reg[i]];
+                // console.log('cluster existiert nicht');
+                obj[c] = [{ regNr: reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
             }
         }
     }
@@ -355,49 +365,41 @@ class Sofarhyd extends utils.Adapter {
 
 
     fillRegisterObjects() {
+        this.addRegister(this.parseText(this.config.text1), registerOften);
+        this.addRegister(this.parseText(this.config.text2), registerRar);
+        this.makeStatesFromRegister(registerOften,'Register.mw_');
+        this.makeStatesFromRegister(registerRar,'Register.');
+    }
+
+
+    async makeStatesFromRegister(obj, myPath) {
         const path = '/opt/iobroker/node_modules/iobroker.sofarhyd/lib/Mod_Register.json';
         const data = fs.readFileSync(path);
-        const json = JSON.parse(data);
-        //const test = json['1047'];
+        const json = JSON.parse(data.toString());
+        for (const cluster in obj) {
+            for (const reg in obj[cluster]) {
+                if (json[obj][cluster][reg].regName == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
+                const name = json[obj][cluster][reg].regName.Field || obj[cluster][reg].regName;
+                const unit = json[obj][cluster][reg].regName.Unit;
+                const accuracy = json[obj][cluster][reg].regName.Accuracy || 1;
+                const typ = json[obj][cluster][reg].regName.Typ;
+                obj[cluster][reg].regName = name;
+                obj[cluster][reg].regType = typ;
+                obj[cluster][reg].regAccuracy = accuracy;
+                //console.log(unit + '  : ' + accuracy +'  : ' + accuracy);
+                await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
 
-
-
-        this.fill(this.parseText(this.config.text1), registerOften);
-        this.fill(this.parseText(this.config.text2), registerRar);
-    }
-
-
-
-    async createReadings(arr) {
-        for (let register of arr) {
-            await this.setObjectNotExistsAsync(register.name, {
-                type: 'state',
-                common: {
-                    name: register.name,
-                    type: 'number',
-                    role: 'value',
-                    read: true,
-                    write: true,
-                },
-                native: {},
-            });
-
-
-        }
-    }
-
-    async makeStatesFromRegister() {
-        //   /opt/iobroker/node_modules/iobroker.sofarhyd  /lib/Mod_Register.json
-        const response = await fetch(this.adapterDir + '/lib/Mod_Register.json');
-        const names = await response.json();
-
-        for (const cluster in registerOften) {
-            for (const reg in registerOften[cluster]) {
-                const str = names[reg].Field;
-                this.log.error(str);
             }
         }
+        this.log.error(JSON.stringify(obj));
+        if (fs.existsSync(path)) {
+            console.log('Datei ist da');
+        }
+        else {
+            console.log('Datei fehlt');
+        }
     }
+
 }
 
 
