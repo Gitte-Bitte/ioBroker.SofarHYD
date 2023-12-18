@@ -367,8 +367,11 @@ class Sofarhyd extends utils.Adapter {
     fillRegisterObjects() {
         this.addRegister(this.parseText(this.config.text1), registerOften);
         this.addRegister(this.parseText(this.config.text2), registerRar);
-        this.makeStatesFromRegister(registerOften,'Register.mw_');
-        this.makeStatesFromRegister(registerRar,'Register.');
+        this.log.error(JSON.stringify(registerOften));
+        this.log.error(JSON.stringify(registerRar));
+
+        //this.makeStatesFromRegister(registerOften,'Register.mw_');
+        //this.makeStatesFromRegister(registerRar,'Register.');
     }
 
 
