@@ -379,7 +379,7 @@ class Sofarhyd extends utils.Adapter {
         for (const cluster in obj) {
             this.log.error(cluster + `obj_cluster :  :  ${JSON.stringify(obj[cluster])}`);
             for (const reg in obj[cluster]) {
-                this.log.error(reg +`obj_cluster_reg :  ${JSON.stringify(obj[cluster][reg])}`);
+                this.log.error(reg + `obj_cluster_reg :  ${JSON.stringify(obj[cluster][reg])}`);
                 this.log.error(`regname:  ${JSON.stringify(obj[cluster][reg].regName)}`);
 
                 if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
@@ -390,8 +390,9 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
-                //await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
-
+                await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit })
+                    .then(e => { this.log.debug(`geschafft ${JSON.stringify(e)}`); })
+                    .catch(e => { this.log.error(`fehler ${JSON.stringify(e)}`); });
             }
         }
         this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
