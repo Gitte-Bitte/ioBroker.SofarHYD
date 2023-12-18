@@ -390,7 +390,7 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
-                await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
+                //await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
 
             }
         }
