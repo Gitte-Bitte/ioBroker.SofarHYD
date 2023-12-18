@@ -52,7 +52,9 @@
             "Solar",
             "inverter"
         ],
+        "tier": 3,
         "license": "MIT",
+        "eraseOnUpload": true,
         "platform": "Javascript/Node.js",
         "main": "main.js",
         "icon": "sofarhyd.png",
@@ -119,15 +121,18 @@
             "native": {}
         },
         {
-            "_id": "statt.was",
-            "type": "state",
+            "_id": "info",
+            "type": "channel",
             "common": {
-                "role": "state",
-                "name": "was auch immer",
-                "type": "number",
-                "read": true,
-                "write": false,
-                "def": 5
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "",
+            "type": "meta",
+            "common": {
+                "type": "meta"
             },
             "native": {}
         }
