@@ -359,30 +359,25 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(JSON.stringify(registerOften));
         this.log.error(JSON.stringify(registerRar));
 
-        this.makeStatesFromRegister(registerOften,'Register.mw_');
-        //this.makeStatesFromRegister(registerRar,'Register.');
+        this.makeStatesFromRegister(registerOften, 'Register.mw_');
+        this.makeStatesFromRegister(registerRar,'Register.');
     }
 
 
     async makeStatesFromRegister(obj, myPath) {
         const path = '/opt/iobroker/node_modules/iobroker.sofarhyd/lib/Mod_Register.json';
-        this.log.error(JSON.stringify(obj) + ' : ' + myPath);
         const data = fs.readFileSync(path);
         if (fs.existsSync(path)) {
-            console.log('Datei ist da');
+            this.log.error('Datei ist da');
         }
         else {
-            console.log('Datei fehlt');
+            this.log.error('Datei fehlt');
         }
 
         const json = JSON.parse(data);
         for (const cluster in obj) {
-            this.log.error(cluster + ' cluster');
-            this.log.error(JSON.stringify(obj[cluster]) + ' : ' + obj.cluster);
 
             for (const reg in obj[cluster]) {
-                this.log.error(reg + ' reg');
-                this.log.error(JSON.stringify(obj[cluster][reg])) ;
                 if (json[obj[cluster][reg].regName] == undefined) { console.log('gibtsnet'); obj[cluster].splice(reg, 1); break; }
                 const name = json[obj][cluster][reg].regName.Field || obj[cluster][reg].regName;
                 const unit = json[obj][cluster][reg].regName.Unit;
@@ -391,11 +386,12 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
-                //console.log(unit + '  : ' + accuracy +'  : ' + accuracy);
-                //await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
+                await this.createStateAsync(myPath + name, { 'name': name, type: 'number', read: true, write: true, 'unit': unit });
 
             }
         }
+        this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
+
 
     }
 
