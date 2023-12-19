@@ -102,8 +102,8 @@ class Sofarhyd extends utils.Adapter {
                 counter = 0;
                 toRead = registerRar;
             }
-            this.setState('info.connection', false, true);
-            this.log.error(` : Stimmt : ${JSON.stringify(toRead)}`);
+            this.setState('info.connection', true, false);
+            //this.log.error(` : Stimmt : ${JSON.stringify(toRead)}`);
             for (const r in toRead) {
                 this.log.error(r + ' zu lesen ');
                 //this.log.error(Number(r).toString() + ' ergibt zu lesen ');
