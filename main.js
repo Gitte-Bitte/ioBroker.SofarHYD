@@ -52,13 +52,15 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    async splitter2(resp, arr, start) {
+    async splitter2(resp, arr) {
         //const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         const buf = Buffer.from(resp);
+        this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         // let str = '';
         // for (const r of buf) { str = str + r.toString() + ' : '; }
         // this.log.error(str);
         // this.log.error('jhgfhgfjhgf : ' + buf.toLocaleString());
+        /*
         for (const register of arr) {
             //str = start.toString() + ' : ' + register.name + ' : ' + register.addr + ' : ';
             if (register.typus == 'I16') {
@@ -74,6 +76,7 @@ class Sofarhyd extends utils.Adapter {
             }
             //this.log.error(str);
         }
+        */
     }
 
 
@@ -110,7 +113,7 @@ class Sofarhyd extends utils.Adapter {
                 //this.log.error(Number(r) + ' das ergibt zu lesen ');
 
                 await client.readHoldingRegisters(Number(r), 0x40)
-                    //.then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
+                    .then((resp) => this.splitter2(resp.response._body, toRead[r]))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
                     //.then((resp) => this.log.debug(r.name + ' abgerufen'))
