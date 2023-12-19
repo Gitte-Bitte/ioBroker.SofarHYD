@@ -115,7 +115,7 @@
                 "name": "Device or service connected",
                 "type": "boolean",
                 "read": true,
-                "write": false,
+                "write": true,
                 "def": false
             },
             "native": {}
