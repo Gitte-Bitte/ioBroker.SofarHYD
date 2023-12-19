@@ -110,24 +110,24 @@ class Sofarhyd extends utils.Adapter {
                 //this.log.error(Number(r) + ' das ergibt zu lesen ');
 
                 //await client.readHoldingRegisters(Number(r), 0x40)
-                    // .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
-                   //.then(() => this.delay(20))
-                    //.then((resp) => this.log.error(r.name + ' : wiederholt')
-                    //.then((resp) => this.log.debug(r.name + ' abgerufen'))
-                    //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
-                    //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
+                // .then((resp) => this.log.error(`Ergebnis : ${JSON.stringify(resp)}`))
+                //.then(() => this.delay(20))
+                //.then((resp) => this.log.error(r.name + ' : wiederholt')
+                //.then((resp) => this.log.debug(r.name + ' abgerufen'))
+                //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
+                //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
 
-                    //.catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
+                //.catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
                 //this.log.debug(r.name + ' geschesked');
             }
+            this.log.debug('fertig mit lesen');
+            this.setTimeout(() => { this.readFromObject(); }, 8000);
 
         }
         else {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
-        this.log.debug('fertig mit lesen');
-        this.setTimeout(() => { this.readFromObject(); }, 8000);
     }
 
 
