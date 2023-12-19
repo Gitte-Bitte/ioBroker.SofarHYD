@@ -202,7 +202,7 @@ class Sofarhyd extends utils.Adapter {
 
         this.fillRegisterObjects();
 
-
+        this.readFromObject();
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
         // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -326,8 +326,6 @@ class Sofarhyd extends utils.Adapter {
     fillRegisterObjects() {
         this.addRegister(this.parseText(this.config.text1), registerOften);
         this.addRegister(this.parseText(this.config.text2), registerRar);
-        this.log.error(JSON.stringify(registerOften));
-        this.log.error(JSON.stringify(registerRar));
 
         this.makeStatesFromRegister(registerOften, 'Register2');
         this.makeStatesFromRegister(registerRar, 'Register1');
@@ -360,7 +358,7 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
-                await this.createStateAsync('',myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
+                await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
                     .then(e => { this.log.debug(`geschafft ${JSON.stringify(e)}`); })
                     .catch(e => { this.log.error(`fehler ${JSON.stringify(e)}`); });
             }
