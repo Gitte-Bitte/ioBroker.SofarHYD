@@ -107,13 +107,13 @@ class Sofarhyd extends utils.Adapter {
             }
             this.setStateAsync('info.connection', true, false);
             for (const r in toRead) {
-                this.log.error(` : Stimmt : ${JSON.stringify(toRead[r])}`);
-                this.log.error(r + ' zu lesen ');
+                // this.log.error(` : Stimmt : ${JSON.stringify(toRead[r])}`);
+                // this.log.error(r + ' zu lesen ');
                 //this.log.error(Number(r).toString() + ' ergibt zu lesen ');
                 //this.log.error(Number(r) + ' das ergibt zu lesen ');
 
                 await client.readHoldingRegisters(Number(r), 0x40)
-                    .then((resp) => this.splitter2(resp.response._body, toRead[r]))
+                    .then((resp) => this.splitter2(resp.response._body._valuesAsBuffer, toRead[r]))
                     .then(() => this.delay(20))
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
                     //.then((resp) => this.log.debug(r.name + ' abgerufen'))
@@ -129,7 +129,7 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('Socket leider nicht IO');
             //socket.close().then(socket.open());
         }
-        this.log.error('fertig mit lesen');
+        // this.log.error('fertig mit lesen');
         this.setTimeout(() => { this.readFromObject(); }, 8000);
     }
 
