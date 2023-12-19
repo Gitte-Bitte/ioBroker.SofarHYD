@@ -102,7 +102,7 @@ class Sofarhyd extends utils.Adapter {
                 counter = 0;
                 toRead = registerRar;
             }
-
+            this.setState('info.connection', false, true);
             this.objAusgabe(toRead);
             for (const r in toRead) {
                 this.log.error(r + ' zu lesen ');
