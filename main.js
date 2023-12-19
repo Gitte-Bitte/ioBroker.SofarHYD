@@ -94,7 +94,7 @@ class Sofarhyd extends utils.Adapter {
         let toRead = null;
         if (client.connectionState == 'online') {
 
-            if (counter < 1) {
+            if (counter < 6) {
                 counter++;
                 toRead = registerOften;
             }
