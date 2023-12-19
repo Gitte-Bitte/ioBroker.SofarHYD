@@ -83,7 +83,7 @@ class Sofarhyd extends utils.Adapter {
     }
 
     objAusgabe(obj) {
-        let str = '';
+        let str = 'zzz';
         for (const i in obj) {
             str = str + ' / ' + i + ':{' + obj[i] + '}';
         }
@@ -103,7 +103,7 @@ class Sofarhyd extends utils.Adapter {
                 toRead = registerRar;
             }
             this.setState('info.connection', false, true);
-            this.objAusgabe(toRead);
+            this.log.error(` : Stimmt : ${JSON.stringify(toRead)}`);
             for (const r in toRead) {
                 this.log.error(r + ' zu lesen ');
                 //this.log.error(Number(r).toString() + ' ergibt zu lesen ');
