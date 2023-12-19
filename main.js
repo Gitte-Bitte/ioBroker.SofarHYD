@@ -336,18 +336,18 @@ class Sofarhyd extends utils.Adapter {
         const path = '/opt/iobroker/node_modules/iobroker.sofarhyd/lib/Mod_Register.json';
         const data = fs.readFileSync(path);
         if (fs.existsSync(path)) {
-           // this.log.error('Datei ist da');
+            // this.log.error('Datei ist da');
         }
         else {
-           // this.log.error('Datei fehlt');
+            // this.log.error('Datei fehlt');
         }
 
         const json = JSON.parse(data);
         this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
         for (const cluster in obj) {
-           // this.log.error(cluster + `obj_cluster :  :  ${JSON.stringify(obj[cluster])}`);
+            // this.log.error(cluster + `obj_cluster :  :  ${JSON.stringify(obj[cluster])}`);
             for (const reg in obj[cluster]) {
-               // this.log.error(reg + `obj_cluster_reg :  ${JSON.stringify(obj[cluster][reg])}`);
+                // this.log.error(reg + `obj_cluster_reg :  ${JSON.stringify(obj[cluster][reg])}`);
                 //this.log.error(`regname:  ${JSON.stringify(obj[cluster][reg].regName)}`);
 
                 if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
@@ -358,12 +358,13 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
+                obj[cluster][reg].regPath = myPath;
                 await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
                     //.then(e => { this.log.debug(`geschafft ${JSON.stringify(e)}`); })
                     .catch(e => { this.log.error(`fehler ${JSON.stringify(e)}`); });
             }
         }
-       // this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
+        // this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
 
 
     }
