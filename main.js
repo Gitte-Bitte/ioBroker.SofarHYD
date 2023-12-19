@@ -56,13 +56,9 @@ class Sofarhyd extends utils.Adapter {
         //const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         const buf = Buffer.from(resp);
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
-        // let str = '';
-        // for (const r of buf) { str = str + r.toString() + ' : '; }
-        // this.log.error(str);
-        // this.log.error('jhgfhgfjhgf : ' + buf.toLocaleString());
-        /*
         for (const register of arr) {
-            //str = start.toString() + ' : ' + register.name + ' : ' + register.addr + ' : ';
+            this.log.error(`const: ${JSON.stringify(const)}  arr_const    ${ JSON.stringify(arr[const])} `);
+            /*
             if (register.typus == 'I16') {
                 await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
                 // str = str + buf.readInt16BE((register.addr - start) * 2);
@@ -75,8 +71,9 @@ class Sofarhyd extends utils.Adapter {
                 // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
             //this.log.error(str);
+          */
+          
         }
-        */
     }
 
 
@@ -107,7 +104,7 @@ class Sofarhyd extends utils.Adapter {
             }
             this.setStateAsync('info.connection', true, false);
             for (const r in toRead) {
-                // this.log.error(` : Stimmt : ${JSON.stringify(toRead[r])}`);
+                // this.log.error(` : Stimmt: ${ JSON.stringify(toRead[r]) } `);
                 // this.log.error(r + ' zu lesen ');
                 //this.log.error(Number(r).toString() + ' ergibt zu lesen ');
                 //this.log.error(Number(r) + ' das ergibt zu lesen ');
@@ -118,9 +115,9 @@ class Sofarhyd extends utils.Adapter {
                     //.then((resp) => this.log.error(r.name + ' : wiederholt')
                     //.then((resp) => this.log.debug(r.name + ' abgerufen'))
                     //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
-                    //this.log.error(`resp :  ${JSON.stringify(resp.response._body)}`);
+                    //this.log.error(`resp:  ${ JSON.stringify(resp.response._body) } `);
 
-                    .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)}`));
+                    .catch((resp) => this.log.error(` : Stimmt was nicht: ${ JSON.stringify(resp) } `));
                 //this.log.debug(r.name + ' geschesked');
             }
 
@@ -161,7 +158,7 @@ class Sofarhyd extends utils.Adapter {
                             // read all found serial ports
                             SerialPort.list()
                                 .then(ports => {
-                                    //this.log.debug(`List of port: ${ JSON.stringify(ports) }`);
+                                    //this.log.debug(`List of port: ${ JSON.stringify(ports) } `);
                                     this.sendTo(obj.from, obj.command, ports.map(item => ({ label: item.path, value: item.path })), obj.callback);
                                 })
                                 .catch(e => {
@@ -200,7 +197,7 @@ class Sofarhyd extends utils.Adapter {
         //this.interval1 = this.setInterval(() => this.readChecked(), 5000);
 
 
-        //this.log.info(`config this.config: ${JSON.stringify(this.config)}`);
+        //this.log.info(`config this.config: ${ JSON.stringify(this.config) } `);
 
 
         this.fillRegisterObjects();
@@ -245,7 +242,7 @@ class Sofarhyd extends utils.Adapter {
     // onObjectChange(id, obj) {
     //     if (obj) {
     //         // The object was changed
-    //         this.log.info(`object ${ id } changed: ${ JSON.stringify(obj) }`);
+    //         this.log.info(`object ${ id } changed: ${ JSON.stringify(obj) } `);
     //     } else {
     //         // The object was deleted
     //         this.log.info(`object ${ id } deleted`);
@@ -260,10 +257,10 @@ class Sofarhyd extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             // The state was changed
-            this.log.error(`state ${id} changed: ${state.val}(ack = ${state.ack})`);
+            this.log.error(`state ${ id } changed: ${ state.val } (ack = ${ state.ack })`);
         } else {
             // The state was deleted
-            this.log.error(`state ${id} deleted`);
+            this.log.error(`state ${ id } deleted`);
         }
     }
 
@@ -346,12 +343,12 @@ class Sofarhyd extends utils.Adapter {
         }
 
         const json = JSON.parse(data);
-        this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
+        this.log.info(myPath + ` :  ${ JSON.stringify(obj) } `);
         for (const cluster in obj) {
-            // this.log.error(cluster + `obj_cluster :  :  ${JSON.stringify(obj[cluster])}`);
+            // this.log.error(cluster + `obj_cluster:  :  ${ JSON.stringify(obj[cluster]) } `);
             for (const reg in obj[cluster]) {
-                // this.log.error(reg + `obj_cluster_reg :  ${JSON.stringify(obj[cluster][reg])}`);
-                //this.log.error(`regname:  ${JSON.stringify(obj[cluster][reg].regName)}`);
+                // this.log.error(reg + `obj_cluster_reg:  ${ JSON.stringify(obj[cluster][reg]) } `);
+                //this.log.error(`regname:  ${ JSON.stringify(obj[cluster][reg].regName) } `);
 
                 if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
                 const name = json[obj[cluster][reg].regName].Field || obj[cluster][reg].regName;
@@ -363,11 +360,11 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regAccuracy = accuracy;
                 obj[cluster][reg].regPath = myPath;
                 await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
-                    //.then(e => { this.log.debug(`geschafft ${JSON.stringify(e)}`); })
-                    .catch(e => { this.log.error(`fehler ${JSON.stringify(e)}`); });
+                    //.then(e => { this.log.debug(`geschafft ${ JSON.stringify(e) } `); })
+                    .catch(e => { this.log.error(`fehler ${ JSON.stringify(e) } `); });
             }
         }
-        // this.log.info(myPath + ` :  ${JSON.stringify(obj)}`);
+        // this.log.info(myPath + ` :  ${ JSON.stringify(obj) } `);
 
 
     }
