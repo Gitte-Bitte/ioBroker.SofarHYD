@@ -57,11 +57,11 @@ class Sofarhyd extends utils.Adapter {
         const buf = Buffer.from(resp);
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
-            this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
-            this.log.error(register.regPath + register.regName + '  : ' + (register.regNrRel) * 2);
             const addr = (register.regNrRel) * 2;
             const fktr = parseFloat(register.regAccuracy) || 1;
-            let val=0;
+            this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
+            this.log.error(register.regPath + register.regName + '  : ' + (addr) + '  accuracy : ' + register.regAccuracy + '  fktr : ' + fktr);
+            let val = 0;
             const name = register.regPath + register.regName;
             if (register.regType == 'I16') {
                 val = buf.readInt16BE(addr) * fktr;
@@ -70,7 +70,7 @@ class Sofarhyd extends utils.Adapter {
                 val = buf.readUint16BE(addr) * fktr;
             }
             else if (register.regType == 'U32') {
-                val=buf.readUint32BE(addr)*fktr;
+                val = buf.readUint32BE(addr) * fktr;
             }
             else if (register.regType == 'U64') {
                 //val= buf.readBigUInt64BE(addr);
