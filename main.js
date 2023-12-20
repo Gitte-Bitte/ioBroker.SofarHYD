@@ -348,7 +348,8 @@ class Sofarhyd extends utils.Adapter {
                 //this.log.error(`regname:  ${ JSON.stringify(obj[cluster][reg].regName) } `);
 
                 if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
-                const name = '0x'+obj[cluster][reg].regName +'_'+json[obj[cluster][reg].regName].Field ;
+                const desc = '0x'+obj[cluster][reg].regName +'_'+json[obj[cluster][reg].regName].Field ;
+                const name = json[obj[cluster][reg].regName].Field||obj[cluster][reg].regName  ;
                 const unit = json[obj[cluster][reg].regName].Unit;
                 const accuracy = json[obj[cluster][reg].regName].Accuracy || 1;
                 const typ = json[obj[cluster][reg].regName].Typ;
@@ -356,7 +357,7 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
                 obj[cluster][reg].regPath = myPath+'.';
-                await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
+                await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
                     //.then(e => { this.log.debug(`geschafft ${ JSON.stringify(e) } `); })
                     .catch(e => { this.log.error(`fehler ${JSON.stringify(e)} `); });
             }
