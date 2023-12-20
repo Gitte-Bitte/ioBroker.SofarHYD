@@ -58,7 +58,7 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
             const addr = (register.regNrRel) * 2;
-            const fktr = parseFloat(register.regAccuracy);
+            const fktr = register.regAccuracy;
             this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
             this.log.error(register.regPath + register.regName + '  : ' + (addr) + '  accuracy : ' + register.regAccuracy + '  fktr : ' + fktr + ' typeof : ' + typeof(register.regAccuracy) + ' typeof fktr : ' + typeof(fktr));
             let val = 0;
@@ -353,7 +353,8 @@ class Sofarhyd extends utils.Adapter {
                 const desc = '0x' + obj[cluster][reg].regName + '_' + json[obj[cluster][reg].regName].Field;
                 const name = json[obj[cluster][reg].regName].Field || obj[cluster][reg].regName;
                 const unit = json[obj[cluster][reg].regName].Unit;
-                const accuracy = json[obj[cluster][reg].regName].Accuracy || 1;
+                //parseFloat($("#fullcost").text().replace(',', '.'));
+                const accuracy = Math.trunc(1/parseFloat(json[obj[cluster][reg].regName].Accuracy.replace(',','.')));
                 const typ = json[obj[cluster][reg].regName].Typ;
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
