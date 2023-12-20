@@ -57,7 +57,7 @@ class Sofarhyd extends utils.Adapter {
         const buf = Buffer.from(resp);
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
-            this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${ JSON.stringify(register.regName)} `);
+            this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
             /*
             if (register.typus == 'I16') {
                 await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
@@ -72,7 +72,7 @@ class Sofarhyd extends utils.Adapter {
             }
             //this.log.error(str);
           */
-          
+
         }
     }
 
@@ -117,7 +117,7 @@ class Sofarhyd extends utils.Adapter {
                     //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
                     //this.log.error(`resp:  ${ JSON.stringify(resp.response._body) } `);
 
-                    .catch((resp) => this.log.error(` : Stimmt was nicht: ${ JSON.stringify(resp) } `));
+                    .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)} `));
                 //this.log.debug(r.name + ' geschesked');
             }
 
@@ -200,9 +200,9 @@ class Sofarhyd extends utils.Adapter {
         //this.log.info(`config this.config: ${ JSON.stringify(this.config) } `);
 
 
-        this.fillRegisterObjects();
+        this.fillRegisterObjects().then(() => this.readFromObject());
 
-        this.readFromObject();
+
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
         // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -257,10 +257,10 @@ class Sofarhyd extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             // The state was changed
-            this.log.error(`state ${ id } changed: ${ state.val } (ack = ${ state.ack })`);
+            this.log.error(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
         } else {
             // The state was deleted
-            this.log.error(`state ${ id } deleted`);
+            this.log.error(`state ${id} deleted`);
         }
     }
 
@@ -323,12 +323,12 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-    fillRegisterObjects() {
+    async fillRegisterObjects() {
         this.addRegister(this.parseText(this.config.text1), registerOften);
         this.addRegister(this.parseText(this.config.text2), registerRar);
 
-        this.makeStatesFromRegister(registerOften, 'Register2');
-        this.makeStatesFromRegister(registerRar, 'Register1');
+        await this.makeStatesFromRegister(registerOften, 'Register2');
+        await this.makeStatesFromRegister(registerRar, 'Register1');
     }
 
 
@@ -343,7 +343,7 @@ class Sofarhyd extends utils.Adapter {
         }
 
         const json = JSON.parse(data);
-        this.log.info(myPath + ` :  ${ JSON.stringify(obj) } `);
+        this.log.info(myPath + ` :  ${JSON.stringify(obj)} `);
         for (const cluster in obj) {
             // this.log.error(cluster + `obj_cluster:  :  ${ JSON.stringify(obj[cluster]) } `);
             for (const reg in obj[cluster]) {
@@ -361,7 +361,7 @@ class Sofarhyd extends utils.Adapter {
                 obj[cluster][reg].regPath = myPath;
                 await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': name, type: 'number', read: true, write: true, 'unit': unit })
                     //.then(e => { this.log.debug(`geschafft ${ JSON.stringify(e) } `); })
-                    .catch(e => { this.log.error(`fehler ${ JSON.stringify(e) } `); });
+                    .catch(e => { this.log.error(`fehler ${JSON.stringify(e)} `); });
             }
         }
         // this.log.info(myPath + ` :  ${ JSON.stringify(obj) } `);
