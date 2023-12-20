@@ -58,20 +58,20 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
             this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
-            /*
+
             if (register.typus == 'I16') {
-                await this.setStateAsync(register.name, buf.readInt16BE((register.addr - start) * 2));
+                await this.setStateAsync(register.path+register.name, buf.readInt16BE((register.regNrRel) * 2));
                 // str = str + buf.readInt16BE((register.addr - start) * 2);
             }
             else if (register.typus == 'U16') {
-                await this.setStateAsync(register.name, buf.readUint16BE((register.addr - start) * 2));
+                await this.setStateAsync(register.path.register.name, buf.readUint16BE((register.regNrRel) * 2));
                 // str = str + buf.readUInt16BE((register.addr - start) * 2);
             }
             else if (register.typus == 'U64') {
                 // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
             //this.log.error(str);
-          */
+
 
         }
     }
@@ -80,14 +80,6 @@ class Sofarhyd extends utils.Adapter {
 
     delay(t, val) {
         return new Promise(resolve => setTimeout(resolve, t, val));
-    }
-
-    objAusgabe(obj) {
-        let str = 'zzz';
-        for (const i in obj) {
-            str = str + ' / ' + i + ':{' + obj[i] + '}';
-        }
-        this.log.debug(str);
     }
 
     async readFromObject() {
@@ -289,7 +281,7 @@ class Sofarhyd extends utils.Adapter {
         let b = false;
         for (const i in arr) {
             // console.log('>>> ' + i+ '  : ' + arr[i].value + '   <<<  ' + val);
-            if (arr[i].regNr == val) {
+            if (arr[i].regNrRel == val) {
                 b = true;
                 break;
             }
@@ -307,16 +299,17 @@ class Sofarhyd extends utils.Adapter {
         for (const i in reg) {
             //console.log(reg[i]);
             const c = (reg[i] - reg[i] % 0x40);
+            const relAdr = reg[i] % 0x40;
             //console.log(c);
             if (obj[c]) {
                 // console.log(' cluster existiert');
                 if (!this.arrayIncludesReg(obj[c], reg[i])) {
                     // console.log('array einfügen');
-                    obj[c].push({ regNr: reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 });
+                    obj[c].push({ regNrRel: relAdr, regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 });
                 }
             } else {
                 // console.log('cluster existiert nicht');
-                obj[c] = [{ regNr: reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
+                obj[c] = [{ regNrRel: relAdr, regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
             }
         }
     }
@@ -343,7 +336,7 @@ class Sofarhyd extends utils.Adapter {
         }
 
         const json = JSON.parse(data);
-        this.log.info(myPath + ` :  ${JSON.stringify(obj)} `);
+        //this.log.info(myPath + ` :  ${JSON.stringify(obj)} `);
         for (const cluster in obj) {
             // this.log.error(cluster + `obj_cluster:  :  ${ JSON.stringify(obj[cluster]) } `);
             for (const reg in obj[cluster]) {
