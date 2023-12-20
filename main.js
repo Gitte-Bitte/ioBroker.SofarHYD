@@ -59,21 +59,23 @@ class Sofarhyd extends utils.Adapter {
         for (const register of arr) {
             this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
             this.log.error(register.regPath + register.regName + '  : ' + (register.regNrRel) * 2);
+            const addr = (register.regNrRel) * 2;
+            const fktr = parseFloat(register.regAccuracy) || 1;
+            let val=0;
+            const name = register.regPath + register.regName;
             if (register.regType == 'I16') {
-                await this.setStateAsync(register.regPath + register.regName, buf.readInt16BE((register.regNrRel) * 2));
-                // str = str + buf.readInt16BE((register.addr - start) * 2);
+                val = buf.readInt16BE(addr) * fktr;
             }
             else if (register.regType == 'U16') {
-                await this.setStateAsync(register.regPath + register.regName, buf.readUint16BE((register.regNrRel) * 2));
-                // str = str + buf.readUInt16BE((register.addr - start) * 2);
+                val = buf.readUint16BE(addr) * fktr;
             }
             else if (register.regType == 'U32') {
-                await this.setStateAsync(register.regPath + register.regName, buf.readUint32BE((register.regNrRel) * 2));
-                // str = str + buf.readUInt16BE((register.addr - start) * 2);
+                val=buf.readUint32BE(addr)*fktr;
             }
             else if (register.regType == 'U64') {
-                // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
+                //val= buf.readBigUInt64BE(addr);
             }
+            await this.setStateAsync(name, val);
             //this.log.error(str);
 
 
@@ -313,7 +315,7 @@ class Sofarhyd extends utils.Adapter {
                 }
             } else {
                 // console.log('cluster existiert nicht');
-                obj[c] = [{ regNrRel: relAdr,regNr:reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
+                obj[c] = [{ regNrRel: relAdr, regNr: reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
             }
         }
     }
@@ -348,15 +350,15 @@ class Sofarhyd extends utils.Adapter {
                 //this.log.error(`regname:  ${ JSON.stringify(obj[cluster][reg].regName) } `);
 
                 if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
-                const desc = '0x'+obj[cluster][reg].regName +'_'+json[obj[cluster][reg].regName].Field ;
-                const name = json[obj[cluster][reg].regName].Field||obj[cluster][reg].regName  ;
+                const desc = '0x' + obj[cluster][reg].regName + '_' + json[obj[cluster][reg].regName].Field;
+                const name = json[obj[cluster][reg].regName].Field || obj[cluster][reg].regName;
                 const unit = json[obj[cluster][reg].regName].Unit;
                 const accuracy = json[obj[cluster][reg].regName].Accuracy || 1;
                 const typ = json[obj[cluster][reg].regName].Typ;
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
                 obj[cluster][reg].regAccuracy = accuracy;
-                obj[cluster][reg].regPath = myPath+'.';
+                obj[cluster][reg].regPath = myPath + '.';
                 await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
                     //.then(e => { this.log.debug(`geschafft ${ JSON.stringify(e) } `); })
                     .catch(e => { this.log.error(`fehler ${JSON.stringify(e)} `); });
