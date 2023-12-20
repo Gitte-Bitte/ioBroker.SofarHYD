@@ -358,7 +358,7 @@ class Sofarhyd extends utils.Adapter {
                 const typ = json[obj[cluster][reg].regName].Typ;
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
-                obj[cluster][reg].regAccuracy = accuracy;
+                obj[cluster][reg].regAccuracy = accuracy||1;
                 obj[cluster][reg].regPath = myPath + '.';
                 await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
                     //.then(e => { this.log.debug(`geschafft ${ JSON.stringify(e) } `); })
