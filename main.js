@@ -348,7 +348,7 @@ class Sofarhyd extends utils.Adapter {
                 //this.log.error(`regname:  ${ JSON.stringify(obj[cluster][reg].regName) } `);
 
                 if (json[obj[cluster][reg].regName] == undefined) { this.log.error('gibtsnet'); obj[cluster].splice(reg, 1); break; }
-                const name = json[obj[cluster][reg].regName].Field || obj[cluster][reg].regName;
+                const name = '0x'+obj[cluster][reg].regName +'_'+json[obj[cluster][reg].regName].Field ;
                 const unit = json[obj[cluster][reg].regName].Unit;
                 const accuracy = json[obj[cluster][reg].regName].Accuracy || 1;
                 const typ = json[obj[cluster][reg].regName].Typ;
