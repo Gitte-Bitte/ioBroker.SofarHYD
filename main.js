@@ -58,16 +58,16 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
             this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
-            this.log.error(register.path + register.name + '  : ' + (register.regNrRel) * 2);
-            if (register.typus == 'I16') {
-                await this.setStateAsync(register.path + register.name, buf.readInt16BE((register.regNrRel) * 2));
+            this.log.error(register.regPath + register.regName + '  : ' + (register.regNrRel) * 2);
+            if (register.regType == 'I16') {
+                await this.setStateAsync(register.regPath + register.regName, buf.readInt16BE((register.regNrRel) * 2));
                 // str = str + buf.readInt16BE((register.addr - start) * 2);
             }
-            else if (register.typus == 'U16') {
-                await this.setStateAsync(register.path.register.name, buf.readUint16BE((register.regNrRel) * 2));
+            else if (register.regType == 'U16') {
+                await this.setStateAsync(register.regPath + register.regName, buf.readUint16BE((register.regNrRel) * 2));
                 // str = str + buf.readUInt16BE((register.addr - start) * 2);
             }
-            else if (register.typus == 'U64') {
+            else if (register.regType == 'U64') {
                 // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
             //this.log.error(str);
