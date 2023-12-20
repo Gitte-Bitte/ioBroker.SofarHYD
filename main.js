@@ -67,6 +67,10 @@ class Sofarhyd extends utils.Adapter {
                 await this.setStateAsync(register.regPath + register.regName, buf.readUint16BE((register.regNrRel) * 2));
                 // str = str + buf.readUInt16BE((register.addr - start) * 2);
             }
+            else if (register.regType == 'U32') {
+                await this.setStateAsync(register.regPath + register.regName, buf.readUint32BE((register.regNrRel) * 2));
+                // str = str + buf.readUInt16BE((register.addr - start) * 2);
+            }
             else if (register.regType == 'U64') {
                 // await this.setStateAsync(register.name, buf.readBigUInt64BE((register.addr-start)*2);
             }
@@ -309,7 +313,7 @@ class Sofarhyd extends utils.Adapter {
                 }
             } else {
                 // console.log('cluster existiert nicht');
-                obj[c] = [{ regNrRel: relAdr, regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
+                obj[c] = [{ regNrRel: relAdr,regNr:reg[i], regName: this.createRegName(reg[i]), regType: '', regAccuracy: 1 }];
             }
         }
     }
