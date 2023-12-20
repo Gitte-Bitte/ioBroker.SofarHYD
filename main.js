@@ -58,9 +58,9 @@ class Sofarhyd extends utils.Adapter {
         this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
             this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
-
+            this.log.error(register.path + register.name + '  : ' + (register.regNrRel) * 2);
             if (register.typus == 'I16') {
-                await this.setStateAsync(register.path+register.name, buf.readInt16BE((register.regNrRel) * 2));
+                await this.setStateAsync(register.path + register.name, buf.readInt16BE((register.regNrRel) * 2));
                 // str = str + buf.readInt16BE((register.addr - start) * 2);
             }
             else if (register.typus == 'U16') {
