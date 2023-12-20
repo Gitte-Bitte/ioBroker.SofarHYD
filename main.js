@@ -64,13 +64,13 @@ class Sofarhyd extends utils.Adapter {
             let val = 0;
             const name = register.regPath + register.regName;
             if (register.regType == 'I16') {
-                val = buf.readInt16BE(addr) * fktr;
+                val = buf.readInt16BE(addr) / fktr;
             }
             else if (register.regType == 'U16') {
-                val = buf.readUint16BE(addr) * fktr;
+                val = buf.readUint16BE(addr) / fktr;
             }
             else if (register.regType == 'U32') {
-                val = buf.readUint32BE(addr) * fktr;
+                val = buf.readUint32BE(addr) / fktr;
             }
             else if (register.regType == 'U64') {
                 //val= buf.readBigUInt64BE(addr);
