@@ -11,8 +11,8 @@ const registerRar = {};
 
 const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
-const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 115200, autoOpen: true });
-const client = new Modbus.client.RTU(socket, 2);
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600, autoOpen: true });
+const client = new Modbus.client.RTU(socket, 1);
 
 let counter = 0;
 
