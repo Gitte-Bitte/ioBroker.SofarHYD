@@ -11,7 +11,8 @@ const registerRar = {};
 
 const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
-const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600, autoOpen: true });
+const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+//const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600, autoOpen: true });
 const client = new Modbus.client.RTU(socket, 1);
 
 let counter = 0;
@@ -101,6 +102,7 @@ class Sofarhyd extends utils.Adapter {
                 toRead = registerRar;
             }
             this.setStateAsync('info.connection', true, false);
+            
             for (const r in toRead) {
                 // this.log.error(` : Stimmt: ${ JSON.stringify(toRead[r]) } `);
                 // this.log.error(r + ' zu lesen ');
@@ -115,7 +117,7 @@ class Sofarhyd extends utils.Adapter {
                     //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
                     //this.log.error(`resp:  ${ JSON.stringify(resp.response._body) } `);
 
-                    .catch((resp) => this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)} `));
+                    .catch((resp) => {this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)} `);socket.connect({ path: '/dev/ttyUSB0', baudRate: 9600 });});
                 //this.log.debug(r.name + ' geschesked');
             }
 
