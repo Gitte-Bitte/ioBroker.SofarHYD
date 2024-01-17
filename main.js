@@ -56,12 +56,12 @@ class Sofarhyd extends utils.Adapter {
     async splitter2(resp, arr) {
         //const buf = Buffer.from(resp.response._body._valuesAsBuffer);
         const buf = Buffer.from(resp);
-        this.log.error(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
+        this.log.info(`splitter2: ${JSON.stringify(resp)} , ${JSON.stringify(arr)}  `);
         for (const register of arr) {
             const addr = (register.regNrRel) * 2;
             const fktr = register.regAccuracy;
-            this.log.error(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
-            this.log.error(register.regPath + register.regName + '  : ' + (addr) + '  accuracy : ' + register.regAccuracy + '  fktr : ' + fktr + ' typeof : ' + typeof(register.regAccuracy) + ' typeof fktr : ' + typeof(fktr));
+            this.log.info(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
+            this.log.info(register.regPath + register.regName + '  : ' + (addr) + '  accuracy : ' + register.regAccuracy + '  fktr : ' + fktr + ' typeof : ' + typeof(register.regAccuracy) + ' typeof fktr : ' + typeof(fktr));
             let val = 0;
             const name = register.regPath + register.regName;
             if (register.regType == 'I16') {
