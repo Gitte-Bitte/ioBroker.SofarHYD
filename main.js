@@ -187,6 +187,7 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
 
+        await this.delObjectAsync('sofarhyd.0',{recursive:true});
 
         this.setState('info.connection', false, true);
 
