@@ -85,7 +85,7 @@ class Sofarhyd extends utils.Adapter {
             }
             await this.setStateAsync(name, val);
             this.log.error('gesetzter name :' + name + '   value : ' + val);
-            switch (register.name) {
+            switch (register.regName) {
                 case 'ActivePower_Load_Sys':
                     ActivePower_Load_Sys = val;
                     break;
