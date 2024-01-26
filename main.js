@@ -84,7 +84,7 @@ class Sofarhyd extends utils.Adapter {
                 //val= buf.readBigUInt64BE(addr);
             }
             await this.setStateAsync(name, val);
-            //this.log.error(str);
+            this.log.error('gesetzter name :' + name + '   value : ' + val);
             switch (register.name) {
                 case 'ActivePower_Load_Sys':
                     ActivePower_Load_Sys = val;
