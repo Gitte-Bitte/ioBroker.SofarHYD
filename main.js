@@ -110,9 +110,50 @@ class Sofarhyd extends utils.Adapter {
             }
 
         }
+        this.calcStates();
     }
 
+    async calcStates() {
+        let val;
+        let val2;
+        if (SysState == 7) {
+            val = 0;
+        }
+        else {
+            if (Power_Bat1 < 0) {
+                val = -Power_Bat1;
+            }
+            else {
+                val = 0;
+            }
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val);
+            val = Power_PV1;
+            if (ActivePower_PCC_Total > 0) {
+                val = val - ActivePower_PCC_Total;
+            }
+            if (Power_Bat1 > 0) {
+                val = val - Power_Bat1;
+                val2=Power_Bat1;
+            }
+            else{
+                val2=0;
+            }
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2);
+            if(ActivePower_PCC_Total>0){
+                val=0;
+                val2=ActivePower_PCC_Total;
+            }
+            else{
+                val=ActivePower_PCC_Total;
+                val2=0;
+            }
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', val);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', val2);
 
+        }
+
+    }
 
     delay(t, val) {
         return new Promise(resolve => setTimeout(resolve, t, val));
