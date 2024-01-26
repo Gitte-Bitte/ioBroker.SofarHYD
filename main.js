@@ -187,7 +187,8 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
 
-        await this.delObjectAsync('sofarhyd.0',{recursive:true});
+        await this.delObjectAsync('sofarhyd.0.LongInterval',{recursive:true});
+        await this.delObjectAsync('sofarhyd.0.ShortInterval',{recursive:true});
 
         this.setState('info.connection', false, true);
 
@@ -329,8 +330,8 @@ class Sofarhyd extends utils.Adapter {
         this.addRegister(this.parseText(this.config.text1), registerOften);
         this.addRegister(this.parseText(this.config.text2), registerRar);
 
-        await this.makeStatesFromRegister(registerOften, 'LongInterval');
-        await this.makeStatesFromRegister(registerRar, 'ShortInterval');
+        await this.makeStatesFromRegister(registerOften, 'ShortInterval');
+        await this.makeStatesFromRegister(registerRar, 'LongInterval');
     }
 
 
