@@ -16,8 +16,15 @@ const socket = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
 const client = new Modbus.client.RTU(socket, 1);
 
 let counter = 0;
+let ActivePower_Load_Sys = 0;
+let ActivePower_Load_Total = 0;
+let ActivePower_Output_Total = 0;
+let ActivePower_PCC_Total = 0;
+let SysState = 0;
+let Power_PV1 = 0;
+let Power_Bat1 = 0;
 
-
+const calcStates = ['Bat2House', 'PV2Bat', 'Net2Bat', 'PV2Net', 'PV2House', 'Net2House'];
 
 class Sofarhyd extends utils.Adapter {
     /**
@@ -61,7 +68,7 @@ class Sofarhyd extends utils.Adapter {
             const addr = (register.regNrRel) * 2;
             const fktr = register.regAccuracy;
             this.log.info(`const: ${JSON.stringify(register)}  arr_const    ${JSON.stringify(register.regName)} `);
-            this.log.info(register.regPath + register.regName + '  : ' + (addr) + '  accuracy : ' + register.regAccuracy + '  fktr : ' + fktr + ' typeof : ' + typeof(register.regAccuracy) + ' typeof fktr : ' + typeof(fktr));
+            this.log.info(register.regPath + register.regName + '  : ' + (addr) + '  accuracy : ' + register.regAccuracy + '  fktr : ' + fktr + ' typeof : ' + typeof (register.regAccuracy) + ' typeof fktr : ' + typeof (fktr));
             let val = 0;
             const name = register.regPath + register.regName;
             if (register.regType == 'I16') {
@@ -78,7 +85,29 @@ class Sofarhyd extends utils.Adapter {
             }
             await this.setStateAsync(name, val);
             //this.log.error(str);
-
+            switch (register.name) {
+                case 'ActivePower_Load_Sys':
+                    ActivePower_Load_Sys = val;
+                    break;
+                case 'ActivePower_Load_Total':
+                    ActivePower_Load_Total = val;
+                    break;
+                case 'ActivePower_Output_Total':
+                    ActivePower_Output_Total = val;
+                    break;
+                case 'ActivePower_PCC_Total':
+                    ActivePower_PCC_Total = val;
+                    break;
+                case 'SysState':
+                    SysState = val;
+                    break;
+                case 'Power_PV1':
+                    Power_PV1 = val;
+                    break;
+                case 'Power_Bat1':
+                    Power_Bat1 = val;
+                    break;
+            }
 
         }
     }
@@ -102,25 +131,13 @@ class Sofarhyd extends utils.Adapter {
                 toRead = registerRar;
             }
             this.setStateAsync('info.connection', true, false);
-            
             for (const r in toRead) {
-                // this.log.error(` : Stimmt: ${ JSON.stringify(toRead[r]) } `);
-                // this.log.error(r + ' zu lesen ');
-                //this.log.error(Number(r).toString() + ' ergibt zu lesen ');
-                //this.log.error(Number(r) + ' das ergibt zu lesen ');
-
                 await client.readHoldingRegisters(Number(r), 0x40)
                     .then((resp) => this.splitter2(resp.response._body._valuesAsBuffer, toRead[r]))
                     .then(() => this.delay(20))
-                    //.then((resp) => this.log.error(r.name + ' : wiederholt')
-                    //.then((resp) => this.log.debug(r.name + ' abgerufen'))
-                    //.finally(() => this.log.debug(r.name + 'Abruf erledigt'))
-                    //this.log.error(`resp:  ${ JSON.stringify(resp.response._body) } `);
-
-                    .catch((resp) => {this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)} `);socket.connect({ path: '/dev/ttyUSB0', baudRate: 9600 });});
+                    .catch((resp) => { this.log.error(` : Stimmt was nicht: ${JSON.stringify(resp)} `); socket.connect({ path: '/dev/ttyUSB0', baudRate: 9600 }); });
                 //this.log.debug(r.name + ' geschesked');
             }
-
         }
         else {
             this.log.error('Socket leider nicht IO');
@@ -187,8 +204,8 @@ class Sofarhyd extends utils.Adapter {
      */
     async onReady() {
 
-        await this.delObjectAsync('sofarhyd.0.LongInterval',{recursive:true});
-        await this.delObjectAsync('sofarhyd.0.ShortInterval',{recursive:true});
+        await this.delObjectAsync('sofarhyd.0.LongInterval', { recursive: true });
+        await this.delObjectAsync('sofarhyd.0.ShortInterval', { recursive: true });
 
         this.setState('info.connection', false, true);
 
@@ -203,7 +220,7 @@ class Sofarhyd extends utils.Adapter {
 
 
         this.fillRegisterObjects().then(() => this.readFromObject());
-
+        await this.makeStatesFromArray(calcStates, 'CalculatedStates');
 
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
@@ -358,11 +375,11 @@ class Sofarhyd extends utils.Adapter {
                 const name = json[obj[cluster][reg].regName].Field || obj[cluster][reg].regName;
                 const unit = json[obj[cluster][reg].regName].Unit;
                 //parseFloat($("#fullcost").text().replace(',', '.'));
-                const accuracy = Math.trunc(1/parseFloat(json[obj[cluster][reg].regName].Accuracy.replace(',','.')));
+                const accuracy = Math.trunc(1 / parseFloat(json[obj[cluster][reg].regName].Accuracy.replace(',', '.')));
                 const typ = json[obj[cluster][reg].regName].Typ;
                 obj[cluster][reg].regName = name;
                 obj[cluster][reg].regType = typ;
-                obj[cluster][reg].regAccuracy = accuracy||1;
+                obj[cluster][reg].regAccuracy = accuracy || 1;
                 obj[cluster][reg].regPath = myPath + '.';
                 await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
                     //.then(e => { this.log.debug(`geschafft ${ JSON.stringify(e) } `); })
@@ -371,13 +388,22 @@ class Sofarhyd extends utils.Adapter {
         }
         // this.log.info(myPath + ` :  ${ JSON.stringify(obj) } `);
 
-
     }
 
+    async makeStatesFromArray(obj, myPath) {
+        for (const reg in obj) {
+            const name = reg;
+            const unit = 'kW';
+            const desc = 'xxx';
+            await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
+                .catch(e => { this.log.error(`fehler ${JSON.stringify(e)} `); });
+        }
+    }
+
+
+
+
 }
-
-
-
 
 
 if (require.main !== module) {
