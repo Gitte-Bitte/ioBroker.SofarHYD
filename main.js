@@ -206,6 +206,7 @@ class Sofarhyd extends utils.Adapter {
 
         await this.delObjectAsync('sofarhyd.0.LongInterval', { recursive: true });
         await this.delObjectAsync('sofarhyd.0.ShortInterval', { recursive: true });
+        await this.delObjectAsync('sofarhyd.0.CalculatedStates', { recursive: true });
 
         this.setState('info.connection', false, true);
 
