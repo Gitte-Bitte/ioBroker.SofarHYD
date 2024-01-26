@@ -392,7 +392,7 @@ class Sofarhyd extends utils.Adapter {
 
     async makeStatesFromArray(obj, myPath) {
         for (const reg in obj) {
-            const name = reg;
+            const name = obj[reg];
             const unit = 'kW';
             const desc = 'xxx';
             await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
