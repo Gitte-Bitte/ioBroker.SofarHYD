@@ -126,6 +126,7 @@ class Sofarhyd extends utils.Adapter {
             else {
                 val = 0;
             }
+            val=val*1000;
             this.log.error('powerbat1 : ' + Power_Bat1 + 'val bat2house : ' +val);
             await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val);
             val = Power_PV1;
@@ -139,6 +140,8 @@ class Sofarhyd extends utils.Adapter {
             else{
                 val2=0;
             }
+            val=val*1000;
+            val2=val2*1000;
             this.log.error('activepower : ' + ActivePower_PCC_Total + 'val pv2house: ' +val);
             this.log.error('powerpv1 : ' + Power_PV1 + 'val2 pv2bat: ' +val2);
 
@@ -152,6 +155,9 @@ class Sofarhyd extends utils.Adapter {
                 val=ActivePower_PCC_Total;
                 val2=0;
             }
+
+            val=val*1000;
+            val2=val2*1000;
             this.log.error('activepower : ' + ActivePower_PCC_Total + 'val net2house: ' +val);
             this.log.error('powerpv1 : ' + Power_PV1 + 'val2 pv2net : ' +val2);
 
