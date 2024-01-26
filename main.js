@@ -328,8 +328,8 @@ class Sofarhyd extends utils.Adapter {
         this.addRegister(this.parseText(this.config.text1), registerOften);
         this.addRegister(this.parseText(this.config.text2), registerRar);
 
-        await this.makeStatesFromRegister(registerOften, 'Register2');
-        await this.makeStatesFromRegister(registerRar, 'Register1');
+        await this.makeStatesFromRegister(registerOften, 'LongInterval');
+        await this.makeStatesFromRegister(registerRar, 'ShortInterval');
     }
 
 
