@@ -83,8 +83,7 @@ class Sofarhyd extends utils.Adapter {
             else if (register.regType == 'U64') {
                 //val= buf.readBigUInt64BE(addr);
             }
-            await this.setStateAsync(name, val);
-            this.log.error('gesetzter name :' + register.regName + '   value : ' + val);
+            await this.setStateAsync(name, val,true);
             switch (register.regName) {
                 case 'ActivePower_Load_Sys':
                     ActivePower_Load_Sys = val;
@@ -122,13 +121,16 @@ class Sofarhyd extends utils.Adapter {
         else {
             if (Power_Bat1 < 0) {
                 val = -Power_Bat1;
+                val2=0;
             }
             else {
                 val = 0;
+                val2=Power_Bat1;
             }
             val=val*1000;
-            this.log.error('powerbat1 : ' + Power_Bat1 + 'val bat2house : ' +val);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val);
+            val2=val2*1000;
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val,true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2,true);
             val = Power_PV1;
             if (ActivePower_PCC_Total > 0) {
                 val = val - ActivePower_PCC_Total;
@@ -142,11 +144,8 @@ class Sofarhyd extends utils.Adapter {
             }
             val=val*1000;
             val2=val2*1000;
-            this.log.error('activepower : ' + ActivePower_PCC_Total + 'val pv2house: ' +val);
-            this.log.error('powerpv1 : ' + Power_PV1 + 'val2 pv2bat: ' +val2);
-
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val,true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2,true);
             if(ActivePower_PCC_Total>0){
                 val=0;
                 val2=ActivePower_PCC_Total;
@@ -155,15 +154,10 @@ class Sofarhyd extends utils.Adapter {
                 val=ActivePower_PCC_Total;
                 val2=0;
             }
-
             val=val*1000;
             val2=val2*1000;
-            this.log.error('activepower : ' + ActivePower_PCC_Total + 'val net2house: ' +val);
-            this.log.error('powerpv1 : ' + Power_PV1 + 'val2 pv2net : ' +val2);
-
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', val);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', val2);
-
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', val,true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', val2,true);
         }
 
     }
@@ -448,7 +442,7 @@ class Sofarhyd extends utils.Adapter {
     async makeStatesFromArray(obj, myPath) {
         for (const reg in obj) {
             const name = obj[reg];
-            const unit = 'kW';
+            const unit = 'W';
             const desc = 'xxx';
             await this.createStateAsync('', myPath, name, { 'role': 'value', 'name': desc, type: 'number', read: true, write: true, 'unit': unit })
                 .catch(e => { this.log.error(`fehler ${JSON.stringify(e)} `); });
