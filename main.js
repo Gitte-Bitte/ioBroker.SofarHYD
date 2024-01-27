@@ -142,8 +142,8 @@ class Sofarhyd extends utils.Adapter {
             else{
                 val2=0;
             }
-            val=val*1000;
-            val2=val2*1000;
+            val=Math.round(val*1000);
+            val2=Math.round(val2*1000);
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val,true);
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2,true);
             if(ActivePower_PCC_Total>0){
