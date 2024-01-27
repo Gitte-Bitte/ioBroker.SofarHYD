@@ -83,7 +83,7 @@ class Sofarhyd extends utils.Adapter {
             else if (register.regType == 'U64') {
                 //val= buf.readBigUInt64BE(addr);
             }
-            await this.setStateAsync(name, val);
+            await this.setStateAsync(name, val,true);
             this.log.error('gesetzter name :' + register.regName + '   value : ' + val);
             switch (register.regName) {
                 case 'ActivePower_Load_Sys':
@@ -128,7 +128,7 @@ class Sofarhyd extends utils.Adapter {
             }
             val=val*1000;
             this.log.error('powerbat1 : ' + Power_Bat1 + 'val bat2house : ' +val);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val,true);
             val = Power_PV1;
             if (ActivePower_PCC_Total > 0) {
                 val = val - ActivePower_PCC_Total;
@@ -145,8 +145,8 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('activepower : ' + ActivePower_PCC_Total + 'val pv2house: ' +val);
             this.log.error('powerpv1 : ' + Power_PV1 + 'val2 pv2bat: ' +val2);
 
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val,true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2,true);
             if(ActivePower_PCC_Total>0){
                 val=0;
                 val2=ActivePower_PCC_Total;
@@ -161,8 +161,8 @@ class Sofarhyd extends utils.Adapter {
             this.log.error('activepower : ' + ActivePower_PCC_Total + 'val net2house: ' +val);
             this.log.error('powerpv1 : ' + Power_PV1 + 'val2 pv2net : ' +val2);
 
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', val);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', val2);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', val,true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', val2,true);
 
         }
 
