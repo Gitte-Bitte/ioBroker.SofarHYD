@@ -83,7 +83,7 @@ class Sofarhyd extends utils.Adapter {
             else if (register.regType == 'U64') {
                 //val= buf.readBigUInt64BE(addr);
             }
-            await this.setStateAsync(name, val,true);
+            await this.setStateAsync(name, val, true);
             switch (register.regName) {
                 case 'ActivePower_Load_Sys':
                     ActivePower_Load_Sys = val;
@@ -113,53 +113,42 @@ class Sofarhyd extends utils.Adapter {
     }
 
     async calcStates() {
-        let val;
-        let val2;
+        let Bat2House, PV2Bat, Net2House, PV2Net, PV2House;
         if (SysState == 7) {
-            val = 0;
+            //val = 0;
         }
         else {
             if (Power_Bat1 < 0) {
-                val = -Power_Bat1;
-                val2=0;
+                Bat2House = -Power_Bat1;
+                PV2Bat = 0;
             }
             else {
-                val = 0;
-                val2=Power_Bat1;
+                Bat2House = 0;
+                PV2Bat = Power_Bat1;
             }
-            val=val*1000;
-            val2=val2*1000;
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', val,true);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2,true);
-            val = Power_PV1;
+            Bat2House *= 1000;
+            PV2Bat *= 1000;
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', Bat2House, true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', PV2Bat, true);
+
             if (ActivePower_PCC_Total > 0) {
-                val = val - ActivePower_PCC_Total;
+                Net2House = 0;//Hausbezug
+                PV2Net = ActivePower_PCC_Total;//PVEinspeisung
             }
-            if (Power_Bat1 > 0) {
-                val = val - Power_Bat1;
-                val2=Power_Bat1;
+            else {
+                Net2House = -ActivePower_PCC_Total;
+                PV2Net = 0;
             }
-            else{
-                val2=0;
-            }
-           // val=Math.round(val*1000);
-           // val2=Math.round(val2*1000);
-            val=(val*1000);
-            val2=(val2*1000);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', val,true);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', val2,true);
-            if(ActivePower_PCC_Total>0){
-                val=0;
-                val2=ActivePower_PCC_Total;
-            }
-            else{
-                val=ActivePower_PCC_Total;
-                val2=0;
-            }
-            val=val*1000;
-            val2=val2*1000;
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', val,true);
-            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', val2,true);
+            Net2House *= 1000;
+            PV2Net *= 1000;
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', Net2House, true);
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', PV2Net, true);
+
+
+
+            PV2House = Power_PV1 - PV2Bat - PV2Net;
+            PV2House *= 1000;
+            await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', PV2House, true);
         }
 
     }
