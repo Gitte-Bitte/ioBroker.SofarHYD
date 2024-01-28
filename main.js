@@ -10,6 +10,7 @@ const fs = require('fs');
 
 const registerOften = {};
 const registerRar = {};
+const registerDayly ={};
 
 const Modbus = require('jsmodbus');
 const { SerialPort } = require('serialport');
@@ -46,7 +47,7 @@ class Sofarhyd extends utils.Adapter {
         this.on('unload', this.onUnload.bind(this));
     }
 
-    addSingleRegister(reg, obj) {
+    /*addSingleRegister(reg, obj) {
         const c = (reg - reg % 0x40);
         //console.log(c);
         if (obj[c]) {
@@ -60,7 +61,7 @@ class Sofarhyd extends utils.Adapter {
         }
     }
 
-
+*/
 
     async splitter2(resp, arr) {
         //const buf = Buffer.from(resp.response._body._valuesAsBuffer);
@@ -135,9 +136,9 @@ class Sofarhyd extends utils.Adapter {
                     Net2House = 0;//Hausbezug
                     PV2Net = ActivePower_PCC_Total * 1000;//PVEinspeisung
                 }
-                else{
-                    PV2Net=0;
-                    Net2House=ActivePower_PCC_Total*1000;
+                else {
+                    PV2Net = 0;
+                    Net2House = ActivePower_PCC_Total * 1000;
                 }
             }
             else {
@@ -261,9 +262,9 @@ class Sofarhyd extends utils.Adapter {
 
         //this.log.info(`config this.config: ${ JSON.stringify(this.config) } `);
 
+        await this.makeStatesFromArray(calcStates, 'CalculatedStates');
 
         this.fillRegisterObjects().then(() => this.readFromObject());
-        await this.makeStatesFromArray(calcStates, 'CalculatedStates');
 
         //        this.setTimeout(() => { this.readFromObject(); }, 8000);
 
@@ -404,9 +405,11 @@ class Sofarhyd extends utils.Adapter {
     async fillRegisterObjects() {
         this.addRegister(this.parseText(this.config.text1), registerOften);
         this.addRegister(this.parseText(this.config.text2), registerRar);
+        this.addRegister(this.parseText(this.config.text3), registerDayly);
 
         await this.makeStatesFromRegister(registerOften, 'ShortInterval');
         await this.makeStatesFromRegister(registerRar, 'LongInterval');
+        await this.makeStatesFromRegister(registerDayly, 'Dayly');
     }
 
 
