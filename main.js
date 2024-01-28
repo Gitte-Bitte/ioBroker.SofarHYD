@@ -266,7 +266,7 @@ class Sofarhyd extends utils.Adapter {
            });
            */
         const job = schedule.scheduleJob('42 * * * *', () => {
-            this.log.info('The answer to life, the universe, and everything!');
+            this.log.error('The answer to life, the universe, and everything!');
         });
 
 
