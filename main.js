@@ -131,8 +131,14 @@ class Sofarhyd extends utils.Adapter {
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', PV2Bat, true);
 
             if (ActivePower_PCC_Total > 0) {
-                Net2House = 0;//Hausbezug
-                PV2Net = ActivePower_PCC_Total * 1000;//PVEinspeisung
+                if (Power_PV1 > 0) {
+                    Net2House = 0;//Hausbezug
+                    PV2Net = ActivePower_PCC_Total * 1000;//PVEinspeisung
+                }
+                else{
+                    PV2Net=0;
+                    Net2House=ActivePower_PCC_Total*1000;
+                }
             }
             else {
                 Net2House = -ActivePower_PCC_Total * 1000;
