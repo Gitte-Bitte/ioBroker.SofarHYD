@@ -1,5 +1,7 @@
 'use strict';
 
+const schedule = require('node-schedule');
+
 const utils = require('@iobroker/adapter-core');
 
 const fs = require('fs');
@@ -119,22 +121,22 @@ class Sofarhyd extends utils.Adapter {
         }
         else {
             if (Power_Bat1 < 0) {
-                Bat2House = -Power_Bat1*1000;
+                Bat2House = -Power_Bat1 * 1000;
                 PV2Bat = 0;
             }
             else {
                 Bat2House = 0;
-                PV2Bat = Power_Bat1*1000;
+                PV2Bat = Power_Bat1 * 1000;
             }
             await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', Bat2House, true);
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', PV2Bat, true);
 
             if (ActivePower_PCC_Total > 0) {
                 Net2House = 0;//Hausbezug
-                PV2Net = ActivePower_PCC_Total*1000;//PVEinspeisung
+                PV2Net = ActivePower_PCC_Total * 1000;//PVEinspeisung
             }
             else {
-                Net2House = -ActivePower_PCC_Total*1000;
+                Net2House = -ActivePower_PCC_Total * 1000;
                 PV2Net = 0;
             }
             await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', Net2House, true);
@@ -142,7 +144,7 @@ class Sofarhyd extends utils.Adapter {
 
 
 
-            PV2House = Power_PV1*1000 - PV2Bat - PV2Net;
+            PV2House = Power_PV1 * 1000 - PV2Bat - PV2Net;
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', PV2House, true);
         }
 
@@ -257,6 +259,18 @@ class Sofarhyd extends utils.Adapter {
         this.fillRegisterObjects().then(() => this.readFromObject());
         await this.makeStatesFromArray(calcStates, 'CalculatedStates');
 
+        //        this.setTimeout(() => { this.readFromObject(); }, 8000);
+
+        /* const job = schedule.scheduleJob('42 * * * *', function(){
+             this.log.('The answer to life, the universe, and everything!');
+           });
+           */
+        const job = schedule.scheduleJob('42 * * * *', () => {
+            this.log.info('The answer to life, the universe, and everything!');
+        });
+
+
+
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
         //this.subscribeStates('testVariable');
         // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -274,6 +288,9 @@ class Sofarhyd extends utils.Adapter {
      */
     onUnload(callback) {
         try {
+
+            schedule.gracefulShutdown();
+
             // Here you must clear all timeouts or intervals that may still be active
             // clearTimeout(timeout1);
             // clearTimeout(timeout2);
