@@ -111,7 +111,6 @@ class Sofarhyd extends utils.Adapter {
             }
 
         }
-        this.calcStates();
     }
 
     async calcStates() {
@@ -180,6 +179,7 @@ class Sofarhyd extends utils.Adapter {
             //socket.close().then(socket.open());
         }
         // this.log.error('fertig mit lesen');
+        this.calcStates();
         this.setTimeout(() => { this.readFromObject(); }, 8000);
     }
 
