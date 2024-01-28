@@ -119,35 +119,30 @@ class Sofarhyd extends utils.Adapter {
         }
         else {
             if (Power_Bat1 < 0) {
-                Bat2House = -Power_Bat1;
+                Bat2House = -Power_Bat1*1000;
                 PV2Bat = 0;
             }
             else {
                 Bat2House = 0;
-                PV2Bat = Power_Bat1;
+                PV2Bat = Power_Bat1*1000;
             }
-            Bat2House *= 1000;
-            PV2Bat *= 1000;
             await this.setStateAsync('sofarhyd.0.CalculatedStates.Bat2House', Bat2House, true);
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Bat', PV2Bat, true);
 
             if (ActivePower_PCC_Total > 0) {
                 Net2House = 0;//Hausbezug
-                PV2Net = ActivePower_PCC_Total;//PVEinspeisung
+                PV2Net = ActivePower_PCC_Total*1000;//PVEinspeisung
             }
             else {
-                Net2House = -ActivePower_PCC_Total;
+                Net2House = -ActivePower_PCC_Total*1000;
                 PV2Net = 0;
             }
-            Net2House *= 1000;
-            PV2Net *= 1000;
             await this.setStateAsync('sofarhyd.0.CalculatedStates.Net2House', Net2House, true);
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2Net', PV2Net, true);
 
 
 
-            PV2House = Power_PV1 - PV2Bat - PV2Net;
-            PV2House *= 1000;
+            PV2House = Power_PV1*1000 - PV2Bat - PV2Net;
             await this.setStateAsync('sofarhyd.0.CalculatedStates.PV2House', PV2House, true);
         }
 
