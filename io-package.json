@@ -63,6 +63,7 @@
         "readme": "https://github.com/Gitte-Bitte/ioBroker.sofarhyd/blob/main/README.md",
         "loglevel": "info",
         "restartAdapters": [
+            "vis",
             "vis-2"
         ],
         "mode": "daemon",
@@ -70,17 +71,6 @@
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
-        "visWidgets": {
-            "vis2test": {
-              "i18n": "component",
-              "name": "vis2testss",
-              "url": "vis-2-widgets-material/customWidgets.js",
-              "components": [
-                "test1",
-                "test2"
-              ]
-            }
-          },
         "messagebox": true,
         "adminUI": {
             "config": "json",
