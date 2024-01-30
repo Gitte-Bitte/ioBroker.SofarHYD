@@ -12,7 +12,8 @@
     "expert": "yes",
     "features": [
         "adapter",
-        "vis"
+        "vis",
+        "vis-2"
     ],
     "adminFeatures": [
         "custom",
