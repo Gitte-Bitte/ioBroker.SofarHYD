@@ -55,6 +55,7 @@
     "typescript": "~5.0.4"
   },
  "main": "widgets/justgage.html",
+ 
 
   "files": [
     "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
