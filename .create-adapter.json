@@ -2,12 +2,22 @@
     "cli": true,
     "target": "directory",
     "adapterName": "sofarhyd",
-    "title": "SofarHyd",
+    "title": "SofarHyd with vis",
     "description": "Sofar Solar Inverter",
-    "keywords": ["Sofar", "Solar", "inverter"],
+    "keywords": [
+        "Sofar",
+        "Solar",
+        "inverter"
+    ],
     "expert": "yes",
-    "features": ["adapter"],
-    "adminFeatures": ["tab"],
+    "features": [
+        "adapter",
+        "vis"
+    ],
+    "adminFeatures": [
+        "custom",
+        "tab"
+    ],
     "type": "energy",
     "startMode": "daemon",
     "connectionType": "local",
@@ -17,7 +27,11 @@
     "nodeVersion": "16",
     "adminUi": "json",
     "tabReact": "no",
-    "tools": ["ESLint", "type checking", "Prettier"],
+    "tools": [
+        "ESLint",
+        "type checking",
+        "Prettier"
+    ],
     "releaseScript": "yes",
     "devServer": "no",
     "indentation": "Space (4)",

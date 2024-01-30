@@ -62,6 +62,9 @@
         "extIcon": "https://raw.githubusercontent.com/Gitte-Bitte/ioBroker.sofarhyd/main/admin/sofarhyd.png",
         "readme": "https://github.com/Gitte-Bitte/ioBroker.sofarhyd/blob/main/README.md",
         "loglevel": "info",
+        "restartAdapters": [
+            "vis"
+        ],
         "mode": "daemon",
         "type": "energy",
         "compact": true,
@@ -103,7 +106,8 @@
     },
     "native": {
         "text1": "",
-        "text2": ""
+        "text2": "",
+        "text3": ""
     },
     "objects": [],
     "instanceObjects": [
